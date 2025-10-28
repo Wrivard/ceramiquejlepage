@@ -289,6 +289,38 @@
   -moz-osx-font-smoothing: grayscale;
   -o-font-smoothing: antialiased;
 }
+  
+  /* Dynamic Image Height System - Reduces Cropping */
+  .blog6_image-wrapper {
+    height: auto !important;
+    min-height: 200px !important;
+    max-height: 400px !important;
+  }
+  
+  .blog6_image,
+  .blog6_item .blog6_image,
+  .blog6_list .blog6_item .blog6_image {
+    height: auto !important;
+    min-height: 200px !important;
+    max-height: 400px !important;
+  }
+  
+  /* Responsive adjustments for dynamic heights */
+  @media screen and (max-width: 991px) {
+    .blog6_image-wrapper,
+    .blog6_image {
+      min-height: 180px !important;
+      max-height: 350px !important;
+    }
+  }
+  
+  @media screen and (max-width: 479px) {
+    .blog6_image-wrapper,
+    .blog6_image {
+      min-height: 160px !important;
+      max-height: 300px !important;
+    }
+  }
 </style>
 </head>
 <body>
@@ -623,7 +655,7 @@ margin: 0rem !important;
                                      src="images/salle-de-bain/20231215_072747-min.jpg" 
                                      loading="eager" 
                                      class="blog6_featured-image"
-                                     style="object-fit: cover !important; width: 100% !important; height: 300px !important; object-position: center !important;">
+                                     style="object-fit: cover !important; width: 100% !important; height: auto !important; object-position: center !important;">
                       </div>
                               <script type="application/json" class="w-json">{
   "items": [
@@ -685,7 +717,7 @@ margin: 0rem !important;
                                    src="images/cuisine/20220916_124607-min.jpg" 
                                    alt="Cuisine moderne avec carrelage" 
                                    class="blog6_image"
-                                   style="object-fit: cover !important; width: 100% !important; height: 300px !important; object-position: center !important;">
+                                   style="object-fit: cover !important; width: 100% !important; height: auto !important; object-position: center !important;">
                               <div class="tag is-alternate blog6_image-tag">CUISINE</div>
                             </div>
                           </div>
@@ -715,7 +747,7 @@ margin: 0rem !important;
                                    src="images/salle-de-bain/20231003_140904-min.jpg" 
                                    alt="Salle de bain contemporaine" 
                                    class="blog6_image"
-                                   style="object-fit: cover !important; width: 100% !important; height: 300px !important; object-position: center !important;">
+                                   style="object-fit: cover !important; width: 100% !important; height: auto !important; object-position: center !important;">
                               <div class="tag is-alternate blog6_image-tag">SALLE DE BAIN</div>
                             </div>
                           </div>
@@ -743,7 +775,7 @@ margin: 0rem !important;
                                    src="images/plancher-chauffant/20240523_102129-min.jpg" 
                                    alt="Installation plancher chauffant" 
                                    class="blog6_image"
-                                   style="object-fit: cover !important; width: 100% !important; height: 300px !important; object-position: center !important;">
+                                   style="object-fit: cover !important; width: 100% !important; height: auto !important; object-position: center !important;">
                               <div class="tag is-alternate blog6_image-tag">PLANCHER CHAUFFANT</div>
                           </div>
                           </div>
@@ -771,7 +803,7 @@ margin: 0rem !important;
                                    src="images/divers/IMG_6065-min.jpg" 
                                    alt="Projet divers - Entrée" 
                                    class="blog6_image"
-                                   style="object-fit: cover !important; width: 100% !important; height: 300px !important; object-position: center !important;">
+                                   style="object-fit: cover !important; width: 100% !important; height: auto !important; object-position: center !important;">
                               <div class="tag is-alternate blog6_image-tag">DIVERS</div>
                               </div>
                               </div>
@@ -799,7 +831,7 @@ margin: 0rem !important;
                                    src="images/cuisine/20200514_202222-min.jpg" 
                                    alt="Cuisine avec îlot carrelé" 
                                    class="blog6_image"
-                                   style="object-fit: cover !important; width: 100% !important; height: 300px !important; object-position: center !important;">
+                                   style="object-fit: cover !important; width: 100% !important; height: auto !important; object-position: center !important;">
                               <div class="tag is-alternate blog6_image-tag">CUISINE</div>
                           </div>
                               </div>
@@ -827,7 +859,7 @@ margin: 0rem !important;
                                    src="images/salle-de-bain/20220408_112040-min.jpg" 
                                    alt="Salle de bain avec douche italienne" 
                                    class="blog6_image"
-                                   style="object-fit: cover !important; width: 100% !important; height: 300px !important; object-position: center !important;">
+                                   style="object-fit: cover !important; width: 100% !important; height: auto !important; object-position: center !important;">
                               <div class="tag is-alternate blog6_image-tag">SALLE DE BAIN</div>
                           </div>
                           </div>
@@ -855,7 +887,7 @@ margin: 0rem !important;
                                    src="images/plancher-chauffant/20240417_093040-min.jpg" 
                                    alt="Plancher chauffant salon" 
                                    class="blog6_image"
-                                   style="object-fit: cover !important; width: 100% !important; height: 300px !important; object-position: center !important;">
+                                   style="object-fit: cover !important; width: 100% !important; height: auto !important; object-position: center !important;">
                               <div class="tag is-alternate blog6_image-tag">PLANCHER CHAUFFANT</div>
                           </div>
                           </div>
@@ -883,7 +915,7 @@ margin: 0rem !important;
                                    src="images/divers/IMG_6102-min.jpg" 
                                    alt="Projet commercial" 
                                    class="blog6_image"
-                                   style="object-fit: cover !important; width: 100% !important; height: 300px !important; object-position: center !important;">
+                                   style="object-fit: cover !important; width: 100% !important; height: auto !important; object-position: center !important;">
                               <div class="tag is-alternate blog6_image-tag">DIVERS</div>
                               </div>
                               </div>
@@ -911,7 +943,7 @@ margin: 0rem !important;
                                    src="images/cuisine/IMG_6091-min.jpg" 
                                    alt="Cuisine ouverte moderne" 
                                    class="blog6_image"
-                                   style="object-fit: cover !important; width: 100% !important; height: 300px !important; object-position: center !important;">
+                                   style="object-fit: cover !important; width: 100% !important; height: auto !important; object-position: center !important;">
                               <div class="tag is-alternate blog6_image-tag">CUISINE</div>
                           </div>
                               </div>
@@ -939,7 +971,7 @@ margin: 0rem !important;
                                    src="images/cuisine/20191128_193210-min.jpg" 
                                    alt="Cuisine avec comptoir en céramique" 
                                    class="blog6_image"
-                                   style="object-fit: cover !important; width: 100% !important; height: 300px !important; object-position: center !important;">
+                                   style="object-fit: cover !important; width: 100% !important; height: auto !important; object-position: center !important;">
                               <div class="tag is-alternate blog6_image-tag">CUISINE</div>
                           </div>
                           </div>
@@ -967,7 +999,7 @@ margin: 0rem !important;
                                    src="images/cuisine/20220916_124639-min.jpg" 
                                    alt="Cuisine moderne avec dosseret" 
                                    class="blog6_image"
-                                   style="object-fit: cover !important; width: 100% !important; height: 300px !important; object-position: center !important;">
+                                   style="object-fit: cover !important; width: 100% !important; height: auto !important; object-position: center !important;">
                               <div class="tag is-alternate blog6_image-tag">CUISINE</div>
                     </div>
                   </div>
@@ -995,7 +1027,7 @@ margin: 0rem !important;
                                    src="images/salle-de-bain/20231215_072848-min.jpg" 
                                    alt="Salle de bain avec carrelage moderne" 
                                    class="blog6_image"
-                                   style="object-fit: cover !important; width: 100% !important; height: 300px !important; object-position: center !important;">
+                                   style="object-fit: cover !important; width: 100% !important; height: auto !important; object-position: center !important;">
                               <div class="tag is-alternate blog6_image-tag">SALLE DE BAIN</div>
                   </div>
                 </div>
@@ -1023,7 +1055,7 @@ margin: 0rem !important;
                                    src="images/salle-de-bain/20210223_135143-min.jpg" 
                                    alt="Salle de bain avec douche italienne" 
                                    class="blog6_image"
-                                   style="object-fit: cover !important; width: 100% !important; height: 300px !important; object-position: center !important;">
+                                   style="object-fit: cover !important; width: 100% !important; height: auto !important; object-position: center !important;">
                               <div class="tag is-alternate blog6_image-tag">SALLE DE BAIN</div>
             </div>
           </div>
@@ -1051,7 +1083,7 @@ margin: 0rem !important;
                                    src="images/salle-de-bain/FB_IMG_1716806954982.jpg" 
                                    alt="Salle de bain contemporaine" 
                                    class="blog6_image"
-                                   style="object-fit: cover !important; width: 100% !important; height: 300px !important; object-position: center !important;">
+                                   style="object-fit: cover !important; width: 100% !important; height: auto !important; object-position: center !important;">
                               <div class="tag is-alternate blog6_image-tag">SALLE DE BAIN</div>
                             </div>
                           </div>
@@ -1079,7 +1111,7 @@ margin: 0rem !important;
                                    src="images/plancher-chauffant/20250415_112551-min.jpg" 
                                    alt="Installation plancher chauffant moderne" 
                                    class="blog6_image"
-                                   style="object-fit: cover !important; width: 100% !important; height: 300px !important; object-position: center !important;">
+                                   style="object-fit: cover !important; width: 100% !important; height: auto !important; object-position: center !important;">
                               <div class="tag is-alternate blog6_image-tag">PLANCHER CHAUFFANT</div>
                             </div>
                           </div>
@@ -1107,7 +1139,7 @@ margin: 0rem !important;
                                    src="images/divers/IMG_6107-min.jpg" 
                                    alt="Projet divers - Entrée moderne" 
                                    class="blog6_image"
-                                   style="object-fit: cover !important; width: 100% !important; height: 300px !important; object-position: center !important;">
+                                   style="object-fit: cover !important; width: 100% !important; height: auto !important; object-position: center !important;">
                               <div class="tag is-alternate blog6_image-tag">DIVERS</div>
                             </div>
                           </div>
@@ -1135,7 +1167,7 @@ margin: 0rem !important;
                                    src="images/divers/20231003_142632.jpg" 
                                    alt="Projet commercial - Entrée" 
                                    class="blog6_image"
-                                   style="object-fit: cover !important; width: 100% !important; height: 300px !important; object-position: center !important;">
+                                   style="object-fit: cover !important; width: 100% !important; height: auto !important; object-position: center !important;">
                               <div class="tag is-alternate blog6_image-tag">DIVERS</div>
                             </div>
                           </div>
@@ -1163,7 +1195,7 @@ margin: 0rem !important;
                                    src="images/divers/FB_IMG_1732576401164.jpg" 
                                    alt="Projet divers - Installation" 
                                    class="blog6_image"
-                                   style="object-fit: cover !important; width: 100% !important; height: 300px !important; object-position: center !important;">
+                                   style="object-fit: cover !important; width: 100% !important; height: auto !important; object-position: center !important;">
                               <div class="tag is-alternate blog6_image-tag">DIVERS</div>
                             </div>
                           </div>
@@ -1191,7 +1223,7 @@ margin: 0rem !important;
                                    src="images/cuisine/FB_IMG_1702933600615-min.jpg" 
                                    alt="Cuisine avec îlot central" 
                                    class="blog6_image"
-                                   style="object-fit: cover !important; width: 100% !important; height: 300px !important; object-position: center !important;">
+                                   style="object-fit: cover !important; width: 100% !important; height: auto !important; object-position: center !important;">
                               <div class="tag is-alternate blog6_image-tag">CUISINE</div>
                             </div>
                           </div>
@@ -1219,7 +1251,7 @@ margin: 0rem !important;
                                    src="images/cuisine/FB_IMG_1702933603235-min.jpg" 
                                    alt="Cuisine moderne avec dosseret" 
                                    class="blog6_image"
-                                   style="object-fit: cover !important; width: 100% !important; height: 300px !important; object-position: center !important;">
+                                   style="object-fit: cover !important; width: 100% !important; height: auto !important; object-position: center !important;">
                               <div class="tag is-alternate blog6_image-tag">CUISINE</div>
                             </div>
                           </div>
@@ -1247,7 +1279,7 @@ margin: 0rem !important;
                                    src="images/salle-de-bain/FB_IMG_1732576411900.jpg" 
                                    alt="Salle de bain avec carrelage" 
                                    class="blog6_image"
-                                   style="object-fit: cover !important; width: 100% !important; height: 300px !important; object-position: center !important;">
+                                   style="object-fit: cover !important; width: 100% !important; height: auto !important; object-position: center !important;">
                               <div class="tag is-alternate blog6_image-tag">SALLE DE BAIN</div>
                             </div>
                           </div>
@@ -1275,7 +1307,7 @@ margin: 0rem !important;
                                    src="images/salle-de-bain/FB_IMG_1732576416362.jpg" 
                                    alt="Salle de bain moderne" 
                                    class="blog6_image"
-                                   style="object-fit: cover !important; width: 100% !important; height: 300px !important; object-position: center !important;">
+                                   style="object-fit: cover !important; width: 100% !important; height: auto !important; object-position: center !important;">
                               <div class="tag is-alternate blog6_image-tag">SALLE DE BAIN</div>
                             </div>
                           </div>
@@ -1303,7 +1335,7 @@ margin: 0rem !important;
                                    src="images/divers/FB_IMG_1732576404923.jpg" 
                                    alt="Projet divers - Installation commerciale" 
                                    class="blog6_image"
-                                   style="object-fit: cover !important; width: 100% !important; height: 300px !important; object-position: center !important;">
+                                   style="object-fit: cover !important; width: 100% !important; height: auto !important; object-position: center !important;">
                               <div class="tag is-alternate blog6_image-tag">DIVERS</div>
                             </div>
                           </div>
@@ -2026,6 +2058,46 @@ document.addEventListener('DOMContentLoaded', function() {
   
   <!-- Performance Optimization Script -->
   <script>
+    // Dynamic Image Height Adjustment - Reduces Cropping
+    function adjustImageHeights() {
+      const imageWrappers = document.querySelectorAll('.blog6_image-wrapper');
+      
+      imageWrappers.forEach(wrapper => {
+        const img = wrapper.querySelector('.blog6_image');
+        if (img && img.complete && img.naturalWidth && img.naturalHeight) {
+          const aspectRatio = img.naturalWidth / img.naturalHeight;
+          const containerWidth = wrapper.offsetWidth;
+          
+          // Calculate optimal height based on aspect ratio
+          let optimalHeight;
+          if (aspectRatio > 1.5) {
+            // Wide images - use smaller height
+            optimalHeight = Math.min(containerWidth * 0.6, 250);
+          } else if (aspectRatio < 0.8) {
+            // Tall images - use larger height to reduce cropping
+            optimalHeight = Math.min(containerWidth * 1.2, 400);
+          } else {
+            // Square-ish images - use medium height
+            optimalHeight = Math.min(containerWidth * 0.8, 300);
+          }
+          
+          // Apply the calculated height
+          wrapper.style.height = optimalHeight + 'px';
+          img.style.height = optimalHeight + 'px';
+        }
+      });
+    }
+    
+    // Run on page load and when images load
+    document.addEventListener('DOMContentLoaded', adjustImageHeights);
+    window.addEventListener('load', adjustImageHeights);
+    
+    // Re-run when images finish loading
+    const images = document.querySelectorAll('.blog6_image');
+    images.forEach(img => {
+      img.addEventListener('load', adjustImageHeights);
+    });
+    
     // Intersection Observer for enhanced lazy loading
     if ('IntersectionObserver' in window) {
       const imageObserver = new IntersectionObserver((entries, observer) => {
