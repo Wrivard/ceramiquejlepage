@@ -306,11 +306,24 @@
           object-position: center !important;
         }
 
+        /* Featured Image - Taller Height */
+        .blog6_featured-image-wrapper,
+        .blog6_featured-image {
+          height: 350px !important;
+          aspect-ratio: 4/3 !important;
+        }
+
         /* Responsive adjustments for uniform aspect ratio */
         @media screen and (max-width: 991px) {
           .blog6_image-wrapper,
           .blog6_image {
             height: 200px !important;
+            aspect-ratio: 4/3 !important;
+          }
+          
+          .blog6_featured-image-wrapper,
+          .blog6_featured-image {
+            height: 280px !important;
             aspect-ratio: 4/3 !important;
           }
         }
@@ -321,7 +334,13 @@
             height: 180px !important;
             aspect-ratio: 4/3 !important;
           }
-        }
+          
+          .blog6_featured-image-wrapper,
+          .blog6_featured-image {
+            height: 220px !important;
+            aspect-ratio: 4/3 !important;
+          }
+}
 </style>
 </head>
 <body>
@@ -656,7 +675,7 @@ margin: 0rem !important;
                                      src="images/salle-de-bain/20231215_072747-min.jpg" 
                                      loading="eager" 
                                      class="blog6_featured-image"
-                                     style="object-fit: cover !important; width: 100% !important; height: 250px !important; aspect-ratio: 4/3 !important; object-position: center !important;">
+                                     style="object-fit: cover !important; width: 100% !important; height: 350px !important; aspect-ratio: 4/3 !important; object-position: center !important;">
                       </div>
                               <script type="application/json" class="w-json">{
   "items": [
