@@ -42,55 +42,35 @@
       display: block;
     }
     
-    .blog6_featured-hero {
-      position: relative;
-      min-height: 500px;
-      display: flex;
+    .blog6_featured-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 4rem;
       align-items: center;
+    }
+    
+    .blog6_featured-content {
+      padding-left: 2rem;
+    }
+    
+    .blog6_featured-image {
       border-radius: 6px;
-      overflow: hidden;
-    }
-    
-    .blog6_featured-background {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 1;
-    }
-    
-    .blog6_featured-background-image {
       width: 100%;
-      height: 100%;
+      height: auto;
+      display: block;
+      aspect-ratio: 16/9;
       object-fit: cover;
-      border-radius: 6px;
     }
     
-    .blog6_featured-content-overlay {
-      position: relative;
-      z-index: 3;
-      padding: 60px 40px;
-      width: 100%;
-    }
-    
-    .image-overlay-layer {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(0, 0, 0, 0.4);
-      z-index: 2;
-    }
-    
-    @media screen and (max-width: 767px) {
-      .blog6_featured-hero {
-        min-height: 400px;
+    @media screen and (max-width: 991px) {
+      .blog6_featured-grid {
+        grid-template-columns: 1fr;
+        grid-gap: 2rem;
       }
       
-      .blog6_featured-content-overlay {
-        padding: 40px 24px;
+      .blog6_featured-content {
+        padding-left: 0;
+        order: -1;
       }
     }
     
@@ -497,27 +477,18 @@ margin: 0rem !important;
                   <div class="blog6_featured-list-wrapper">
                     <div class="blog6_featured-list">
                       <div class="blog6_featured-item">
-                        <a href="#" class="blog6_featured-item-link w-inline-block w-lightbox">
-                          <div class="blog6_featured-hero">
-                            <div class="blog6_featured-background">
-                              <div class="image-overlay-layer"></div>
-                              <img sizes="(max-width: 4096px) 100vw, 4096px" 
-                                   srcset="images/Placeholder-Image---Landscape.svg 500w, images/Placeholder-Image---Landscape.svg 800w, images/Placeholder-Image---Landscape.svg 1080w, images/Placeholder-Image---Landscape.svg 1600w, images/Placeholder-Image---Landscape.svg 2048w" 
-                                   alt="Projet vedette - Salle de bain moderne" 
-                                   src="images/Placeholder-Image---Landscape.svg" 
-                                   loading="lazy" 
-                                   class="blog6_featured-background-image">
-                            </div>
-                            <div class="blog6_featured-content-overlay">
-                              <div class="max-width-large">
-                                <div class="margin-bottom margin-small">
-                                  <h2 class="heading-style-h2 text-color-white">Espaces vivants et dynamiques</h2>
-                                </div>
-                                <p class="text-size-medium text-color-white">Des métamorphoses qui capturent l'essence de chaque environnement</p>
+                        <div class="w-layout-grid blog6_featured-grid">
+                          <div class="blog6_featured-image-wrapper">
+                            <a href="#" class="blog6_featured-image-link w-inline-block w-lightbox">
+                              <div class="blog6_image-wrapper">
+                                <img sizes="(max-width: 991px) 100vw, (max-width: 1439px) 50vw, 720px" 
+                                     srcset="images/Placeholder-Image---Landscape.svg 500w, images/Placeholder-Image---Landscape.svg 800w, images/Placeholder-Image---Landscape.svg 1080w, images/Placeholder-Image---Landscape.svg 1600w, images/Placeholder-Image---Landscape.svg 2048w" 
+                                     alt="Projet vedette - Salle de bain moderne" 
+                                     src="images/Placeholder-Image---Landscape.svg" 
+                                     loading="lazy" 
+                                     class="blog6_featured-image">
                               </div>
-                            </div>
-                          </div>
-                          <script type="application/json" class="w-json">{
+                              <script type="application/json" class="w-json">{
   "items": [
     {
       "_id": "featured1",
@@ -529,7 +500,17 @@ margin: 0rem !important;
   ],
   "group": "gallery"
 }</script>
-                        </a>
+                            </a>
+                          </div>
+                          <div class="blog6_featured-content">
+                            <div class="margin-bottom margin-small">
+                              <h2 class="heading-style-h2">Espaces vivants et dynamiques</h2>
+                            </div>
+                            <div class="margin-bottom margin-medium">
+                              <p class="text-size-medium">Des métamorphoses qui capturent l'essence de chaque environnement</p>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
