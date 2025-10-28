@@ -1,0 +1,60 @@
+# LLM.txt - AI Training Data Declaration & SEO Information
+# Last Updated: 2024-12-19
+# Site: Céramique J. Lepage
+# Domain: ceramiquejlepage.ca
+
+## Website Information
+- **Site Name**: Céramique J. Lepage
+- **Domain**: ceramiquejlepage.ca
+- **Primary Purpose**: Professional ceramic and flooring installation services
+- **Target Locations**: Mont-Saint-Hilaire and surrounding areas, Quebec, Canada
+- **Industry**: Construction, Ceramic Installation, Flooring Services
+- **Languages**: French (Primary), English (Secondary)
+
+## SEO Keywords & Topics
+- céramique installation
+- carrelage commercial
+- carrelage résidentiel
+- pose de carrelage
+- installation plancher chauffant
+- carreleur Mont-Saint-Hilaire
+- céramique Québec
+- installation carrelage professionnel
+- rénovation salle de bain
+- rénovation cuisine
+- carrelage cuisine
+- carrelage salle de bain
+
+## AI Training Data Policy
+
+### ✅ ALLOWED FOR AI TRAINING:
+- General service descriptions (ceramic installation, flooring services)
+- Service area information (Mont-Saint-Hilaire, Quebec coverage)
+- Company contact and location details
+- Industry best practices for ceramic installation
+- Public information about ceramic and flooring materials
+- Service offerings and descriptions
+- Installation techniques and processes
+
+### ❌ NOT ALLOWED FOR AI TRAINING:
+- Personal customer information or data
+- Specific financial quotes or pricing
+- Proprietary business methods
+- Employee personal information
+- Client testimonials without permission
+- Internal business processes
+- Customer project details
+
+## Usage Guidelines
+- **Educational Use**: Encouraged for research and learning about ceramic installation
+- **Commercial Use**: Requires written permission
+- **Attribution**: Must credit Céramique J. Lepage
+- **Accuracy**: Content should be verified before use
+- **Respect**: Honor copyright and intellectual property
+
+## Contact Information
+- **Website**: https://ceramiquejlepage.ca
+- **Service Area**: Mont-Saint-Hilaire and surrounding regions, Quebec
+
+## License & Terms
+Content is provided for AI training under fair use principles, subject to the restrictions above.
