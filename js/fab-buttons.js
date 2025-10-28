@@ -45,13 +45,15 @@
     }
     
     function setupMessengerButton(button) {
-        // Set messenger link to Facebook page
-        button.href = 'https://www.facebook.com/p/C%C3%A9ramiques-JLepage-100086272626287/';
+        // Set messenger link to open direct conversation with business
+        button.href = 'https://m.me/100086272626287'; // Direct messenger conversation with the business
+        button.target = '_blank'; // Open in new tab
+        button.rel = 'noopener noreferrer'; // Security best practice
         
         // Add click handler for analytics or other tracking
         button.addEventListener('click', function(e) {
             // Optional: Add analytics tracking here
-            console.log('Messenger button clicked');
+            console.log('Messenger button clicked - opening direct conversation');
         });
     }
     
