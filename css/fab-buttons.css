@@ -1,0 +1,212 @@
+/* Floating Action Buttons - Enhanced Styles with Animations */
+
+/* Button container positioning and animations */
+.button_bottom {
+    position: fixed;
+    bottom: 3%;
+    right: 3%;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Initial hidden state */
+.button_bottom.fab-hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px) scale(0.9);
+    pointer-events: none;
+}
+
+/* Visible state */
+.button_bottom.fab-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+/* Enhanced messenger button styles */
+.messenger_button {
+    z-index: 5;
+    background: linear-gradient(135deg, #d3af37 0%, #b8941f 100%);
+    color: #fff;
+    border-radius: 50%;
+    width: 5rem;
+    height: 5rem;
+    padding: 16px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(211, 175, 55, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+    cursor: pointer;
+}
+
+.messenger_button:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(211, 175, 55, 0.4);
+    background: linear-gradient(135deg, #e0c04a 0%, #c5a02a 100%);
+}
+
+.messenger_button:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 2px 8px rgba(211, 175, 55, 0.3);
+}
+
+.messenger_button img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: brightness(0) invert(1); /* Make icon white */
+}
+
+/* Enhanced back to top button styles */
+.st_wrapper {
+    position: relative;
+}
+
+.st_button {
+    background: linear-gradient(135deg, #d3af37 0%, #b8941f 100%);
+    color: #fff;
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 1.2rem;
+    width: 5rem;
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    box-shadow: 0 4px 12px rgba(211, 175, 55, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.st_button:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(211, 175, 55, 0.4);
+    background: linear-gradient(135deg, #e0c04a 0%, #c5a02a 100%);
+}
+
+.st_button:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 2px 8px rgba(211, 175, 55, 0.3);
+}
+
+/* Icon styling */
+.icon-embed-xxsmall-2 {
+    color: #fff;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-embed-xxsmall-2 svg {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.st_button:hover .icon-embed-xxsmall-2 svg {
+    transform: translateY(-1px);
+}
+
+/* Ripple effect for buttons */
+.messenger_button::before,
+.st_button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.messenger_button:active::before,
+.st_button:active::before {
+    width: 100px;
+    height: 100px;
+}
+
+/* Mobile responsiveness */
+@media screen and (max-width: 768px) {
+    .button_bottom {
+        bottom: 2%;
+        right: 2%;
+        gap: 0.8rem;
+    }
+    
+    .messenger_button,
+    .st_button {
+        width: 4rem;
+        height: 4rem;
+        padding: 12px;
+    }
+    
+    .st_button {
+        padding: 1rem;
+    }
+    
+    .icon-embed-xxsmall-2 svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .button_bottom {
+        bottom: 1.5%;
+        right: 1.5%;
+    }
+    
+    .messenger_button,
+    .st_button {
+        width: 3.5rem;
+        height: 3.5rem;
+        padding: 10px;
+    }
+    
+    .st_button {
+        padding: 0.8rem;
+    }
+    
+    .icon-embed-xxsmall-2 svg {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+/* Accessibility improvements */
+.messenger_button:focus,
+.st_button:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.8);
+    outline-offset: 2px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .button_bottom,
+    .messenger_button,
+    .st_button,
+    .icon-embed-xxsmall-2 svg {
+        transition: none;
+    }
+    
+    .button_bottom.fab-hidden {
+        transform: none;
+    }
+}
