@@ -16,27 +16,11 @@
   <link href="css/ceramiquejlepage.webflow.css" rel="stylesheet" type="text/css">
   <link href="css/fab-buttons.css" rel="stylesheet" type="text/css">
   
-  <!-- Force object-fit cover en dernier -->
-  <style>
-    .blog6_image,
-    .blog6_list .blog6_image,
-    .blog6_item .blog6_image,
-    img[class*="blog6_image"] {
-      object-fit: cover !important;
-      object-position: center !important;
-      aspect-ratio: 4/3 !important;
-      width: 100% !important;
-      height: auto !important;
-      display: block !important;
-    }
-    
-    .blog6_image-wrapper {
-      aspect-ratio: 4/3 !important;
-      width: 100% !important;
-      overflow: hidden !important;
-      border-radius: 6px !important;
-    }
-  </style>
+  <!-- Preload critical images -->
+  <link rel="preload" as="image" href="images/salle-de-bain/20231215_072747-min.jpg">
+  <link rel="preload" as="image" href="images/Screenshot_20250526_202230_Outlook-min.avif">
+  
+  <!-- Optimized CSS - Combined and minified -->
   <style>
     /* Blog6 Component Styling */
     .blog6_image-wrapper {
@@ -636,10 +620,10 @@ margin: 0rem !important;
                                      srcset="images/salle-de-bain/20231215_072747-min.jpg 500w, images/salle-de-bain/20231215_072747-min.jpg 800w, images/salle-de-bain/20231215_072747-min.jpg 1080w, images/salle-de-bain/20231215_072747-min.jpg 1600w, images/salle-de-bain/20231215_072747-min.jpg 2048w" 
                                      alt="Projet vedette - Salle de bain moderne" 
                                      src="images/salle-de-bain/20231215_072747-min.jpg" 
-                                     loading="lazy" 
+                                     loading="eager" 
                                      class="blog6_featured-image"
                                      style="object-fit: cover !important; aspect-ratio: 4/3 !important; width: 100% !important; height: auto !important;">
-                              </div>
+                      </div>
                               <script type="application/json" class="w-json">{
   "items": [
     {
@@ -655,18 +639,18 @@ margin: 0rem !important;
                             </a>
                           </div>
                           <div class="blog6_featured-content">
-                            <div class="margin-bottom margin-small">
+                      <div class="margin-bottom margin-small">
                               <h3 class="heading-style-h4">Espaces vivants et dynamiques</h3>
-                            </div>
+                      </div>
                             <div class="margin-bottom margin-medium">
                               <p class="text-size-regular">Des métamorphoses qui capturent l'essence de chaque environnement</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>
+                          </div>
+                          </div>
+                              </div>
+                              </div>
                 
                 <!-- Filter Menu -->
                 <div class="blog6_content">
@@ -675,7 +659,7 @@ margin: 0rem !important;
                       <div>Salle de bain</div>
                     </a>
                     <a href="#" class="category-filter-link w-inline-block">
-                      <div>Cuisine</div>
+                                <div>Cuisine</div>
                     </a>
                     <a href="#" class="category-filter-link w-inline-block">
                       <div>Plancher chauffant</div>
@@ -683,7 +667,7 @@ margin: 0rem !important;
                     <a href="#" class="category-filter-link w-inline-block">
                       <div>Divers</div>
                     </a>
-                  </div>
+                              </div>
                   
                   <!-- Gallery Grid -->
                   <div class="blog6_list-wrapper">
@@ -695,6 +679,8 @@ margin: 0rem !important;
                           <div class="margin-bottom margin-small">
                             <div class="blog6_image-wrapper">
                               <img loading="lazy" 
+                                   sizes="(max-width: 767px) 100vw, (max-width: 991px) 50vw, 33vw"
+                                   srcset="images/cuisine/20220916_124607-min.jpg 400w, images/cuisine/20220916_124607-min.jpg 600w, images/cuisine/20220916_124607-min.jpg 800w"
                                    src="images/cuisine/20220916_124607-min.jpg" 
                                    alt="Cuisine moderne avec carrelage" 
                                    class="blog6_image"
@@ -715,7 +701,7 @@ margin: 0rem !important;
   "group": "gallery"
 }</script>
                         </a>
-                      </div>
+                              </div>
                       
                       <!-- Gallery Item 2 -->
                       <div class="blog6_item" data-category="salle-de-bain">
@@ -723,6 +709,8 @@ margin: 0rem !important;
                           <div class="margin-bottom margin-small">
                             <div class="blog6_image-wrapper">
                               <img loading="lazy" 
+                                   sizes="(max-width: 767px) 100vw, (max-width: 991px) 50vw, 33vw"
+                                   srcset="images/salle-de-bain/20231003_140904-min.jpg 400w, images/salle-de-bain/20231003_140904-min.jpg 600w, images/salle-de-bain/20231003_140904-min.jpg 800w"
                                    src="images/salle-de-bain/20231003_140904-min.jpg" 
                                    alt="Salle de bain contemporaine" 
                                    class="blog6_image"
@@ -756,7 +744,7 @@ margin: 0rem !important;
                                    class="blog6_image"
                                    style="object-fit: cover !important; aspect-ratio: 4/3 !important; width: 100% !important; height: auto !important;">
                               <div class="tag is-alternate blog6_image-tag">PLANCHER CHAUFFANT</div>
-                            </div>
+                          </div>
                           </div>
                           <script type="application/json" class="w-json">{
   "items": [
@@ -771,7 +759,7 @@ margin: 0rem !important;
   "group": "gallery"
 }</script>
                         </a>
-                      </div>
+                              </div>
                       
                       <!-- Gallery Item 4 -->
                       <div class="blog6_item" data-category="divers">
@@ -784,8 +772,8 @@ margin: 0rem !important;
                                    class="blog6_image"
                                    style="object-fit: cover !important; aspect-ratio: 4/3 !important; width: 100% !important; height: auto !important;">
                               <div class="tag is-alternate blog6_image-tag">DIVERS</div>
-                            </div>
-                          </div>
+                              </div>
+                              </div>
                           <script type="application/json" class="w-json">{
   "items": [
     {
@@ -799,7 +787,7 @@ margin: 0rem !important;
   "group": "gallery"
 }</script>
                         </a>
-                      </div>
+                            </div>
                       
                       <!-- Gallery Item 5 -->
                       <div class="blog6_item" data-category="cuisine">
@@ -812,8 +800,8 @@ margin: 0rem !important;
                                    class="blog6_image"
                                    style="object-fit: cover !important; aspect-ratio: 4/3 !important; width: 100% !important; height: auto !important;">
                               <div class="tag is-alternate blog6_image-tag">CUISINE</div>
-                            </div>
                           </div>
+                              </div>
                           <script type="application/json" class="w-json">{
   "items": [
     {
@@ -827,7 +815,7 @@ margin: 0rem !important;
   "group": "gallery"
 }</script>
                         </a>
-                      </div>
+                            </div>
                       
                       <!-- Gallery Item 6 -->
                       <div class="blog6_item" data-category="salle-de-bain">
@@ -840,7 +828,7 @@ margin: 0rem !important;
                                    class="blog6_image"
                                    style="object-fit: cover !important; aspect-ratio: 4/3 !important; width: 100% !important; height: auto !important;">
                               <div class="tag is-alternate blog6_image-tag">SALLE DE BAIN</div>
-                            </div>
+                          </div>
                           </div>
                           <script type="application/json" class="w-json">{
   "items": [
@@ -868,7 +856,7 @@ margin: 0rem !important;
                                    class="blog6_image"
                                    style="object-fit: cover !important; aspect-ratio: 4/3 !important; width: 100% !important; height: auto !important;">
                               <div class="tag is-alternate blog6_image-tag">PLANCHER CHAUFFANT</div>
-                            </div>
+                          </div>
                           </div>
                           <script type="application/json" class="w-json">{
   "items": [
@@ -883,7 +871,7 @@ margin: 0rem !important;
   "group": "gallery"
 }</script>
                         </a>
-                      </div>
+                              </div>
                       
                       <!-- Gallery Item 8 -->
                       <div class="blog6_item" data-category="divers">
@@ -896,8 +884,8 @@ margin: 0rem !important;
                                    class="blog6_image"
                                    style="object-fit: cover !important; aspect-ratio: 4/3 !important; width: 100% !important; height: auto !important;">
                               <div class="tag is-alternate blog6_image-tag">DIVERS</div>
-                            </div>
-                          </div>
+                              </div>
+                              </div>
                           <script type="application/json" class="w-json">{
   "items": [
     {
@@ -911,7 +899,7 @@ margin: 0rem !important;
   "group": "gallery"
 }</script>
                         </a>
-                      </div>
+                            </div>
                       
                       <!-- Gallery Item 9 -->
                       <div class="blog6_item" data-category="cuisine">
@@ -924,8 +912,8 @@ margin: 0rem !important;
                                    class="blog6_image"
                                    style="object-fit: cover !important; aspect-ratio: 4/3 !important; width: 100% !important; height: auto !important;">
                               <div class="tag is-alternate blog6_image-tag">CUISINE</div>
-                            </div>
                           </div>
+                              </div>
                           <script type="application/json" class="w-json">{
   "items": [
     {
@@ -939,7 +927,7 @@ margin: 0rem !important;
   "group": "gallery"
 }</script>
                         </a>
-                      </div>
+                            </div>
                       
                       <!-- Gallery Item 10 -->
                       <div class="blog6_item" data-category="cuisine">
@@ -952,7 +940,7 @@ margin: 0rem !important;
                                    class="blog6_image"
                                    style="object-fit: cover !important; aspect-ratio: 4/3 !important; width: 100% !important; height: auto !important;">
                               <div class="tag is-alternate blog6_image-tag">CUISINE</div>
-                            </div>
+                          </div>
                           </div>
                           <script type="application/json" class="w-json">{
   "items": [
@@ -980,8 +968,8 @@ margin: 0rem !important;
                                    class="blog6_image"
                                    style="object-fit: cover !important; aspect-ratio: 4/3 !important; width: 100% !important; height: auto !important;">
                               <div class="tag is-alternate blog6_image-tag">CUISINE</div>
-                            </div>
-                          </div>
+                    </div>
+                  </div>
                           <script type="application/json" class="w-json">{
   "items": [
     {
@@ -995,7 +983,7 @@ margin: 0rem !important;
   "group": "gallery"
 }</script>
                         </a>
-                      </div>
+                </div>
                       
                       <!-- Gallery Item 12 -->
                       <div class="blog6_item" data-category="salle-de-bain">
@@ -1008,8 +996,8 @@ margin: 0rem !important;
                                    class="blog6_image"
                                    style="object-fit: cover !important; aspect-ratio: 4/3 !important; width: 100% !important; height: auto !important;">
                               <div class="tag is-alternate blog6_image-tag">SALLE DE BAIN</div>
-                            </div>
-                          </div>
+                  </div>
+                </div>
                           <script type="application/json" class="w-json">{
   "items": [
     {
@@ -1023,7 +1011,7 @@ margin: 0rem !important;
   "group": "gallery"
 }</script>
                         </a>
-                      </div>
+              </div>
                       
                       <!-- Gallery Item 13 -->
                       <div class="blog6_item" data-category="salle-de-bain">
@@ -1036,8 +1024,8 @@ margin: 0rem !important;
                                    class="blog6_image"
                                    style="object-fit: cover !important; aspect-ratio: 4/3 !important; width: 100% !important; height: auto !important;">
                               <div class="tag is-alternate blog6_image-tag">SALLE DE BAIN</div>
-                            </div>
-                          </div>
+            </div>
+          </div>
                           <script type="application/json" class="w-json">{
   "items": [
     {
@@ -1051,7 +1039,7 @@ margin: 0rem !important;
   "group": "gallery"
 }</script>
                         </a>
-                      </div>
+        </div>
                       
                       <!-- Gallery Item 14 -->
                       <div class="blog6_item" data-category="salle-de-bain">
@@ -2032,6 +2020,68 @@ document.addEventListener('DOMContentLoaded', function() {
           });
         });
       });
+    });
+  </script>
+  
+  <!-- Performance Optimization Script -->
+  <script>
+    // Intersection Observer for enhanced lazy loading
+    if ('IntersectionObserver' in window) {
+      const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            if (img.dataset.src) {
+              img.src = img.dataset.src;
+              img.removeAttribute('data-src');
+              observer.unobserve(img);
+            }
+          }
+        });
+      }, {
+        rootMargin: '50px 0px',
+        threshold: 0.01
+      });
+
+      // Observe all lazy-loaded images
+      document.querySelectorAll('img[loading="lazy"]').forEach(img => {
+        imageObserver.observe(img);
+      });
+    }
+
+    // Preload next batch of images when user scrolls
+    let loadedImages = 0;
+    const totalImages = document.querySelectorAll('.blog6_image').length;
+    
+    function preloadNextBatch() {
+      const remainingImages = document.querySelectorAll('.blog6_image[loading="lazy"]:not([src*="data:"])');
+      const batchSize = Math.min(3, remainingImages.length);
+      
+      for (let i = 0; i < batchSize; i++) {
+        const img = remainingImages[i];
+        if (img && img.src && !img.src.includes('data:')) {
+          const link = document.createElement('link');
+          link.rel = 'preload';
+          link.as = 'image';
+          link.href = img.src;
+          document.head.appendChild(link);
+        }
+      }
+    }
+
+    // Trigger preloading when 70% of images are loaded
+    const checkProgress = () => {
+      const visibleImages = document.querySelectorAll('.blog6_image[loading="lazy"]').length;
+      if (visibleImages < totalImages * 0.3) {
+        preloadNextBatch();
+      }
+    };
+
+    // Check progress on scroll
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(checkProgress, 100);
     });
   </script>
 </body>
