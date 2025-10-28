@@ -15,6 +15,20 @@
   <link href="css/webflow.css" rel="stylesheet" type="text/css">
   <link href="css/ceramiquejlepage.webflow.css" rel="stylesheet" type="text/css">
   <link href="css/fab-buttons.css" rel="stylesheet" type="text/css">
+  
+  <!-- Force object-fit cover en dernier -->
+  <style>
+    .blog6_image,
+    .blog6_list .blog6_image,
+    .blog6_item .blog6_image,
+    img[class*="blog6_image"] {
+      object-fit: cover !important;
+      object-position: center !important;
+      height: 250px !important;
+      width: 100% !important;
+      display: block !important;
+    }
+  </style>
   <style>
     /* Blog6 Component Styling */
     .blog6_image-wrapper {
@@ -28,7 +42,9 @@
       transform: scale(1.02);
     }
     
-    .blog6_image {
+    .blog6_image,
+    .blog6_item .blog6_image,
+    .blog6_list .blog6_item .blog6_image {
       border-radius: 6px !important;
       width: 100% !important;
       height: 250px !important;
@@ -38,6 +54,9 @@
       aspect-ratio: unset !important;
       min-height: 250px !important;
       max-height: 250px !important;
+      -webkit-object-fit: cover !important;
+      -moz-object-fit: cover !important;
+      -ms-object-fit: cover !important;
     }
     
     .blog6_list {
@@ -56,6 +75,16 @@
     
     .blog6_item .margin-bottom {
       margin-bottom: 0 !important;
+    }
+    
+    /* Force object-fit sur toutes les images de la galerie */
+    .blog6_list img,
+    .blog6_item img,
+    img.blog6_image {
+      object-fit: cover !important;
+      object-position: center !important;
+      height: 250px !important;
+      width: 100% !important;
     }
     
     .blog6_image-wrapper {
