@@ -9,7 +9,7 @@
     z-index: 1000;
     display: flex !important; /* Force flexbox */
     flex-direction: column !important; /* Force column direction */
-    gap: 0.25rem !important; /* Force gap - Further reduced from 0.5rem to 0.25rem */
+    gap: 0.5rem !important; /* Increased from 0.25rem to 0.5rem for better spacing */
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -163,7 +163,7 @@
     .button_bottom {
         bottom: 2%;
         right: 2%;
-        gap: 0.2rem !important; /* Force gap - Further reduced from 0.4rem to 0.2rem */
+        gap: 0.4rem !important; /* Increased from 0.2rem to 0.4rem for better mobile spacing */
     }
     
     /* Override positioning on mobile too */
