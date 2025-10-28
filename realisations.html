@@ -42,12 +42,35 @@
       display: block;
     }
     
+    .blog6_featured-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 4rem;
+      align-items: center;
+    }
+    
+    .blog6_featured-content {
+      padding-left: 2rem;
+    }
+    
+    @media screen and (max-width: 991px) {
+      .blog6_featured-grid {
+        grid-template-columns: 1fr;
+        grid-gap: 2rem;
+      }
+      
+      .blog6_featured-content {
+        padding-left: 0;
+        order: -1;
+      }
+    }
+    
     .category-filter-menu {
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
       margin-bottom: 2rem;
-      justify-content: center;
+      justify-content: flex-start;
     }
     
     .category-filter-link {
@@ -445,22 +468,44 @@ margin: 0rem !important;
                   <div class="blog6_featured-list-wrapper">
                     <div class="blog6_featured-list">
                       <div class="blog6_featured-item">
-                        <a href="#" class="blog6_featured-item-link w-inline-block">
-                          <div class="blog6_image-wrapper">
-                            <img sizes="(max-width: 2048px) 100vw, 2048px" 
-                                 srcset="images/Placeholder-Image---Landscape.svg 500w, images/Placeholder-Image---Landscape.svg 800w, images/Placeholder-Image---Landscape.svg 1080w, images/Placeholder-Image---Landscape.svg 1600w, images/Placeholder-Image---Landscape.svg 2048w" 
-                                 alt="Projet vedette - Salle de bain moderne" 
-                                 src="images/Placeholder-Image---Landscape.svg" 
-                                 loading="lazy" 
-                                 class="blog6_featured-image">
+                        <div class="w-layout-grid blog6_featured-grid">
+                          <div class="blog6_featured-image-wrapper">
+                            <a href="#" class="blog6_featured-image-link w-inline-block w-lightbox">
+                              <div class="blog6_image-wrapper">
+                                <img sizes="(max-width: 991px) 100vw, (max-width: 1439px) 50vw, 720px" 
+                                     srcset="images/Placeholder-Image---Landscape.svg 500w, images/Placeholder-Image---Landscape.svg 800w, images/Placeholder-Image---Landscape.svg 1080w, images/Placeholder-Image---Landscape.svg 1600w, images/Placeholder-Image---Landscape.svg 2048w" 
+                                     alt="Projet vedette - Salle de bain moderne" 
+                                     src="images/Placeholder-Image---Landscape.svg" 
+                                     loading="lazy" 
+                                     class="blog6_featured-image">
+                              </div>
+                              <script type="application/json" class="w-json">{
+  "items": [
+    {
+      "_id": "featured1",
+      "origFileName": "salle-bain-moderne.jpg",
+      "fileName": "salle-bain-moderne.jpg",
+      "url": "images/Placeholder-Image---Landscape.svg",
+      "type": "image"
+    }
+  ],
+  "group": "gallery"
+}</script>
+                            </a>
                           </div>
-                          <div class="blog6_featured-item-content">
+                          <div class="blog6_featured-content">
+                            <div class="margin-bottom margin-small">
+                              <h2 class="heading-style-h2">Espaces vivants et dynamiques</h2>
+                            </div>
+                            <div class="margin-bottom margin-medium">
+                              <p class="text-size-medium">Des métamorphoses qui capturent l'essence de chaque environnement</p>
+                            </div>
                             <div class="margin-bottom margin-xsmall">
                               <h3 class="heading-style-h4">Salle de bain moderne Mont-Saint-Hilaire</h3>
                             </div>
                             <div class="text-size-regular">Transformation complète d'une salle de bain avec carrelage haut de gamme et plancher chauffant pour un confort optimal.</div>
                           </div>
-                        </a>
+                        </div>
                       </div>
                     </div>
                   </div>
