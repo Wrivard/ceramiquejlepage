@@ -35,18 +35,13 @@
       display: block;
     }
     
-    .blog6_featured-image {
-      border-radius: 6px;
-      width: 100%;
-      height: auto;
-      display: block;
-    }
     
     .blog6_featured-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      grid-gap: 3rem;
-      align-items: center;
+      display: grid !important;
+      grid-template-columns: 2fr 1fr !important;
+      grid-gap: 3rem !important;
+      align-items: center !important;
+      width: 100% !important;
     }
     
     .blog6_featured-content {
@@ -54,12 +49,19 @@
     }
     
     .blog6_featured-image {
-      border-radius: 12px;
-      width: 100%;
-      height: auto;
-      display: block;
-      aspect-ratio: 4/3;
-      object-fit: cover;
+      border-radius: 12px !important;
+      width: 100% !important;
+      height: auto !important;
+      display: block !important;
+      aspect-ratio: 4/3 !important;
+      object-fit: cover !important;
+    }
+    
+    .blog6_featured-image-wrapper,
+    .blog6_image-wrapper {
+      width: 100% !important;
+      height: auto !important;
+      display: block !important;
     }
     
     @media screen and (max-width: 991px) {
@@ -484,7 +486,7 @@ margin: 0rem !important;
                   <div class="blog6_featured-list-wrapper">
                     <div class="blog6_featured-list">
                       <div class="blog6_featured-item">
-                        <div class="w-layout-grid blog6_featured-grid">
+                        <div class="blog6_featured-grid">
                           <div class="blog6_featured-image-wrapper">
                             <a href="#" class="blog6_featured-image-link w-inline-block w-lightbox">
                               <div class="blog6_image-wrapper">
