@@ -45,8 +45,8 @@
     }
     
     function setupMessengerButton(button) {
-        // Set messenger link (you can customize this)
-        button.href = 'https://m.me/ceramiquejlepage'; // Update with your actual Messenger link
+        // Set messenger link to Facebook page
+        button.href = 'https://www.facebook.com/p/C%C3%A9ramiques-JLepage-100086272626287/';
         
         // Add click handler for analytics or other tracking
         button.addEventListener('click', function(e) {
