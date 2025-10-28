@@ -48,86 +48,14 @@
 }
 
 .content28_component {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  grid-gap: 80px;
-  max-width: 1400px;
+  max-width: 900px;
   margin: 0 auto;
   padding: 0 40px;
-  align-items: flex-start;
 }
 
-/* Ultra-clean sidebar */
+/* Hide sidebar completely */
 .content28_sidebar {
-  position: sticky;
-  top: 40px;
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 40px 32px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.content28_sidebar-heading {
-  margin-bottom: 32px;
-}
-
-.content28_sidebar-heading h3 {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #0f172a;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  opacity: 0.8;
-}
-
-.content28_link-content {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  counter-reset: toc-counter;
-}
-
-.content28_link-wrapper {
-  counter-increment: toc-counter;
-}
-
-.content28_link {
-  display: flex;
-  align-items: center;
-  padding: 12px 16px;
-  color: #64748b;
-  text-decoration: none;
-  font-size: 0.9rem;
-  font-weight: 500;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-  position: relative;
-}
-
-.content28_link:before {
-  content: counter(toc-counter, decimal-leading-zero);
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: #94a3b8;
-  margin-right: 12px;
-  min-width: 24px;
-}
-
-.content28_link:hover {
-  background: #f1f5f9;
-  color: #0f172a;
-  transform: translateX(4px);
-}
-
-.content28_link.current {
-  background: #0f172a;
-  color: #ffffff;
-}
-
-.content28_link.current:before {
-  color: #ffffff;
+  display: none !important;
 }
 
 /* Modern content area */
@@ -307,29 +235,13 @@
 }
 
 /* Mobile responsive */
-@media screen and (max-width: 1200px) {
-  .content28_component {
-    grid-template-columns: 1fr;
-    grid-gap: 60px;
-    padding: 0 24px;
-  }
-  
-  .content28_sidebar {
-    position: relative;
-    top: auto;
-    order: -1;
-    margin-bottom: 40px;
-  }
-}
-
 @media screen and (max-width: 768px) {
   .section_content28 {
     padding: 80px 0;
   }
   
   .content28_component {
-    padding: 0 16px;
-    grid-gap: 40px;
+    padding: 0 24px;
   }
   
   .content28_header {
@@ -346,6 +258,28 @@
   
   .content28_contact {
     padding: 40px !important;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .content28_component {
+    padding: 0 16px;
+  }
+  
+  .content28_header {
+    padding: 40px 24px;
+  }
+  
+  .content28_header h1 {
+    font-size: 2rem !important;
+  }
+  
+  .content28_card {
+    padding: 32px !important;
+  }
+  
+  .content28_contact {
+    padding: 32px !important;
   }
 }
 </style>
