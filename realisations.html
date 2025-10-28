@@ -126,12 +126,33 @@
       padding-left: 1.5rem;
     }
     
+    /* Force featured image height using ID for maximum specificity */
+    #featured-image-main {
+      height: 350px !important;
+      min-height: 350px !important;
+      max-height: 350px !important;
+    }
+    
+    /* Force featured image height with maximum specificity */
+    .blog6_featured-list .blog6_featured-item .blog6_featured-image-wrapper .blog6_featured-image-link .blog6_image-wrapper .blog6_featured-image {
+      height: 350px !important;
+      min-height: 350px !important;
+      max-height: 350px !important;
+    }
+    
     .blog6_featured-image {
       border-radius: 12px !important;
       width: 100% !important;
       height: 350px !important;
       display: block !important;
       object-fit: cover !important;
+    }
+    
+    /* Force featured image wrapper height with maximum specificity */
+    .blog6_featured-list .blog6_featured-item .blog6_featured-image-wrapper .blog6_featured-image-link .blog6_image-wrapper {
+      height: 350px !important;
+      min-height: 350px !important;
+      max-height: 350px !important;
     }
     
     .blog6_featured-image-wrapper,
@@ -675,7 +696,8 @@ margin: 0rem !important;
                                      src="images/salle-de-bain/20231215_072747-min.jpg" 
                                      loading="eager" 
                                      class="blog6_featured-image"
-                                     style="object-fit: cover !important; width: 100% !important; height: 350px !important; aspect-ratio: 4/3 !important; object-position: center !important;">
+                                     id="featured-image-main"
+                                     style="object-fit: cover !important; width: 100% !important; height: 350px !important; min-height: 350px !important; max-height: 350px !important; aspect-ratio: 4/3 !important; object-position: center !important;">
                       </div>
                               <script type="application/json" class="w-json">{
   "items": [
