@@ -56,7 +56,7 @@
   padding: 0 2rem;
 }
 
-/* Clean, minimal sidebar */
+/* Traditional table of contents sidebar */
 .content28_sidebar {
   position: sticky;
   top: 2rem;
@@ -82,35 +82,42 @@
 }
 
 .content28_link-content {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+  display: block;
+  counter-reset: toc-counter;
 }
 
 .content28_link-wrapper {
   margin: 0;
+  counter-increment: toc-counter;
 }
 
 .content28_link {
   display: block;
-  padding: 10px 16px;
+  padding: 8px 0;
   color: #666666;
   text-decoration: none;
-  border-radius: 6px;
   font-size: 0.9rem;
   line-height: 1.5;
   font-weight: 400;
-  transition: all 0.15s ease;
+  transition: color 0.15s ease;
+  position: relative;
+  padding-left: 24px;
+}
+
+.content28_link:before {
+  content: counter(toc-counter) ".";
+  position: absolute;
+  left: 0;
+  color: #1a1a1a;
+  font-weight: 500;
 }
 
 .content28_link:hover {
-  background-color: #f8f9fa;
   color: #1a1a1a;
 }
 
 .content28_link.current {
-  background-color: #1a1a1a;
-  color: white;
+  color: #1a1a1a;
   font-weight: 500;
 }
 
@@ -243,6 +250,44 @@
   font-size: 1rem !important;
   line-height: 1.6 !important;
   margin-bottom: 0 !important;
+}
+
+/* Remove all yellowish backgrounds completely */
+.section_content28 * {
+  background-color: #ffffff !important;
+}
+
+.section_content28 .content28_sidebar {
+  background-color: #ffffff !important;
+}
+
+.section_content28 .content28_header {
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%) !important;
+}
+
+.section_content28 .content28_contact {
+  background-color: #f8f9fa !important;
+}
+
+.section_content28 .content28_table th {
+  background-color: #f8f9fa !important;
+}
+
+.section_content28 .content28_table tr:hover {
+  background-color: #fafbfc !important;
+}
+
+/* Override any remaining color scheme backgrounds */
+.color-scheme-1 * {
+  background-color: #ffffff !important;
+}
+
+.color-scheme-1 .content28_header {
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%) !important;
+}
+
+.color-scheme-1 .content28_contact {
+  background-color: #f8f9fa !important;
 }
 
 /* Mobile responsive */
