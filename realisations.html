@@ -31,11 +31,13 @@
     .blog6_image {
       border-radius: 6px !important;
       width: 100% !important;
-      height: 280px !important;
+      height: 250px !important;
       object-fit: cover !important;
       object-position: center !important;
       display: block !important;
       aspect-ratio: unset !important;
+      min-height: 250px !important;
+      max-height: 250px !important;
     }
     
     .blog6_list {
@@ -43,16 +45,29 @@
       grid-template-columns: repeat(3, 1fr) !important;
       grid-gap: 2rem !important;
       margin-top: 2rem !important;
+      width: 100% !important;
+    }
+    
+    .blog6_item {
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    
+    .blog6_item .margin-bottom {
+      margin-bottom: 0 !important;
     }
     
     .blog6_image-wrapper {
       width: 100% !important;
-      height: 280px !important;
+      height: 250px !important;
       overflow: hidden !important;
       border-radius: 6px !important;
       position: relative !important;
-      aspect-ratio: 16/9 !important;
       background-color: #f5f5f5;
+      margin: 0 !important;
+      padding: 0 !important;
+      flex-shrink: 0 !important;
     }
     
     
@@ -115,12 +130,13 @@
       }
       
       .blog6_image-wrapper {
-        height: 240px !important;
-        aspect-ratio: 16/9 !important;
+        height: 200px !important;
       }
       
       .blog6_image {
-        height: 240px !important;
+        height: 200px !important;
+        min-height: 200px !important;
+        max-height: 200px !important;
         object-fit: cover !important;
         object-position: center !important;
       }
@@ -133,12 +149,13 @@
       }
       
       .blog6_image-wrapper {
-        height: 200px !important;
-        aspect-ratio: 16/9 !important;
+        height: 180px !important;
       }
       
       .blog6_image {
-        height: 200px !important;
+        height: 180px !important;
+        min-height: 180px !important;
+        max-height: 180px !important;
         object-fit: cover !important;
         object-position: center !important;
       }
@@ -612,7 +629,7 @@ margin: 0rem !important;
                   
                   <!-- Gallery Grid -->
                   <div class="blog6_list-wrapper">
-                    <div class="w-layout-grid blog6_list">
+                    <div class="blog6_list">
                       
                       <!-- Gallery Item 1 -->
                       <div class="blog6_item" data-category="cuisine">
