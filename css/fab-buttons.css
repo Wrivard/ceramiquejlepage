@@ -47,9 +47,9 @@
     background: linear-gradient(135deg, #d3af37 0%, #b8941f 100%);
     color: #fff;
     border-radius: 6px; /* Changed from 50% to 6px */
-    width: 5rem;
-    height: 5rem;
-    padding: 16px;
+    width: 4rem;
+    height: 4rem;
+    padding: 12px;
     position: relative; /* Changed from fixed to relative */
     display: flex;
     align-items: center;
@@ -92,9 +92,9 @@
     color: #fff;
     cursor: pointer;
     border-radius: 6px; /* Changed from 50% to 6px */
-    padding: 1.2rem;
-    width: 5rem;
-    height: 5rem;
+    padding: 1rem;
+    width: 4rem;
+    height: 4rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -180,8 +180,8 @@
     
     .messenger_button,
     .st_button {
-        width: 4rem;
-        height: 4rem;
+        width: 3.5rem;
+        height: 3.5rem;
         padding: 12px;
     }
     
