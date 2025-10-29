@@ -474,7 +474,7 @@
     .footer3_logo-link {
       display: inline-flex;
       align-items: center;
-    }
+}
 </style>
 </head>
 <body>
@@ -2273,7 +2273,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const pathParts = originalSrc.split('/');
         const filename = pathParts.pop();
         const path = pathParts.join('/');
-        const nameWithoutExt = filename.replace(/\.(jpg|jpeg|png|avif)$/i, '');
+        
+        // Remove existing size suffix if present (e.g., -400w, -600w, etc.)
+        let nameWithoutExt = filename.replace(/\.(jpg|jpeg|png|avif)$/i, '');
+        nameWithoutExt = nameWithoutExt.replace(/-\d+w$/, ''); // Remove existing -400w, -600w, etc.
+        
         const ext = filename.match(/\.(jpg|jpeg|png|avif)$/i)?.[1] || 'jpg';
         
         // Create srcset with multiple sizes
@@ -2304,7 +2308,8 @@ document.addEventListener('DOMContentLoaded', function() {
           const pathParts = originalSrc.split('/');
           const filename = pathParts.pop();
           const path = pathParts.join('/');
-          const nameWithoutExt = filename.replace(/\.(jpg|jpeg|png|avif)$/i, '');
+          let nameWithoutExt = filename.replace(/\.(jpg|jpeg|png|avif)$/i, '');
+          nameWithoutExt = nameWithoutExt.replace(/-\d+w$/, ''); // Remove existing size suffix
           const ext = filename.match(/\.(jpg|jpeg|png|avif)$/i)?.[1] || 'jpg';
           
           // Determine optimal size based on actual display dimensions (with 2x for retina)
@@ -2352,7 +2357,8 @@ document.addEventListener('DOMContentLoaded', function() {
               const pathParts = originalSrc.split('/');
               const filename = pathParts.pop();
               const path = pathParts.join('/');
-              const nameWithoutExt = filename.replace(/\.(jpg|jpeg|png|avif)$/i, '');
+              let nameWithoutExt = filename.replace(/\.(jpg|jpeg|png|avif)$/i, '');
+              nameWithoutExt = nameWithoutExt.replace(/-\d+w$/, ''); // Remove existing size suffix
               const ext = filename.match(/\.(jpg|jpeg|png|avif)$/i)?.[1] || 'jpg';
               const optimized400 = `${path}/${nameWithoutExt}-400w.${ext}`;
               
@@ -2373,13 +2379,24 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Check if image is from our project folders (not Webflow template images)
       function isProjectImage(src) {
+        // Exclude template/placeholder images
+        if (src.includes('relume-') || 
+            src.includes('Placeholder-') || 
+            src.includes('Messenger_') ||
+            src.includes('webclip') ||
+            src.includes('favicon')) {
+          return false;
+        }
+        
+        // Include only actual project images
         return src.includes('/cuisine/') || 
                src.includes('/salle-de-bain/') || 
                src.includes('/plancher-chauffant/') || 
                src.includes('/divers/') ||
-               (src.includes('20') && (src.includes('.jpg') || src.includes('.jpeg'))) || // Date-based filenames
+               (src.includes('202') && (src.includes('.jpg') || src.includes('.jpeg'))) || // Date-based filenames (2020+)
                src.includes('IMG_') || 
-               src.includes('FullSizeR');
+               src.includes('FullSizeR') ||
+               src.includes('FB_IMG_');
       }
       
       // Run immediately
@@ -2401,7 +2418,8 @@ document.addEventListener('DOMContentLoaded', function() {
           });
         });
         
-        galleryImages.forEach(img => imageObserver.observe(img));
+        const lazyImages = document.querySelectorAll('.blog6_image, .blog6_featured-image, .header50_background-image');
+        lazyImages.forEach(img => imageObserver.observe(img));
       }
     });
   </script>
