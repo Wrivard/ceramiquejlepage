@@ -805,7 +805,8 @@ margin: 0rem !important;
                                 <img sizes="(max-width: 479px) 100vw, (max-width: 767px) 50vw, (max-width: 991px) 50vw, 720px" 
                                      srcset="images/salle-de-bain/20231215_072747-min-400w.jpg 400w, images/salle-de-bain/20231215_072747-min-600w.jpg 600w, images/salle-de-bain/20231215_072747-min-800w.jpg 800w, images/salle-de-bain/20231215_072747-min-1200w.jpg 1200w" 
                                      alt="Projet vedette - Salle de bain moderne" 
-                                     src="images/salle-de-bain/20231215_072747-min-600w.jpg" 
+                                     src="images/salle-de-bain/20231215_072747-min-600w.jpg"
+                                     onerror="this.src='images/salle-de-bain/20231215_072747-min.jpg'" 
                                      loading="eager" 
                                      class="blog6_featured-image"
                                      id="featured-image-main"
@@ -929,6 +930,7 @@ margin: 0rem !important;
                                    src="images/plancher-chauffant/20240523_102129-min-400w.jpg" 
                                    srcset="images/plancher-chauffant/20240523_102129-min-400w.jpg 400w, images/plancher-chauffant/20240523_102129-min-600w.jpg 600w, images/plancher-chauffant/20240523_102129-min-800w.jpg 800w"
                                    sizes="(max-width: 479px) 100vw, (max-width: 767px) 50vw, (max-width: 991px) 33vw, 25vw"
+                                   onerror="this.src='images/plancher-chauffant/20240523_102129-min.jpg'"
                                    alt="Installation plancher chauffant" 
                                    class="blog6_image"
                                    style="object-fit: cover !important; width: 100% !important; height: 250px !important; aspect-ratio: 4/3 !important; object-position: center !important;">
@@ -1099,6 +1101,7 @@ margin: 0rem !important;
                                    src="images/cuisine/IMG_6091-min-400w.jpg" 
                                    srcset="images/cuisine/IMG_6091-min-400w.jpg 400w, images/cuisine/IMG_6091-min-600w.jpg 600w, images/cuisine/IMG_6091-min-800w.jpg 800w"
                                    sizes="(max-width: 479px) 100vw, (max-width: 767px) 50vw, (max-width: 991px) 33vw, 25vw"
+                                   onerror="this.src='images/cuisine/IMG_6091-min.jpg'"
                                    alt="Cuisine ouverte moderne" 
                                    class="blog6_image"
                                    style="object-fit: cover !important; width: 100% !important; height: 250px !important; aspect-ratio: 4/3 !important; object-position: center !important;">
@@ -2281,19 +2284,21 @@ document.addEventListener('DOMContentLoaded', function() {
       function optimizeImage(img) {
         const originalSrc = img.src;
         
-        // Skip if already optimized
-        if (img.dataset.optimized) return;
+        // Skip if already optimized or not a project image
+        if (img.dataset.optimized || !isProjectImage(originalSrc)) return;
         
         // Get actual display dimensions
         const rect = img.getBoundingClientRect();
         const displayWidth = rect.width || img.offsetWidth || 400;
         const displayHeight = rect.height || img.offsetHeight || 300;
         
-        // Create responsive srcset
+        // Create responsive srcset only for project images
         try {
-          const srcset = createResponsiveSrcSet(originalSrc);
-          img.setAttribute('srcset', srcset);
-          img.setAttribute('sizes', '(max-width: 479px) 100vw, (max-width: 767px) 50vw, (max-width: 991px) 33vw, 25vw');
+          if (!img.getAttribute('srcset')) {
+            const srcset = createResponsiveSrcSet(originalSrc);
+            img.setAttribute('srcset', srcset);
+            img.setAttribute('sizes', '(max-width: 479px) 100vw, (max-width: 767px) 50vw, (max-width: 991px) 33vw, 25vw');
+          }
           
           // Try to load a smaller version immediately based on actual display size
           const pathParts = originalSrc.split('/');
@@ -2323,7 +2328,7 @@ document.addEventListener('DOMContentLoaded', function() {
           testImg.onerror = function() {
             // If optimized version doesn't exist, keep original but add srcset
             img.dataset.optimized = 'true';
-            console.log(`No optimized version found for ${filename}, using original with srcset`);
+            console.log(`No optimized version found for ${filename}, using original`);
           };
           testImg.src = optimizedSrc;
           
@@ -2332,13 +2337,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
       
-      // Add srcset to all images immediately (before DOM ready)
+      // Add srcset to project images only (avoid 404s on template images)
       function addSrcsetToImages() {
         const galleryImages = document.querySelectorAll('.blog6_image, .blog6_featured-image');
         galleryImages.forEach(img => {
           if (!img.getAttribute('srcset')) {
             const originalSrc = img.src || img.getAttribute('src');
-            if (originalSrc) {
+            if (originalSrc && isProjectImage(originalSrc)) {
               const srcset = createResponsiveSrcSet(originalSrc);
               img.setAttribute('srcset', srcset);
               img.setAttribute('sizes', '(max-width: 479px) 100vw, (max-width: 767px) 50vw, (max-width: 991px) 33vw, 25vw');
@@ -2357,10 +2362,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 img.src = optimized400;
                 console.log(`Pre-optimized: ${filename} -> 400w`);
               };
+              testImg.onerror = function() {
+                console.log(`No 400w version for ${filename}, keeping original`);
+              };
               testImg.src = optimized400;
             }
           }
         });
+      }
+      
+      // Check if image is from our project folders (not Webflow template images)
+      function isProjectImage(src) {
+        return src.includes('/cuisine/') || 
+               src.includes('/salle-de-bain/') || 
+               src.includes('/plancher-chauffant/') || 
+               src.includes('/divers/') ||
+               (src.includes('20') && (src.includes('.jpg') || src.includes('.jpeg'))) || // Date-based filenames
+               src.includes('IMG_') || 
+               src.includes('FullSizeR');
       }
       
       // Run immediately
