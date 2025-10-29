@@ -802,10 +802,10 @@ margin: 0rem !important;
                           <div class="blog6_featured-image-wrapper">
                             <a href="#" class="blog6_featured-image-link w-inline-block w-lightbox">
                               <div class="blog6_image-wrapper">
-                                <img sizes="(max-width: 991px) 100vw, (max-width: 1439px) 50vw, 720px" 
-                                     srcset="images/salle-de-bain/20231215_072747-min.jpg 500w, images/salle-de-bain/20231215_072747-min.jpg 800w, images/salle-de-bain/20231215_072747-min.jpg 1080w, images/salle-de-bain/20231215_072747-min.jpg 1600w, images/salle-de-bain/20231215_072747-min.jpg 2048w" 
+                                <img sizes="(max-width: 479px) 100vw, (max-width: 767px) 50vw, (max-width: 991px) 50vw, 720px" 
+                                     srcset="images/salle-de-bain/20231215_072747-min-400w.jpg 400w, images/salle-de-bain/20231215_072747-min-600w.jpg 600w, images/salle-de-bain/20231215_072747-min-800w.jpg 800w, images/salle-de-bain/20231215_072747-min-1200w.jpg 1200w" 
                                      alt="Projet vedette - Salle de bain moderne" 
-                                     src="images/salle-de-bain/20231215_072747-min.jpg" 
+                                     src="images/salle-de-bain/20231215_072747-min-600w.jpg" 
                                      loading="eager" 
                                      class="blog6_featured-image"
                                      id="featured-image-main"
@@ -926,7 +926,9 @@ margin: 0rem !important;
                           <div class="margin-bottom margin-small">
                             <div class="blog6_image-wrapper">
                               <img loading="lazy" 
-                                   src="images/plancher-chauffant/20240523_102129-min.jpg" 
+                                   src="images/plancher-chauffant/20240523_102129-min-400w.jpg" 
+                                   srcset="images/plancher-chauffant/20240523_102129-min-400w.jpg 400w, images/plancher-chauffant/20240523_102129-min-600w.jpg 600w, images/plancher-chauffant/20240523_102129-min-800w.jpg 800w"
+                                   sizes="(max-width: 479px) 100vw, (max-width: 767px) 50vw, (max-width: 991px) 33vw, 25vw"
                                    alt="Installation plancher chauffant" 
                                    class="blog6_image"
                                    style="object-fit: cover !important; width: 100% !important; height: 250px !important; aspect-ratio: 4/3 !important; object-position: center !important;">
@@ -1094,7 +1096,9 @@ margin: 0rem !important;
                           <div class="margin-bottom margin-small">
                             <div class="blog6_image-wrapper">
                               <img loading="lazy" 
-                                   src="images/cuisine/IMG_6091-min.jpg" 
+                                   src="images/cuisine/IMG_6091-min-400w.jpg" 
+                                   srcset="images/cuisine/IMG_6091-min-400w.jpg 400w, images/cuisine/IMG_6091-min-600w.jpg 600w, images/cuisine/IMG_6091-min-800w.jpg 800w"
+                                   sizes="(max-width: 479px) 100vw, (max-width: 767px) 50vw, (max-width: 991px) 33vw, 25vw"
                                    alt="Cuisine ouverte moderne" 
                                    class="blog6_image"
                                    style="object-fit: cover !important; width: 100% !important; height: 250px !important; aspect-ratio: 4/3 !important; object-position: center !important;">
@@ -2276,28 +2280,36 @@ document.addEventListener('DOMContentLoaded', function() {
       // Function to optimize individual image
       function optimizeImage(img) {
         const originalSrc = img.src;
-        const currentWidth = img.offsetWidth || 400;
         
         // Skip if already optimized
         if (img.dataset.optimized) return;
+        
+        // Get actual display dimensions
+        const rect = img.getBoundingClientRect();
+        const displayWidth = rect.width || img.offsetWidth || 400;
+        const displayHeight = rect.height || img.offsetHeight || 300;
         
         // Create responsive srcset
         try {
           const srcset = createResponsiveSrcSet(originalSrc);
           img.setAttribute('srcset', srcset);
-          img.setAttribute('sizes', '(max-width: 767px) 100vw, (max-width: 991px) 50vw, 33vw');
+          img.setAttribute('sizes', '(max-width: 479px) 100vw, (max-width: 767px) 50vw, (max-width: 991px) 33vw, 25vw');
           
-          // Try to load a smaller version immediately
+          // Try to load a smaller version immediately based on actual display size
           const pathParts = originalSrc.split('/');
           const filename = pathParts.pop();
           const path = pathParts.join('/');
           const nameWithoutExt = filename.replace(/\.(jpg|jpeg|png|avif)$/i, '');
           const ext = filename.match(/\.(jpg|jpeg|png|avif)$/i)?.[1] || 'jpg';
           
-          // Determine optimal size based on display width
+          // Determine optimal size based on actual display dimensions (with 2x for retina)
+          const targetWidth = Math.ceil(displayWidth * (window.devicePixelRatio || 1));
           let optimalSize = 400;
-          if (currentWidth > 600) optimalSize = 800;
-          else if (currentWidth > 400) optimalSize = 600;
+          
+          if (targetWidth <= 400) optimalSize = 400;
+          else if (targetWidth <= 600) optimalSize = 600;
+          else if (targetWidth <= 800) optimalSize = 800;
+          else optimalSize = 1200;
           
           const optimizedSrc = `${path}/${nameWithoutExt}-${optimalSize}w.${ext}`;
           
@@ -2306,7 +2318,7 @@ document.addEventListener('DOMContentLoaded', function() {
           testImg.onload = function() {
             img.src = optimizedSrc;
             img.dataset.optimized = 'true';
-            console.log(`Optimized: ${filename} -> ${optimalSize}w version`);
+            console.log(`Optimized: ${filename} (${Math.round(displayWidth)}x${Math.round(displayHeight)}) -> ${optimalSize}w version`);
           };
           testImg.onerror = function() {
             // If optimized version doesn't exist, keep original but add srcset
@@ -2320,9 +2332,45 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
       
-      // Optimize all gallery images
-      const galleryImages = document.querySelectorAll('.blog6_image, .blog6_featured-image, .header50_background-image');
-      galleryImages.forEach(optimizeImage);
+      // Add srcset to all images immediately (before DOM ready)
+      function addSrcsetToImages() {
+        const galleryImages = document.querySelectorAll('.blog6_image, .blog6_featured-image');
+        galleryImages.forEach(img => {
+          if (!img.getAttribute('srcset')) {
+            const originalSrc = img.src || img.getAttribute('src');
+            if (originalSrc) {
+              const srcset = createResponsiveSrcSet(originalSrc);
+              img.setAttribute('srcset', srcset);
+              img.setAttribute('sizes', '(max-width: 479px) 100vw, (max-width: 767px) 50vw, (max-width: 991px) 33vw, 25vw');
+              
+              // Also try to load the 400w version immediately for gallery images
+              const pathParts = originalSrc.split('/');
+              const filename = pathParts.pop();
+              const path = pathParts.join('/');
+              const nameWithoutExt = filename.replace(/\.(jpg|jpeg|png|avif)$/i, '');
+              const ext = filename.match(/\.(jpg|jpeg|png|avif)$/i)?.[1] || 'jpg';
+              const optimized400 = `${path}/${nameWithoutExt}-400w.${ext}`;
+              
+              // Test if 400w version exists and use it
+              const testImg = new Image();
+              testImg.onload = function() {
+                img.src = optimized400;
+                console.log(`Pre-optimized: ${filename} -> 400w`);
+              };
+              testImg.src = optimized400;
+            }
+          }
+        });
+      }
+      
+      // Run immediately
+      addSrcsetToImages();
+      
+      // Optimize all gallery images after a short delay to ensure proper rendering
+      setTimeout(() => {
+        const galleryImages = document.querySelectorAll('.blog6_image, .blog6_featured-image, .header50_background-image');
+        galleryImages.forEach(optimizeImage);
+      }, 100);
       
       // Re-optimize images when they become visible (for lazy loaded images)
       if ('IntersectionObserver' in window) {
