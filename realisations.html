@@ -2103,6 +2103,64 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   </script>
   
+  <!-- Image Optimization Script -->
+  <script>
+    // Image optimization and responsive loading
+    document.addEventListener('DOMContentLoaded', function() {
+      // Function to create optimized image sources
+      function createOptimizedSrcSet(basePath, baseName, widths = [400, 600, 800, 1200]) {
+        return widths.map(width => {
+          // Try WebP first, fallback to original
+          const webpPath = `${basePath}/${baseName}-${width}.webp`;
+          const originalPath = `${basePath}/${baseName}`;
+          return `${webpPath} ${width}w, ${originalPath} ${width}w`;
+        }).join(', ');
+      }
+      
+      // Function to optimize individual image
+      function optimizeImage(img) {
+        const src = img.src;
+        const alt = img.alt;
+        
+        // Extract path and filename
+        const pathParts = src.split('/');
+        const filename = pathParts.pop();
+        const path = pathParts.join('/');
+        const nameWithoutExt = filename.replace(/\.(jpg|jpeg|png)$/i, '');
+        
+        // Create responsive srcset
+        const srcset = createOptimizedSrcSet(path, nameWithoutExt);
+        
+        // Update image attributes
+        img.setAttribute('srcset', srcset);
+        img.setAttribute('sizes', '(max-width: 767px) 100vw, (max-width: 991px) 50vw, 33vw');
+        
+        // Try to load WebP version first
+        const webpImg = new Image();
+        webpImg.onload = function() {
+          img.src = webpImg.src;
+        };
+        webpImg.onerror = function() {
+          // Keep original if WebP fails
+        };
+        
+        // Try 800px WebP version as default
+        const webpSrc = `${path}/${nameWithoutExt}-800.webp`;
+        webpImg.src = webpSrc;
+      }
+      
+      // Optimize all gallery images
+      const galleryImages = document.querySelectorAll('.blog6_image');
+      galleryImages.forEach(optimizeImage);
+      
+      // Optimize featured image
+      const featuredImage = document.getElementById('featured-image-main');
+      if (featuredImage) {
+        optimizeImage(featuredImage);
+      }
+    });
+  </script>
+  
   <!-- Performance Optimization Script -->
   <script>
         // Uniform Aspect Ratio System - All images maintain consistent 4:3 ratio
