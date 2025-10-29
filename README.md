@@ -18,8 +18,18 @@ This is the official website for Céramique J. Lepage, a professional ceramic an
 - **Frontend**: Webflow export (HTML/CSS/JS)
 - **Backend**: Vercel serverless functions (ready for Resend integration)
 - **Email Service**: Resend API (to be configured)
+- **Image Optimization**: Sharp.js for responsive images
 - **Deployment**: Vercel
 - **Domain**: ceramiquejlepage.ca
+
+## 🚀 Quick Start
+
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. **Optimize images**: `npm run optimize-images` (creates responsive versions)
+4. Set up environment variables (see below)
+5. Run locally: `npm run dev`
+6. Deploy to Vercel: `vercel --prod`
 
 ## 📁 Project Structure
 

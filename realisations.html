@@ -2256,13 +2256,88 @@ document.addEventListener('DOMContentLoaded', function() {
     })();
   </script>
   
-  <!-- Image Optimization Script - DISABLED until WebP files are created -->
-  <!-- 
+  <!-- Advanced Image Optimization Script -->
   <script>
-    // Image optimization script will be enabled once WebP files are created
-    console.log('Image optimization disabled - WebP files not yet created');
+    // Comprehensive image optimization with fallbacks
+    document.addEventListener('DOMContentLoaded', function() {
+      
+      // Function to create responsive srcset with proper sizes
+      function createResponsiveSrcSet(originalSrc, sizes = [400, 600, 800, 1200]) {
+        const pathParts = originalSrc.split('/');
+        const filename = pathParts.pop();
+        const path = pathParts.join('/');
+        const nameWithoutExt = filename.replace(/\.(jpg|jpeg|png|avif)$/i, '');
+        const ext = filename.match(/\.(jpg|jpeg|png|avif)$/i)?.[1] || 'jpg';
+        
+        // Create srcset with multiple sizes
+        return sizes.map(size => `${path}/${nameWithoutExt}-${size}w.${ext} ${size}w`).join(', ');
+      }
+      
+      // Function to optimize individual image
+      function optimizeImage(img) {
+        const originalSrc = img.src;
+        const currentWidth = img.offsetWidth || 400;
+        
+        // Skip if already optimized
+        if (img.dataset.optimized) return;
+        
+        // Create responsive srcset
+        try {
+          const srcset = createResponsiveSrcSet(originalSrc);
+          img.setAttribute('srcset', srcset);
+          img.setAttribute('sizes', '(max-width: 767px) 100vw, (max-width: 991px) 50vw, 33vw');
+          
+          // Try to load a smaller version immediately
+          const pathParts = originalSrc.split('/');
+          const filename = pathParts.pop();
+          const path = pathParts.join('/');
+          const nameWithoutExt = filename.replace(/\.(jpg|jpeg|png|avif)$/i, '');
+          const ext = filename.match(/\.(jpg|jpeg|png|avif)$/i)?.[1] || 'jpg';
+          
+          // Determine optimal size based on display width
+          let optimalSize = 400;
+          if (currentWidth > 600) optimalSize = 800;
+          else if (currentWidth > 400) optimalSize = 600;
+          
+          const optimizedSrc = `${path}/${nameWithoutExt}-${optimalSize}w.${ext}`;
+          
+          // Test if optimized version exists
+          const testImg = new Image();
+          testImg.onload = function() {
+            img.src = optimizedSrc;
+            img.dataset.optimized = 'true';
+            console.log(`Optimized: ${filename} -> ${optimalSize}w version`);
+          };
+          testImg.onerror = function() {
+            // If optimized version doesn't exist, keep original but add srcset
+            img.dataset.optimized = 'true';
+            console.log(`No optimized version found for ${filename}, using original with srcset`);
+          };
+          testImg.src = optimizedSrc;
+          
+        } catch (error) {
+          console.log('Image optimization failed for:', originalSrc, error);
+        }
+      }
+      
+      // Optimize all gallery images
+      const galleryImages = document.querySelectorAll('.blog6_image, .blog6_featured-image, .header50_background-image');
+      galleryImages.forEach(optimizeImage);
+      
+      // Re-optimize images when they become visible (for lazy loaded images)
+      if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && !entry.target.dataset.optimized) {
+              optimizeImage(entry.target);
+            }
+          });
+        });
+        
+        galleryImages.forEach(img => imageObserver.observe(img));
+      }
+    });
   </script>
-  -->
   
   <!-- Performance Optimization Script -->
   <script>
