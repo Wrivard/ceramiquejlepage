@@ -2360,174 +2360,22 @@ document.addEventListener('DOMContentLoaded', function() {
         return sizes.map(size => `${path}/${nameWithoutExt}-${size}w.${ext} ${size}w`).join(', ');
       }
       
-      // Function to optimize individual image
+      // DISABLED: Don't modify images - they already have correct srcset in HTML
+      // The browser will handle image loading naturally using the srcset attributes
       function optimizeImage(img) {
-        const originalSrc = img.src;
-        
-        // Skip if already optimized or not a project image, or if optimization already failed
-        if (img.dataset.optimized || img.dataset.optimizationFailed || !isProjectImage(originalSrc)) return;
-        
-        // Get actual display dimensions
-        const rect = img.getBoundingClientRect();
-        const displayWidth = rect.width || img.offsetWidth || 400;
-        const displayHeight = rect.height || img.offsetHeight || 300;
-        
-        // Create responsive srcset only for project images
-        try {
-          if (!img.getAttribute('srcset') && !img.closest('picture')) {
-            // Try WebP first, fallback to original format
-            const webpSrcset = createResponsiveSrcSet(originalSrc);
-            const fallbackSrcset = createFallbackSrcSet(originalSrc);
-            
-            // Create picture element for WebP support
-            const picture = document.createElement('picture');
-            const webpSource = document.createElement('source');
-            webpSource.setAttribute('srcset', webpSrcset);
-            webpSource.setAttribute('sizes', '(max-width: 479px) 100vw, (max-width: 767px) 50vw, (max-width: 991px) 33vw, 25vw');
-            webpSource.setAttribute('type', 'image/webp');
-            
-            // Clone the original img and add fallback srcset
-            const fallbackImg = img.cloneNode(true);
-            fallbackImg.setAttribute('srcset', fallbackSrcset);
-            fallbackImg.setAttribute('sizes', '(max-width: 479px) 100vw, (max-width: 767px) 50vw, (max-width: 991px) 33vw, 25vw');
-            
-            // Replace img with picture element
-            picture.appendChild(webpSource);
-            picture.appendChild(fallbackImg);
-            img.parentNode.replaceChild(picture, img);
-            
-            // Update img reference for further processing
-            img = fallbackImg;
-          }
-          
-          // Try to load a smaller version immediately based on actual display size
-          const pathParts = originalSrc.split('/');
-          const filename = pathParts.pop();
-          const path = pathParts.join('/');
-        let nameWithoutExt = filename.replace(/\.(jpg|jpeg|png|avif|webp)$/i, '');
-        nameWithoutExt = nameWithoutExt.replace(/-\d+w-\d+w$/, ''); // Remove double-width pattern first (e.g., -600w-600w)
-        nameWithoutExt = nameWithoutExt.replace(/-\d+w$/, ''); // Then remove single-width pattern (e.g., -400w)
-          const ext = filename.match(/\.(jpg|jpeg|png|avif|webp)$/i)?.[1] || 'jpg';
-          
-          // Determine optimal size based on actual display dimensions (with 2x for retina)
-          const targetWidth = Math.ceil(displayWidth * (window.devicePixelRatio || 1));
-          let optimalSize = 400;
-          
-          if (targetWidth <= 400) optimalSize = 400;
-          else if (targetWidth <= 600) optimalSize = 600;
-          else if (targetWidth <= 800) optimalSize = 800;
-          else optimalSize = 1200;
-          
-          // Files use double-width pattern (e.g., -600w-600w.webp)
-          const webpSrc = `${path}/${nameWithoutExt}-${optimalSize}w-${optimalSize}w.webp`;
-          const fallbackSrc = `${path}/${nameWithoutExt}-${optimalSize}w.${ext}`;
-          
-          // Test WebP first, fallback to original format
-          const testWebP = new Image();
-          testWebP.onload = function() {
-            img.src = webpSrc;
-            img.dataset.optimized = 'true';
-            console.log(`Optimized WebP: ${filename} (${Math.round(displayWidth)}x${Math.round(displayHeight)}) -> ${optimalSize}w WebP`);
-          };
-          testWebP.onerror = function() {
-            // Prevent infinite loops - mark as optimized even if loading fails
-            if (img.dataset.optimized === 'failed') {
-              // Already tried, don't retry
-              return;
-            }
-            // Try original format fallback
-            const testFallback = new Image();
-            testFallback.onload = function() {
-              img.src = fallbackSrc;
-              img.dataset.optimized = 'true';
-              console.log(`Optimized JPEG: ${filename} (${Math.round(displayWidth)}x${Math.round(displayHeight)}) -> ${optimalSize}w JPEG`);
-            };
-            testFallback.onerror = function() {
-              img.dataset.optimized = 'failed';
-              // Don't change src if all optimized versions fail, keep original or let onerror handler deal with it
-              console.log(`No optimized version found for ${filename}, keeping original`);
-            };
-            testFallback.src = fallbackSrc;
-          };
-          testWebP.src = webpSrc;
-          
-        } catch (error) {
-          // Mark as failed to prevent retries
-          img.dataset.optimizationFailed = 'true';
-          console.log('Image optimization failed for:', originalSrc, error);
+        // Images already have correct srcset - don't modify them
+        // Just mark as checked to prevent any modifications
+        if (img) {
+          img.dataset.optimized = 'checked';
         }
+        return;
       }
       
       // Add srcset to project images only (avoid 404s on template images)
+      // DISABLED: Images already have srcset in HTML, no need to add dynamically
       function addSrcsetToImages() {
-        const galleryImages = document.querySelectorAll('.blog6_image, .blog6_featured-image');
-        galleryImages.forEach(img => {
-          // Skip if already processed or has srcset
-          if (img.dataset.srcsetAdded || img.getAttribute('srcset')) {
-            return;
-          }
-          const originalSrc = img.src || img.getAttribute('src');
-          if (originalSrc && isProjectImage(originalSrc) && !img.closest('picture')) {
-            img.dataset.srcsetAdded = 'true';
-              // Create WebP picture element for better compression
-              const webpSrcset = createResponsiveSrcSet(originalSrc);
-              const fallbackSrcset = createFallbackSrcSet(originalSrc);
-              
-              const picture = document.createElement('picture');
-              const webpSource = document.createElement('source');
-              webpSource.setAttribute('srcset', webpSrcset);
-              webpSource.setAttribute('sizes', '(max-width: 479px) 100vw, (max-width: 767px) 50vw, (max-width: 991px) 33vw, 25vw');
-              webpSource.setAttribute('type', 'image/webp');
-              
-              const fallbackImg = img.cloneNode(true);
-              fallbackImg.setAttribute('srcset', fallbackSrcset);
-              fallbackImg.setAttribute('sizes', '(max-width: 479px) 100vw, (max-width: 767px) 50vw, (max-width: 991px) 33vw, 25vw');
-              
-              picture.appendChild(webpSource);
-              picture.appendChild(fallbackImg);
-              img.parentNode.replaceChild(picture, img);
-              
-              // Try to load WebP 400w version immediately
-              const pathParts = originalSrc.split('/');
-              const filename = pathParts.pop();
-              const path = pathParts.join('/');
-              let nameWithoutExt = filename.replace(/\.(jpg|jpeg|png|avif|webp)$/i, '');
-              nameWithoutExt = nameWithoutExt.replace(/-\d+w-\d+w$/, ''); // Remove double-width pattern first
-              nameWithoutExt = nameWithoutExt.replace(/-\d+w$/, ''); // Then remove single-width pattern
-              
-              // Files use double-width pattern (e.g., -400w-400w.webp)
-              const webp400 = `${path}/${nameWithoutExt}-400w-400w.webp`;
-              const jpg400 = `${path}/${nameWithoutExt}-400w.jpg`;
-              
-              // Prevent infinite retries
-              if (fallbackImg.dataset.triedOptimization) {
-                return;
-              }
-              fallbackImg.dataset.triedOptimization = 'true';
-              
-              // Test WebP first, fallback to JPEG
-              const testWebP = new Image();
-              testWebP.onload = function() {
-                fallbackImg.src = webp400;
-                console.log(`Pre-optimized WebP: ${filename} -> 400w WebP`);
-              };
-              testWebP.onerror = function() {
-                // Try JPEG fallback
-                const testJPG = new Image();
-                testJPG.onload = function() {
-                  fallbackImg.src = jpg400;
-                  console.log(`Pre-optimized JPEG: ${filename} -> 400w JPEG`);
-                };
-                testJPG.onerror = function() {
-                  fallbackImg.dataset.optimizationFailed = 'true';
-                  console.log(`No optimized version for ${filename}, keeping original`);
-                };
-                testJPG.src = jpg400;
-              };
-              testWebP.src = webp400;
-            }
-          }
-        });
+        // Skip this function - images already have correct srcset in HTML
+        return;
       }
       
       // Check if image is from our project folders (not Webflow template images)
@@ -2552,31 +2400,9 @@ document.addEventListener('DOMContentLoaded', function() {
                src.includes('FB_IMG_');
       }
       
-      // Run immediately only once
-      if (!window.imagesOptimizationStarted) {
-        window.imagesOptimizationStarted = true;
-        addSrcsetToImages();
-        
-        // Optimize all gallery images after a short delay to ensure proper rendering
-        setTimeout(() => {
-          const galleryImages = document.querySelectorAll('.blog6_image, .blog6_featured-image, .header50_background-image');
-          galleryImages.forEach(optimizeImage);
-        }, 100);
-        
-        // Re-optimize images when they become visible (for lazy loaded images)
-        if ('IntersectionObserver' in window) {
-          const imageObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting && !entry.target.dataset.optimized && !entry.target.dataset.optimizationFailed) {
-                optimizeImage(entry.target);
-              }
-            });
-          });
-          
-          const lazyImages = document.querySelectorAll('.blog6_image, .blog6_featured-image, .header50_background-image');
-          lazyImages.forEach(img => imageObserver.observe(img));
-        }
-      }
+      // DISABLED: Images already have correct srcset in HTML - don't modify them
+      // This prevents duplicate requests and 404 errors
+      // The static HTML srcset attributes are already correctly configured
     });
   </script>
   
