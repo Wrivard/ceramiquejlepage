@@ -462,10 +462,22 @@
     /* Logo Aspect Ratio Fix - Maintain natural 2.57 aspect ratio (367x143px) */
     .navbar3_logo,
     .footer3_logo {
-      height: 44px !important;
-      width: auto !important;
+      width: 12rem !important;
+      height: 5rem !important;
       object-fit: contain;
       aspect-ratio: 367 / 143;
+    }
+    
+    @media screen and (max-width: 767px) {
+      .navbar3_logo,
+      .footer3_logo {
+        width: 5rem !important;
+        height: auto !important;
+      }
+      
+      .navbar3_logo.menu {
+        width: 15rem !important;
+      }
     }
     
     .navbar3_logo-link,
