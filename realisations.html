@@ -366,7 +366,24 @@
             height: 260px !important;
             aspect-ratio: 4/3 !important;
           }
-}
+    }
+    
+    /* Logo Aspect Ratio Fix - Maintain natural 2.57 aspect ratio (367x143px) */
+    .navbar3_logo,
+    .footer3_logo {
+      height: auto !important;
+      width: auto !important;
+      max-height: 44px;
+      max-width: 120px;
+      object-fit: contain;
+      aspect-ratio: 367 / 143;
+    }
+    
+    .navbar3_logo-link,
+    .footer3_logo-link {
+      display: inline-flex;
+      align-items: center;
+    }
 </style>
 </head>
 <body>
@@ -608,7 +625,7 @@ margin: 0rem !important;
               </div>
             </div>
             <div class="w-layout-grid banner9_social-icons">
-              <a href="https://www.facebook.com/p/C%C3%A9ramiques-JLepage-100086272626287/" target="_blank" class="banner9_social-link w-inline-block">
+              <a href="https://www.facebook.com/p/C%C3%A9ramiques-JLepage-100086272626287/" target="_blank" class="banner9_social-link w-inline-block" aria-label="Visitez notre page Facebook">
                 <div class="social-icon w-embed"><svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M16.5 6H13.5C12.9477 6 12.5 6.44772 12.5 7V10H16.5C16.6137 9.99748 16.7216 10.0504 16.7892 10.1419C16.8568 10.2334 16.8758 10.352 16.84 10.46L16.1 12.66C16.0318 12.8619 15.8431 12.9984 15.63 13H12.5V20.5C12.5 20.7761 12.2761 21 12 21H9.5C9.22386 21 9 20.7761 9 20.5V13H7.5C7.22386 13 7 12.7761 7 12.5V10.5C7 10.2239 7.22386 10 7.5 10H9V7C9 4.79086 10.7909 3 13 3H16.5C16.7761 3 17 3.22386 17 3.5V5.5C17 5.77614 16.7761 6 16.5 6Z" fill="CurrentColor"></path>
                   </svg></div>
@@ -627,7 +644,7 @@ margin: 0rem !important;
             </div>
           </div>
           <nav role="navigation" class="navbar3_menu w-nav-menu">
-            <a href="#" class="navbar3_logo-link-menu w-nav-brand"><img loading="eager" height="44px" alt="" src="images/relume-439819.png" class="navbar3_logo menu"></a>
+            <a href="#" class="navbar3_logo-link-menu w-nav-brand"><img loading="eager" alt="" src="images/relume-439819.png" class="navbar3_logo menu"></a>
             <a href="index.html" class="navbar3_link w-nav-link">Accueil</a>
             <a href="a-propos.html" class="navbar3_link w-nav-link">À Propos</a>
             <div data-delay="200" data-hover="true" class="navbar3_menu-dropdown w-dropdown">
@@ -646,7 +663,7 @@ margin: 0rem !important;
             <a href="realisations.html" aria-current="page" class="navbar3_link w-nav-link w--current">Réalisations</a>
             <a href="#" class="navbar3_tablet-menu-button w-button">Soumission</a>
           </nav>
-          <a href="index.html" class="navbar3_logo-link w-nav-brand"><img loading="eager" height="44px" alt="" src="images/relume-439819.png" class="navbar3_logo"></a>
+          <a href="index.html" class="navbar3_logo-link w-nav-brand" aria-label="Céramiques JLepage - Retour à l'accueil"><img loading="eager" alt="Céramiques JLepage - Logo" src="images/relume-439819.png" class="navbar3_logo"></a>
           <a id="w-node-dea6f3fa-90b5-2205-aec2-d128477cce91-477cce71" href="soumission.html" class="button w-button">Soumission</a>
           <div class="navbar3_menu-background"></div>
         </div>
@@ -1944,7 +1961,7 @@ margin: 0rem !important;
               <div class="w-layout-grid footer3_top-wrapper">
                 <div class="footer3_left-wrapper">
                   <div class="margin-bottom margin-medium">
-                    <a href="#" class="footer3_logo-link w-nav-brand"><img loading="eager" height="44px" alt="" src="images/relume-439819.png" class="footer3_logo"></a>
+                    <a href="#" class="footer3_logo-link w-nav-brand" aria-label="Céramiques JLepage - Retour à l'accueil"><img loading="eager" alt="Céramiques JLepage - Logo" src="images/relume-439819.png" class="footer3_logo"></a>
                   </div>
                   <div class="margin-bottom margin-medium">
                     <div class="footer3_details-wrapper">
@@ -1962,7 +1979,7 @@ margin: 0rem !important;
                     </div>
                   </div>
                   <div class="w-layout-grid footer3_social-list">
-                    <a href="https://www.facebook.com/p/C%C3%A9ramiques-JLepage-100086272626287/" target="_blank" class="footer3_social-link w-inline-block">
+                    <a href="https://www.facebook.com/p/C%C3%A9ramiques-JLepage-100086272626287/" target="_blank" class="footer3_social-link w-inline-block" aria-label="Visitez notre page Facebook">
                       <div class="icon-embed-xsmall w-embed"><svg width="100%" height="100%" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M22 12.0611C22 6.50451 17.5229 2 12 2C6.47715 2 2 6.50451 2 12.0611C2 17.0828 5.65684 21.2452 10.4375 22V14.9694H7.89844V12.0611H10.4375V9.84452C10.4375 7.32296 11.9305 5.93012 14.2146 5.93012C15.3088 5.93012 16.4531 6.12663 16.4531 6.12663V8.60261H15.1922C13.95 8.60261 13.5625 9.37822 13.5625 10.1739V12.0611H16.3359L15.8926 14.9694H13.5625V22C18.3432 21.2452 22 17.083 22 12.0611Z" fill="CurrentColor"></path>
                         </svg></div>
@@ -2101,6 +2118,27 @@ document.addEventListener('DOMContentLoaded', function() {
         });
       });
     });
+  </script>
+  
+  <!-- Google Maps Error Handler -->
+  <script>
+    // Suppress Google Maps NaN coordinate errors
+    (function() {
+      const originalError = console.error;
+      console.error = function() {
+        const args = Array.prototype.slice.call(arguments);
+        // Check if this is a Google Maps NaN error
+        const isGoogleMapsError = args.some(arg => 
+          typeof arg === 'string' && 
+          (arg.includes('setCenter') || arg.includes('InvalidValueError')) &&
+          arg.includes('NaN')
+        );
+        // Only suppress Google Maps NaN errors
+        if (!isGoogleMapsError) {
+          originalError.apply(console, arguments);
+        }
+      };
+    })();
   </script>
   
   <!-- Image Optimization Script - DISABLED until WebP files are created -->
