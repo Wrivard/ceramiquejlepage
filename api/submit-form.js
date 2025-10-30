@@ -64,7 +64,7 @@ export default async function handler(req, res) {
                 <!-- Header -->
                 <tr>
                   <td style="background: #d4a574; color: #fff; text-align: center; padding: 30px;">
-                    <h1 style="margin: 0; font-size: 24px; font-weight: 600;">Nouvelle Demande de Soumission</h1>
+                    <h1 style="margin: 0; font-size: 24px; font-weight: 600;">📋 Nouvelle Demande de Soumission</h1>
                     <p style="margin: 10px 0 0 0; font-size: 14px; opacity: 0.9;">Céramique JLepage</p>
                   </td>
                 </tr>
@@ -72,7 +72,7 @@ export default async function handler(req, res) {
                 <!-- Content -->
                 <tr>
                   <td style="padding: 30px;">
-                    <h3 style="color: #333; margin-top: 0;">Informations du client</h3>
+                    <h3 style="color: #333; margin-top: 0;">👤 Informations du client</h3>
                     <table width="100%" cellpadding="8" cellspacing="0" style="border-collapse: collapse;">
                       <tr>
                         <td style="border-bottom: 1px solid #eee; font-weight: bold; color: #666; width: 30%;">Nom complet:</td>
@@ -99,14 +99,14 @@ export default async function handler(req, res) {
                       </tr>` : ''}
                     </table>
                     
-                    <h3 style="color: #333; margin-top: 25px;">Message</h3>
+                    <h3 style="color: #333; margin-top: 25px;">💬 Message</h3>
                     <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #d4a574;">
                       <p style="margin: 0; line-height: 1.6; color: #333;">${message}</p>
                     </div>
                     
                     <div style="margin-top: 30px; padding: 20px; background: #fff3e0; border-radius: 8px; border: 1px solid #d4a574;">
                       <p style="margin: 0; font-size: 14px; color: #666;">
-                        <strong>Action requise:</strong> Répondre au client dans les 24h pour maintenir notre standard de service.
+                        <strong>⚡ Action requise:</strong> Répondre au client dans les 24h pour maintenir notre standard de service.
                       </p>
                     </div>
                   </td>
