@@ -1,61 +1,100 @@
-# 🔐 reCAPTCHA v3 Setup Instructions
+# 🔐 reCAPTCHA Enterprise Setup (Production Ready)
 
-## 🎯 Current Status
-- ❌ Using test keys (shows "testing only")
-- ✅ Code is ready for production keys
+This project uses reCAPTCHA Enterprise on the `soumission` form with serverless verification. Below is the exact, working setup and the troubleshooting notes based on our implementation.
 
-## 📋 Steps to Fix:
+## What we implemented
+- Client loads Enterprise script with your site key and generates a token:
+  - `<script src="https://www.google.com/recaptcha/enterprise.js?render=YOUR_SITE_KEY" data-cookieconsent="ignore" type="text/javascript"></script>`
+  - `grecaptcha.enterprise.execute('YOUR_SITE_KEY', { action: 'LOGIN' })`
+- Serverless (`api/submit-form.js`) verifies the token via the Enterprise Assessments API.
+- Console logs and API response include verification info (`verified`, `score`, `hostname`, `action`).
 
-### 1. Get Real reCAPTCHA Keys
-1. Go to: https://www.google.com/recaptcha/admin
-2. **Create New Site** or select existing
-3. **Choose reCAPTCHA v3**
-4. **Add your domain**: `your-site.vercel.app`
-5. **Copy the keys**:
-   - Site Key (public): `6Lc...` 
-   - Secret Key (private): `6Lc...`
+## Prerequisites in Google Cloud
+1) Enable the API
+- Google Cloud Console → APIs & Services → Library → enable "reCAPTCHA Enterprise API" for the project that owns your site key.
 
-### 2. Ensure the script isn’t blocked by Cookiebot (important)
-Because Cookiebot runs in auto‑blocking mode, mark the reCAPTCHA script as necessary so it isn’t blocked:
+2) Create an API key (not OAuth/service account)
+- APIs & Services → Credentials → Create credentials → API key.
+- Recommended restrictions:
+  - Application restrictions: None (server-to-Google request from Vercel).
+  - API restrictions: Restrict key → "reCAPTCHA Enterprise API".
 
-```html
-<!-- already implemented in soumission.html -->
-<script src="https://www.google.com/recaptcha/api.js" data-cookieconsent="ignore" type="text/javascript" async defer></script>
+3) Domains on the site key
+- Add: `ceramiquesjlepage.ca` and `www.ceramiquesjlepage.ca` (if www used).
+- Add preview domain(s) if needed: `*.vercel.app`.
+
+## Environment variables (Vercel)
+Set in the project → Settings → Environment Variables:
+- `RECAPTCHA_ENTERPRISE_API_KEY` → the API key created above.
+- `RECAPTCHA_PROJECT_ID` → your Google Cloud Project number (numeric). Using the site key ID here will fail.
+- `RECAPTCHA_ENTERPRISE_SITE_KEY` → your Enterprise site key (e.g., `6LdxXPwrAAAAA…`).
+
+Redeploy after adding/changing env vars.
+
+## Client-side integration (already in code)
+- Script tag is loaded in `soumission.html` and marked with `data-cookieconsent="ignore"` so Cookiebot won’t block it.
+- On form submit, we call `grecaptcha.enterprise.execute(siteKey, { action: 'LOGIN' })` and include the token as `recaptchaToken` in the payload.
+- Debug logs in the browser console:
+  - `[reCAPTCHA] token generated <prefix…>`
+  - `[reCAPTCHA] server verification { verified, score, action, hostname }`
+
+## Server-side verification (already in code)
+- Endpoint: `api/submit-form.js`
+- Calls: `POST https://recaptchaenterprise.googleapis.com/v1/projects/{PROJECT_NUMBER}/assessments?key={API_KEY}`
+- Required body:
+```json
+{
+  "event": {
+    "token": "<CLIENT_TOKEN>",
+    "expectedAction": "LOGIN",
+    "siteKey": "<YOUR_SITE_KEY>"
+  }
+}
 ```
+- The server rejects if token is invalid or score < 0.3 (debug threshold). On success, the API response includes `{ recaptcha: { verified: true, score, action, hostname } }`.
 
-We dynamically fetch the site key from `/api/recaptcha-sitekey` and pass it to `grecaptcha.execute(siteKey, { action: 'submit' })`.
+## Cookiebot interaction
+- Script tags include `data-cookieconsent="ignore"` to avoid auto-blocking in "auto" mode.
+- If you switch Cookiebot mode, keep this attribute to prevent recaptcha from being blocked before consent.
 
-### 3. Environment variables (Vercel)
-1. **Vercel Dashboard** → **Settings** → **Environment Variables**
-2. Add these for Enterprise verification (serverless):
-   - `RECAPTCHA_ENTERPRISE_API_KEY` → Google Cloud API key for reCAPTCHA Enterprise
-   - `RECAPTCHA_PROJECT_ID` → Your GCP Project ID (e.g., `kua-prod`) 
-   - `RECAPTCHA_ENTERPRISE_SITE_KEY` → Your Enterprise site key (optional, we default to the current site key)
+## Verification thresholds
+- Debug phase: threshold = 0.3 (to avoid false negatives during setup).
+- Recommended production threshold: 0.5–0.7 depending on traffic. Update logic in `api/submit-form.js`.
 
-### 4. Deploy Changes
-```bash
-git add .
-git commit -m "Add production reCAPTCHA keys"
-git push origin master
+## Common pitfalls we hit and how to fix them
+1) 400 Bad Request / token invalid
+- Cause: Using the site key ID as `RECAPTCHA_PROJECT_ID`. The API requires the Google Cloud Project NUMBER.
+- Fix: Set `RECAPTCHA_PROJECT_ID` to the numeric project number (IAM & Admin → Settings).
+
+2) 400 due to API key restrictions
+- Cause: API key restricted by HTTP referrers (works for browser calls, fails from server).
+- Fix: Application restrictions → None; API restrictions → reCAPTCHA Enterprise API.
+
+3) Script blocked by Cookiebot
+- Cause: Auto-blocking prevents `grecaptcha.enterprise` from loading.
+- Fix: Add `data-cookieconsent="ignore"` to the script tag.
+
+4) Action mismatch
+- Cause: Client executes `{ action: 'LOGIN' }` but server expects a different action.
+- Fix: Keep both set to `LOGIN` (or change consistently in both places).
+
+5) Domain/hostname mismatch
+- Cause: The request host isn’t in the site key’s allowed domains.
+- Fix: Add both `ceramiquesjlepage.ca` and `www.ceramiquesjlepage.ca` to the site key.
+
+6) Project mismatch
+- Cause: Site key belongs to a different GCP project than the API key/Project number used.
+- Fix: Use API key and project number from the same project that owns the site key.
+
+## How to confirm it works
+- In the browser console after submit you should see:
 ```
+[reCAPTCHA] token generated <prefix…>
+[reCAPTCHA] server verification { verified: true, score: 0.7+, action: 'LOGIN', hostname: 'www.ceramiquesjlepage.ca' }
+```
+- In Vercel logs: `reCAPTCHA Enterprise verified { siteKey, action, hostname, score }`.
 
-## ✅ Expected Result:
-- No more "testing only" message
-- Invisible reCAPTCHA protection
-- Form works normally with security
-
-## 🐛 If you get a 400 (verification failed)
-1. Confirm API key restrictions include "reCAPTCHA Enterprise API" and HTTP referrers for `ceramiquesjlepage.ca/*` (and `www.` if used).
-2. Ensure env vars are deployed (redeploy after changes).
-3. Check Vercel logs for `reCAPTCHA Enterprise assessment failed` – it will include assessment details (score, validity).
-4. Action name must match: client executes `{ action: 'LOGIN' }` and the server expects `LOGIN`.
-5. If needed, raise or lower threshold; default is 0.3 during debugging.
-
-## 🔧 Current Placeholders to Replace:
-- `RECAPTCHA_ENTERPRISE_API_KEY`, `RECAPTCHA_PROJECT_ID` → Add to Vercel env
-- (Optional) `RECAPTCHA_ENTERPRISE_SITE_KEY` → Add to Vercel env
-
-## 🌐 Domains to allow in Google reCAPTCHA admin
-- `ceramiquesjlepage.ca`
-- Add `www.ceramiquesjlepage.ca` if you serve on the www subdomain
-- Add your Vercel preview domain(s) if testing previews: `<project>.vercel.app`
+## Maintenance
+- If you tighten the score, adjust the threshold in `api/submit-form.js`.
+- If you change the action name, update it on both client and server.
+- Rotate the API key periodically and update Vercel env var.
