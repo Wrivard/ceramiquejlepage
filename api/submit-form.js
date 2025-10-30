@@ -200,8 +200,8 @@ export default async function handler(req, res) {
                     <div style="margin-top: 30px; padding: 20px; background: #fff3e0; border-radius: 8px; text-align: center;">
                       <p style="margin: 0; color: #333;">
                         <strong>Une question urgente?</strong><br>
-                        📞 <a href="tel:+15147756608" style="color: #d4a574; text-decoration: none;">(514) 775-6608</a><br>
-                        ✉️ <a href="mailto:ceramiquesjlepage@gmail.com" style="color: #d4a574; text-decoration: none;">ceramiquesjlepage@gmail.com</a>
+                        📞 <a href="tel:+15147756608" style="color: #333; text-decoration: none; font-weight: 600;">(514) 775-6608</a><br>
+                        ✉️ <a href="mailto:ceramiquesjlepage@gmail.com" style="color: #333; text-decoration: none; font-weight: 600;">ceramiquesjlepage@gmail.com</a>
                       </p>
                     </div>
                     
