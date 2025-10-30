@@ -25,7 +25,8 @@ export default async function handler(req, res) {
       'Contact-6-Email': email,
       'Contact-6-Phone': phone,
       'Contact-6-Select': projectType,
-      'Contact-6-Radio': clientType,
+      'Contact-6-Radio': tileType,
+      'Contact-6-Superficie': superficie,
       'Contact-6-Message': message
     } = req.body;
 
@@ -92,10 +93,15 @@ export default async function handler(req, res) {
                         <td style="border-bottom: 1px solid #eee; font-weight: bold; color: #666;">Type de projet:</td>
                         <td style="border-bottom: 1px solid #eee; color: #333;">${projectType}</td>
                       </tr>` : ''}
-                      ${clientType ? `
+                      ${tileType ? `
                       <tr>
-                        <td style="border-bottom: 1px solid #eee; font-weight: bold; color: #666;">Type de client:</td>
-                        <td style="border-bottom: 1px solid #eee; color: #333;">${clientType}</td>
+                        <td style="border-bottom: 1px solid #eee; font-weight: bold; color: #666;">Type de tuiles:</td>
+                        <td style="border-bottom: 1px solid #eee; color: #333;">${tileType}</td>
+                      </tr>` : ''}
+                      ${superficie ? `
+                      <tr>
+                        <td style="border-bottom: 1px solid #eee; font-weight: bold; color: #666;">Superficie:</td>
+                        <td style="border-bottom: 1px solid #eee; color: #333;">${superficie}</td>
                       </tr>` : ''}
                     </table>
                     
@@ -133,7 +139,7 @@ export default async function handler(req, res) {
     const { data, error } = await resend.emails.send({
       from: fromEmail,
       to: businessEmail,
-      subject: `Nouvelle soumission - ${fullName} (${projectType || 'Non spécifié'})`,
+      subject: `Nouvelle soumission - ${fullName} (${tileType || projectType || 'Non spécifié'})`,
       html: emailContent,
       replyTo: email
     });
