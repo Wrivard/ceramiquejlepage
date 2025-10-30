@@ -399,7 +399,7 @@ margin: 0rem !important;
                     </div>
                   </div>
                   <div class="contact6_form-block w-form">
-                    <form id="wf-form-Contact-6-Form" name="wf-form-Contact-6-Form" data-name="Contact 6 Form" method="post" class="contact6_form" data-wf-page-id="6900d079eac65bf3a4a790ed" data-wf-element-id="5c9f96d6-0708-16d1-42d7-1b4dc464219a">
+                    <form id="wf-form-Contact-6-Form" name="wf-form-Contact-6-Form" data-name="Contact 6 Form" method="post" class="contact6_form" data-wf-page-id="6900d079eac65bf3a4a790ed" data-wf-element-id="5c9f96d6-0708-16d1-42d7-1b4dc464219a" data-wf-ignore="true">
                       <div class="form_field-2col">
                         <div class="form_field-wrapper"><label for="Contact-6-First-Name" class="form_field-label">Prénom</label><input class="form_input w-input" maxlength="256" name="Contact-6-First-Name" data-name="Contact 6 First Name" placeholder="" type="text" id="Contact-6-First-Name" required=""></div>
                         <div class="form_field-wrapper"><label for="Contact-6-Last-Name" class="form_field-label">Nom de famille</label><input class="form_input w-input" maxlength="256" name="Contact-6-Last-Name" data-name="Contact 6 Last Name" placeholder="" type="text" id="Contact-6-Last-Name" required=""></div>
@@ -1108,9 +1108,30 @@ document.addEventListener('DOMContentLoaded', function() {
     const errorMessage = document.getElementById('custom-error-message');
     const submitButton = form ? form.querySelector('input[type="submit"]') : null;
 
+    // Function to completely hide all Webflow messages
+    function hideAllWebflowMessages() {
+      const webflowSuccess = document.querySelector('.w-form-done');
+      const webflowError = document.querySelector('.w-form-fail');
+      const webflowSuccessWrapper = document.querySelector('.form_message-success-wrapper');
+      const webflowErrorWrapper = document.querySelector('.form_message-error-wrapper');
+      
+      if (webflowSuccess) webflowSuccess.style.display = 'none !important';
+      if (webflowError) webflowError.style.display = 'none !important';
+      if (webflowSuccessWrapper) webflowSuccessWrapper.style.display = 'none !important';
+      if (webflowErrorWrapper) webflowErrorWrapper.style.display = 'none !important';
+    }
+
+    // Hide Webflow messages immediately and periodically
+    hideAllWebflowMessages();
+    setInterval(hideAllWebflowMessages, 100);
+
     if (form) {
       form.addEventListener('submit', async function(e) {
         e.preventDefault();
+        e.stopPropagation();
+        
+        // Immediately hide all messages
+        hideAllWebflowMessages();
         
         // Disable submit button and show loading state
         if (submitButton) {
@@ -1118,15 +1139,9 @@ document.addEventListener('DOMContentLoaded', function() {
           submitButton.value = 'Envoi en cours...';
         }
         
-        // Hide any previous messages (including Webflow defaults)
+        // Hide any previous custom messages
         if (successMessage) successMessage.style.display = 'none';
         if (errorMessage) errorMessage.style.display = 'none';
-        
-        // Also hide Webflow default messages
-        const webflowSuccess = document.querySelector('.w-form-done');
-        const webflowError = document.querySelector('.w-form-fail');
-        if (webflowSuccess) webflowSuccess.style.display = 'none';
-        if (webflowError) webflowError.style.display = 'none';
         
         // Get form data
         const formData = new FormData(form);
@@ -1152,11 +1167,8 @@ document.addEventListener('DOMContentLoaded', function() {
             form.style.display = 'none';
             if (errorMessage) errorMessage.style.display = 'none';
             
-            // Also hide Webflow default messages
-            const webflowSuccess = document.querySelector('.w-form-done');
-            const webflowError = document.querySelector('.w-form-fail');
-            if (webflowSuccess) webflowSuccess.style.display = 'none';
-            if (webflowError) webflowError.style.display = 'none';
+            // Ensure all Webflow messages stay hidden
+            hideAllWebflowMessages();
             
             if (successMessage) {
               successMessage.style.display = 'block';
@@ -1191,12 +1203,9 @@ document.addEventListener('DOMContentLoaded', function() {
         } catch (error) {
           console.error('Form submission error:', error);
           
-          // Hide success message and Webflow defaults
+          // Hide success message and ensure Webflow messages stay hidden
           if (successMessage) successMessage.style.display = 'none';
-          const webflowSuccess = document.querySelector('.w-form-done');
-          const webflowError = document.querySelector('.w-form-fail');
-          if (webflowSuccess) webflowSuccess.style.display = 'none';
-          if (webflowError) webflowError.style.display = 'none';
+          hideAllWebflowMessages();
           
           if (errorMessage) {
             errorMessage.style.display = 'block';
