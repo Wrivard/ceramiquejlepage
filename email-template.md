@@ -130,7 +130,7 @@ These email templates provide a professional, responsive design that works acros
           
           <!-- Header -->
           <tr>
-            <td style="background: #28a745; color: #fff; text-align: center; padding: 30px;">
+            <td style="background: #d4a574; color: #fff; text-align: center; padding: 30px;">
               <h1 style="margin: 0; font-size: 24px; font-weight: 600;">Merci pour votre demande!</h1>
             </td>
           </tr>
@@ -211,8 +211,7 @@ These email templates provide a professional, responsive design that works acros
 - `[BUSINESS_EMAIL]` - Your business email address
 - `[BUSINESS_TAGLINE]` - Your business tagline or description
 - `[WEBSITE_URL]` - Your website URL
-- `#d4a574` - Replace with your brand color
-- `#28a745` - Success green color (can be customized)
+- `#d4a574` - Primary brand color (used consistently throughout)
 
 ---
 
@@ -220,10 +219,9 @@ These email templates provide a professional, responsive design that works acros
 
 ### Brand Colors:
 Replace these colors with your brand palette:
-- **Primary Brand Color:** `#d4a574` (currently gold)
-- **Success Color:** `#28a745` (green for confirmation)
+- **Primary Brand Color:** `#d4a574` (used for headers, links, and accents)
 - **Text Colors:** `#333` (dark), `#666` (medium), `#999` (light)
-- **Background Colors:** `#f8f9fa` (light gray), `#fff3e0` (light gold)
+- **Background Colors:** `#f8f9fa` (light gray), `#fff3e0` (light brand tint)
 
 ### Typography:
 - **Font Family:** Arial, sans-serif (safe for all email clients)
@@ -287,8 +285,7 @@ const emailConfig = {
   phoneDisplay: "(123) 456-7890",
   websiteUrl: "https://yourbusiness.com",
   portfolioUrl: "https://yourbusiness.com/portfolio",
-  brandColor: "#d4a574",
-  successColor: "#28a745"
+  brandColor: "#d4a574"
 };
 ```
 
