@@ -34,7 +34,7 @@ These email templates provide a professional, responsive design that works acros
           <!-- Header with brand colors -->
           <tr>
             <td style="background: #d4a574; color: #fff; text-align: center; padding: 30px;">
-              <h1 style="margin: 0; font-size: 24px; font-weight: 600;">Nouvelle Demande de Soumission</h1>
+              <h1 style="margin: 0; font-size: 24px; font-weight: 600;">📋 Nouvelle Demande de Soumission</h1>
               <p style="margin: 10px 0 0 0; font-size: 14px; opacity: 0.9;">[BUSINESS_NAME]</p>
             </td>
           </tr>
@@ -42,7 +42,7 @@ These email templates provide a professional, responsive design that works acros
           <!-- Content -->
           <tr>
             <td style="padding: 30px;">
-              <h3 style="color: #333; margin-top: 0;">Informations du client</h3>
+              <h3 style="color: #333; margin-top: 0;">👤 Informations du client</h3>
               <table width="100%" cellpadding="8" cellspacing="0" style="border-collapse: collapse;">
                 <tr>
                   <td style="border-bottom: 1px solid #eee; font-weight: bold; color: #666; width: 30%;">Nom complet:</td>
@@ -61,19 +61,23 @@ These email templates provide a professional, responsive design that works acros
                   <td style="border-bottom: 1px solid #eee; color: #333;">[PROJECT_TYPE]</td>
                 </tr>
                 <tr>
-                  <td style="border-bottom: 1px solid #eee; font-weight: bold; color: #666;">Type de client:</td>
-                  <td style="border-bottom: 1px solid #eee; color: #333;">[CLIENT_TYPE]</td>
+                  <td style="border-bottom: 1px solid #eee; font-weight: bold; color: #666;">Type de tuiles:</td>
+                  <td style="border-bottom: 1px solid #eee; color: #333;">[TILE_TYPE]</td>
+                </tr>
+                <tr>
+                  <td style="border-bottom: 1px solid #eee; font-weight: bold; color: #666;">Superficie:</td>
+                  <td style="border-bottom: 1px solid #eee; color: #333;">[SUPERFICIE]</td>
                 </tr>
               </table>
               
-              <h3 style="color: #333; margin-top: 25px;">Message</h3>
+              <h3 style="color: #333; margin-top: 25px;">💬 Message</h3>
               <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #d4a574;">
                 <p style="margin: 0; line-height: 1.6; color: #333;">[MESSAGE]</p>
               </div>
               
               <div style="margin-top: 30px; padding: 20px; background: #fff3e0; border-radius: 8px; border: 1px solid #d4a574;">
                 <p style="margin: 0; font-size: 14px; color: #666;">
-                  <strong>Action requise:</strong> Répondre au client dans les 24h pour maintenir notre standard de service.
+                  <strong>⚡ Action requise:</strong> Répondre au client dans les 24h pour maintenir notre standard de service.
                 </p>
               </div>
             </td>
@@ -102,7 +106,8 @@ These email templates provide a professional, responsive design that works acros
 - `[EMAIL]` - Client's email address
 - `[PHONE]` - Client's phone number
 - `[PROJECT_TYPE]` - Type of project selected
-- `[CLIENT_TYPE]` - Type of client (Particulier, Professionnel, etc.)
+- `[TILE_TYPE]` - Type of tiles (Céramique, Porcelaine, Marbre, etc.)
+- `[SUPERFICIE]` - Surface area (10-25 m², 50-100 m², etc.)
 - `[MESSAGE]` - Client's message
 - `[WEBSITE_URL]` - Your website URL
 - `[TIMESTAMP]` - Form submission timestamp
@@ -171,8 +176,8 @@ These email templates provide a professional, responsive design that works acros
               <div style="margin-top: 30px; padding: 20px; background: #fff3e0; border-radius: 8px; text-align: center;">
                 <p style="margin: 0; color: #333;">
                   <strong>Une question urgente?</strong><br>
-                  📞 <a href="tel:[PHONE_NUMBER]" style="color: #d4a574; text-decoration: none; font-weight: 600;">[PHONE_DISPLAY]</a><br>
-                  ✉️ <a href="mailto:[BUSINESS_EMAIL]" style="color: #d4a574; text-decoration: none; font-weight: 600;">[BUSINESS_EMAIL]</a>
+                  📞 <a href="tel:[PHONE_NUMBER]" style="color: #333; text-decoration: none; font-weight: 600;">[PHONE_DISPLAY]</a><br>
+                  ✉️ <a href="mailto:[BUSINESS_EMAIL]" style="color: #333; text-decoration: none; font-weight: 600;">[BUSINESS_EMAIL]</a>
                 </p>
               </div>
               
@@ -215,7 +220,37 @@ These email templates provide a professional, responsive design that works acros
 
 ---
 
-## 🎨 3. Customization Guide
+## ✨ 3. Recent Improvements (Based on Céramique JLepage Project)
+
+### 🎯 **Visual Enhancements:**
+- **Added emojis** for better visual hierarchy:
+  - 📋 Main header for business emails
+  - 👤 Client information section
+  - 💬 Message section
+  - ⚡ Action required alerts
+- **Improved accessibility** with better contrast ratios
+- **Professional yet engaging** design approach
+
+### 🔧 **Form Field Updates:**
+- **Replaced generic "Client Type"** with industry-specific "Tile Type"
+- **Added "Superficie" field** for better project estimation
+- **Tile type options:** Céramique, Porcelaine, Marbre, Granit, Travertin, Autre
+- **Surface area ranges:** <10m², 10-25m², 25-50m², 50-100m², 100-200m², >200m², "Je ne sais pas"
+
+### ♿ **Accessibility Improvements:**
+- **Contact links in black (#333)** instead of brand color for better contrast
+- **Bold font weight (600)** for important links
+- **WCAG compliant** color combinations
+- **Mobile-friendly** responsive design
+
+### 📧 **Email Subject Optimization:**
+- **Prioritizes tile type** in subject line for better organization
+- **Format:** `Nouvelle soumission - [Name] ([Tile Type])`
+- **Fallback to project type** if tile type not specified
+
+---
+
+## 🎨 4. Customization Guide
 
 ### Brand Colors:
 Replace these colors with your brand palette:
@@ -237,7 +272,7 @@ The templates use table-based layouts for maximum email client compatibility:
 
 ---
 
-## 🔧 4. Implementation in API
+## 🔧 5. Implementation in API
 
 ### JavaScript Template Usage:
 
@@ -252,7 +287,7 @@ const businessEmailContent = `
   </head>
   <body style="font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f5f5f5;">
     <!-- Use the business template above, replacing variables with: -->
-    <!-- ${fullName}, ${email}, ${phone}, ${projectType}, ${clientType}, ${message} -->
+    <!-- ${fullName}, ${email}, ${phone}, ${projectType}, ${tileType}, ${superficie}, ${message} -->
   </body>
   </html>
 `;
@@ -291,7 +326,7 @@ const emailConfig = {
 
 ---
 
-## 📱 5. Email Client Testing
+## 📱 6. Email Client Testing
 
 These templates are tested and work well in:
 - ✅ **Gmail** (Desktop & Mobile)
@@ -308,7 +343,7 @@ These templates are tested and work well in:
 
 ---
 
-## 🚀 6. Quick Start Checklist
+## 🚀 7. Quick Start Checklist
 
 For your next project:
 
@@ -321,7 +356,7 @@ For your next project:
 
 ---
 
-## 💡 7. Pro Tips
+## 💡 8. Pro Tips
 
 ### Email Deliverability:
 - Keep subject lines under 50 characters
