@@ -1153,6 +1153,7 @@ document.addEventListener('DOMContentLoaded', function() {
           await new Promise((resolve) => grecaptcha.enterprise.ready(resolve));
           const token = await grecaptcha.enterprise.execute('6LdxXPwrAAAAALsNDZDtLewYxVeQtCjF4e-EON-e', { action: 'LOGIN' });
           data.recaptchaToken = token;
+          try { console.info('[reCAPTCHA] token generated', token ? (token.substring(0, 12) + '…') : 'none'); } catch (_) {}
         } catch (rcErr) {
           console.error('reCAPTCHA error:', rcErr);
           throw new Error('Vérification reCAPTCHA échouée');
@@ -1169,6 +1170,7 @@ document.addEventListener('DOMContentLoaded', function() {
           });
 
           const result = await response.json();
+          try { console.info('[reCAPTCHA] server verification', result?.recaptcha || result); } catch (_) {}
 
           if (result.success) {
             // Hide form and all error messages
