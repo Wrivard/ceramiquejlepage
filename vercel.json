@@ -6,25 +6,5 @@
       "source": "/api/(.*)",
       "destination": "/api/$1"
     }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)\\.webp",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "image/webp"
-        }
-      ]
-    },
-    {
-      "source": "/(.*)\\.avif",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "image/avif"
-        }
-      ]
-    }
   ]
 }
