@@ -1108,8 +1108,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         try {
-          // Submit to API endpoint
-          const response = await fetch('/api/submit-form', {
+          // Submit to DEBUG API endpoint (change back to /api/submit-form after debugging)
+          const response = await fetch('/api/debug-form', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
