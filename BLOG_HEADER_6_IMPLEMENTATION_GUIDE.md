@@ -557,13 +557,51 @@ You need to create multiple sizes and formats for each image:
 
 #### Required Formats:
 - **WebP** (primary) - 80-90% smaller than JPEG
+- **AVIF** (optional) - Even better compression than WebP
 - **Original JPEG** (fallback) - For browsers that don't support WebP
 
 #### File Naming Convention:
 ```
 Original: image-name.jpg
-Optimized: image-name-400.webp, image-name-600.webp, image-name-800.webp, image-name-1200.webp
+Optimized: 
+  - image-name-400w-400w.webp
+  - image-name-600w-600w.webp  
+  - image-name-800w-800w.webp
+  - image-name-1200w-1200w.webp
 ```
+
+#### Critical Vercel Configuration Fix
+
+**⚠️ IMPORTANT:** If hosting on Vercel, you MUST add this to your `vercel.json` file or WebP images won't load:
+
+```json
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/(.*)\\.webp",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "image/webp"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)\\.avif",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "image/avif"
+        }
+      ]
+    }
+  ]
+}
+```
+
+**Why this is needed:** Vercel doesn't automatically serve WebP files with the correct MIME type (`image/webp`). Without this configuration, browsers will receive WebP files but won't recognize them as images, causing 404-like behavior even though the files exist.
 
 ### Image Processing Tools
 
@@ -611,29 +649,40 @@ async function optimizeImages() {
     const dir = path.dirname(imagePath);
     const filename = path.basename(imagePath);
     const nameWithoutExt = filename.replace(/\.(jpg|jpeg|png|avif)$/i, '');
-    const ext = path.extname(filename).toLowerCase();
     
     console.log(`Processing: ${imagePath}`);
     
     try {
       for (const size of sizes) {
-        const outputPath = path.join(dir, `${nameWithoutExt}-${size}w${ext}`);
+        // Create both JPG and WebP versions with proper naming
+        const jpgPath = path.join(dir, `${nameWithoutExt}-${size}w-${size}w.jpg`);
+        const webpPath = path.join(dir, `${nameWithoutExt}-${size}w-${size}w.webp`);
         
-        // Skip if already exists
-        if (fs.existsSync(outputPath)) {
-          console.log(`  Skipping ${size}w (already exists)`);
-          continue;
+        // Create JPG version
+        if (!fs.existsSync(jpgPath)) {
+          await sharp(imagePath)
+            .resize(size, size, { 
+              withoutEnlargement: true,
+              fit: 'cover',
+              position: 'center'
+            })
+            .jpeg({ quality: 85, progressive: true })
+            .toFile(jpgPath);
+          console.log(`  Created ${size}w JPG version`);
         }
         
-        await sharp(imagePath)
-          .resize(size, null, { 
-            withoutEnlargement: true,
-            fit: 'inside'
-          })
-          .jpeg({ quality: 85, progressive: true })
-          .toFile(outputPath);
-          
-        console.log(`  Created ${size}w version`);
+        // Create WebP version
+        if (!fs.existsSync(webpPath)) {
+          await sharp(imagePath)
+            .resize(size, size, { 
+              withoutEnlargement: true,
+              fit: 'cover',
+              position: 'center'
+            })
+            .webp({ quality: 80, effort: 6 })
+            .toFile(webpPath);
+          console.log(`  Created ${size}w WebP version`);
+        }
       }
     } catch (error) {
       console.error(`Error processing ${imagePath}:`, error);
@@ -678,22 +727,29 @@ node image-optimizer.js
 - [ ] Create 400px, 600px, 800px, 1200px versions of each image
 - [ ] Convert all images to WebP format
 - [ ] Keep original JPEG as fallback
-- [ ] Use proper file naming convention
-- [ ] Optimize compression (85% quality recommended)
+- [ ] Use proper file naming convention: `image-name-400w-400w.webp`
+- [ ] Optimize compression (80% WebP, 85% JPEG quality recommended)
+
+#### Vercel Configuration ✅
+- [ ] Add WebP MIME type headers to `vercel.json`
+- [ ] Add AVIF MIME type headers to `vercel.json`
+- [ ] Test WebP files load correctly after deployment
+- [ ] Verify no 404 errors for WebP images
 
 #### Code Implementation ✅
-- [ ] Add image optimization script to HTML
-- [ ] Test WebP loading and fallback
-- [ ] Verify responsive image loading
-- [ ] Check browser compatibility
-- [ ] Test performance improvements
+- [ ] Use relative paths (`images/...`) not absolute paths (`/images/...`)
+- [ ] Add proper `srcset` attributes for responsive images
+- [ ] Implement WebP with JPEG fallback
+- [ ] Test image loading across different browsers
+- [ ] Verify responsive image selection
 
 #### Testing ✅
 - [ ] Run Lighthouse audit
-- [ ] Check image loading in Network tab
-- [ ] Test on different devices
-- [ ] Verify WebP support detection
-- [ ] Confirm fallback to JPEG works
+- [ ] Check image loading in Network tab (no 404s)
+- [ ] Test on different devices and screen sizes
+- [ ] Verify WebP support detection works
+- [ ] Confirm fallback to JPEG works in older browsers
+- [ ] Test on Vercel deployment specifically
 
 ### Browser Support
 
@@ -711,6 +767,28 @@ After implementing this optimization:
 - **LCP Improvement**: 2-3 seconds faster
 - **Mobile Performance**: Significantly improved
 - **SEO Benefits**: Better Core Web Vitals scores
+
+### Common Issues and Solutions
+
+#### Issue: WebP Images Not Loading (404 Errors)
+**Symptoms:** Images show 404 errors in Network tab, but files exist
+**Cause:** Missing MIME type configuration on server
+**Solution:** Add WebP headers to `vercel.json` (see Vercel Configuration section above)
+
+#### Issue: Images Load in Lightbox but Not on Page
+**Symptoms:** Lightbox works fine, but main page images don't display
+**Cause:** Usually path issues (absolute vs relative paths)
+**Solution:** Use relative paths (`images/...`) instead of absolute paths (`/images/...`)
+
+#### Issue: Large Image Files Still Loading
+**Symptoms:** Network tab shows large file sizes despite optimization
+**Cause:** Browser not selecting optimized versions from srcset
+**Solution:** Verify srcset syntax and ensure proper file naming convention
+
+#### Issue: WebP Not Working in Safari
+**Symptoms:** Images don't load in older Safari versions
+**Cause:** Safari < 14 doesn't support WebP
+**Solution:** Ensure JPEG fallback is properly implemented
 
 
 ### Pre-Implementation Questions ✅
