@@ -163,7 +163,7 @@
     .button_bottom {
         bottom: 2%;
         right: 2%;
-        gap: 0.4rem !important; /* Increased from 0.2rem to 0.4rem for better mobile spacing */
+        gap: 1rem !important; /* More space between Messenger and Back-to-top on mobile */
     }
     
     /* Override positioning on mobile too */
@@ -199,6 +199,7 @@
     .button_bottom {
         bottom: 1.5%;
         right: 1.5%;
+        gap: 1rem !important; /* Maintain larger spacing on small mobile */
     }
     
     .messenger_button,

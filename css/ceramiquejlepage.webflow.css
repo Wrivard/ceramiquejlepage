@@ -4228,12 +4228,24 @@ figcaption {
   }
 
   .navbar3_logo {
-    width: 5rem;
+    width: 7rem;
     height: auto;
   }
 
   .navbar3_logo.menu {
     width: 15rem;
+  }
+
+  /* Keep the top banner items (phone, RBQ, Facebook) on one line on mobile */
+  .banner9_content-wrapper {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .banner9_content {
+    align-items: center;
+    margin-bottom: 0;
   }
 
   .header103_tab-link {
