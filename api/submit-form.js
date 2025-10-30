@@ -62,6 +62,15 @@ export default async function handler(req, res) {
         console.warn('reCAPTCHA Enterprise assessment failed', { tokenProperties: assess?.tokenProperties, risk: assess?.riskAnalysis });
         return res.status(400).json({ success: false, message: 'Échec de vérification reCAPTCHA (Enterprise)', details: { valid, actionOk, score, invalidReason, hostname, usedSiteKey: siteKey } });
       }
+
+      // Passed verification — add explicit logs
+      console.info('reCAPTCHA Enterprise verified', {
+        siteKey,
+        action: expectedAction,
+        hostname,
+        score
+      });
+      req._recaptcha = { verified: true, score, action: expectedAction, hostname };
     } catch (enterpriseErr) {
       console.error('reCAPTCHA Enterprise verify error:', enterpriseErr);
       return res.status(400).json({ success: false, message: 'Vérification reCAPTCHA Enterprise indisponible' });
@@ -285,7 +294,8 @@ export default async function handler(req, res) {
     res.status(200).json({
       success: true,
       message: 'Votre demande a été envoyée avec succès! Nous vous contacterons sous peu.',
-      data: data
+      data: data,
+      recaptcha: req._recaptcha || { verified: false }
     });
 
   } catch (error) {
