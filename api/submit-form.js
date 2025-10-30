@@ -18,31 +18,47 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Verify reCAPTCHA v3 token
+    // Verify reCAPTCHA Enterprise token
     const recaptchaToken = req.body?.recaptchaToken;
-    const secretKey = process.env.RECAPTCHA_SECRET_KEY;
-
-    if (!secretKey) {
-      console.warn('RECAPTCHA_SECRET_KEY is not set');
-    }
-
     if (!recaptchaToken) {
       return res.status(400).json({ success: false, message: 'reCAPTCHA token manquant' });
     }
 
+    const enterpriseApiKey = process.env.RECAPTCHA_ENTERPRISE_API_KEY;
+    const projectId = process.env.RECAPTCHA_PROJECT_ID; // e.g. "my-gcp-project"
+    const siteKey = process.env.RECAPTCHA_ENTERPRISE_SITE_KEY || '6LdxXPwrAAAAALsNDZDtLewYxVeQtCjF4e-EON-e';
+    const expectedAction = 'LOGIN';
+
+    if (!enterpriseApiKey || !projectId) {
+      console.warn('Missing RECAPTCHA_ENTERPRISE_API_KEY or RECAPTCHA_PROJECT_ID');
+    }
+
     try {
-      const verifyResponse = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+      const assessUrl = `https://recaptchaenterprise.googleapis.com/v1/projects/${encodeURIComponent(projectId)}/assessments?key=${encodeURIComponent(enterpriseApiKey || '')}`;
+      const assessBody = {
+        event: {
+          token: recaptchaToken,
+          expectedAction,
+          siteKey
+        }
+      };
+      const assessRes = await fetch(assessUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `secret=${encodeURIComponent(secretKey || '')}&response=${encodeURIComponent(recaptchaToken)}`
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(assessBody)
       });
-      const verifyResult = await verifyResponse.json();
-      if (!verifyResult.success || (typeof verifyResult.score === 'number' && verifyResult.score < 0.5)) {
-        return res.status(400).json({ success: false, message: 'Échec de vérification reCAPTCHA' });
+      const assess = await assessRes.json();
+
+      const valid = assess?.tokenProperties?.valid === true;
+      const actionOk = assess?.tokenProperties?.action ? assess.tokenProperties.action === expectedAction : true;
+      const score = typeof assess?.riskAnalysis?.score === 'number' ? assess.riskAnalysis.score : 1;
+
+      if (!valid || !actionOk || score < 0.5) {
+        return res.status(400).json({ success: false, message: 'Échec de vérification reCAPTCHA (Enterprise)', details: { valid, actionOk, score } });
       }
-    } catch (recaptchaError) {
-      console.error('reCAPTCHA verify error:', recaptchaError);
-      return res.status(400).json({ success: false, message: 'Vérification reCAPTCHA indisponible' });
+    } catch (enterpriseErr) {
+      console.error('reCAPTCHA Enterprise verify error:', enterpriseErr);
+      return res.status(400).json({ success: false, message: 'Vérification reCAPTCHA Enterprise indisponible' });
     }
 
     // Extract form data (matching Céramique JLepage form field names)

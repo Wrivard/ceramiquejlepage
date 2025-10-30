@@ -25,11 +25,12 @@ Because Cookiebot runs in auto‑blocking mode, mark the reCAPTCHA script as nec
 
 We dynamically fetch the site key from `/api/recaptcha-sitekey` and pass it to `grecaptcha.execute(siteKey, { action: 'submit' })`.
 
-### 3. Add Secret Key to Vercel
+### 3. Environment variables (Vercel)
 1. **Vercel Dashboard** → **Settings** → **Environment Variables**
-2. **Add:**
-   - Name: `RECAPTCHA_SECRET_KEY`
-   - Value: `Your_Actual_Secret_Key`
+2. Add these for Enterprise verification (serverless):
+   - `RECAPTCHA_ENTERPRISE_API_KEY` → Google Cloud API key for reCAPTCHA Enterprise
+   - `RECAPTCHA_PROJECT_ID` → Your GCP Project ID (e.g., `kua-prod`) 
+   - `RECAPTCHA_ENTERPRISE_SITE_KEY` → Your Enterprise site key (optional, we default to the current site key)
 
 ### 4. Deploy Changes
 ```bash
@@ -44,8 +45,8 @@ git push origin master
 - Form works normally with security
 
 ## 🔧 Current Placeholders to Replace:
-- `RECAPTCHA_SITE_KEY` → Add to Vercel environment variables
-- `RECAPTCHA_SECRET_KEY` → Add to Vercel environment variables
+- `RECAPTCHA_ENTERPRISE_API_KEY`, `RECAPTCHA_PROJECT_ID` → Add to Vercel env
+- (Optional) `RECAPTCHA_ENTERPRISE_SITE_KEY` → Add to Vercel env
 
 ## 🌐 Domains to allow in Google reCAPTCHA admin
 - `ceramiquesjlepage.ca`
