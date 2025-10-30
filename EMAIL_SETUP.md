@@ -375,8 +375,20 @@ First, hide the default Webflow success/error messages and add custom containers
 <div id="custom-error-message" style="display: none;"></div>
 ```
 
-### 4.2 Update Form JavaScript with Clean Messages
-Add this script before the closing `</body>` tag in your form page:
+### 4.2 Disable Webflow Form Handling (CRITICAL)
+**Important:** Add `data-wf-ignore="true"` to your form tag to prevent Webflow interference:
+
+```html
+<form id="wf-form-Contact-6-Form" name="wf-form-Contact-6-Form" 
+      data-name="Contact 6 Form" method="post" class="contact6_form" 
+      data-wf-page-id="..." data-wf-element-id="..." 
+      data-wf-ignore="true">
+  <!-- Your form fields here -->
+</form>
+```
+
+### 4.3 Update Form JavaScript with Clean Messages
+Add this enhanced script before the closing `</body>` tag in your form page:
 
 ```html
 <!-- Custom Form Submission Handler -->
@@ -387,9 +399,30 @@ document.addEventListener('DOMContentLoaded', function() {
   const errorMessage = document.getElementById('custom-error-message');
   const submitButton = form ? form.querySelector('input[type="submit"]') : null;
 
+  // Function to completely hide all Webflow messages
+  function hideAllWebflowMessages() {
+    const webflowSuccess = document.querySelector('.w-form-done');
+    const webflowError = document.querySelector('.w-form-fail');
+    const webflowSuccessWrapper = document.querySelector('.form_message-success-wrapper');
+    const webflowErrorWrapper = document.querySelector('.form_message-error-wrapper');
+    
+    if (webflowSuccess) webflowSuccess.style.display = 'none !important';
+    if (webflowError) webflowError.style.display = 'none !important';
+    if (webflowSuccessWrapper) webflowSuccessWrapper.style.display = 'none !important';
+    if (webflowErrorWrapper) webflowErrorWrapper.style.display = 'none !important';
+  }
+
+  // Hide Webflow messages immediately and periodically
+  hideAllWebflowMessages();
+  setInterval(hideAllWebflowMessages, 100);
+
   if (form) {
     form.addEventListener('submit', async function(e) {
       e.preventDefault();
+      e.stopPropagation();
+      
+      // Immediately hide all messages
+      hideAllWebflowMessages();
       
       // Disable submit button and show loading state
       if (submitButton) {
@@ -397,15 +430,9 @@ document.addEventListener('DOMContentLoaded', function() {
         submitButton.value = 'Envoi en cours...';
       }
       
-      // Hide any previous messages (including Webflow defaults)
+      // Hide any previous custom messages
       if (successMessage) successMessage.style.display = 'none';
       if (errorMessage) errorMessage.style.display = 'none';
-      
-      // Also hide Webflow default messages
-      const webflowSuccess = document.querySelector('.w-form-done');
-      const webflowError = document.querySelector('.w-form-fail');
-      if (webflowSuccess) webflowSuccess.style.display = 'none';
-      if (webflowError) webflowError.style.display = 'none';
       
       // Get form data
       const formData = new FormData(form);
@@ -431,11 +458,8 @@ document.addEventListener('DOMContentLoaded', function() {
           form.style.display = 'none';
           if (errorMessage) errorMessage.style.display = 'none';
           
-          // Also hide Webflow default messages
-          const webflowSuccess = document.querySelector('.w-form-done');
-          const webflowError = document.querySelector('.w-form-fail');
-          if (webflowSuccess) webflowSuccess.style.display = 'none';
-          if (webflowError) webflowError.style.display = 'none';
+          // Ensure all Webflow messages stay hidden
+          hideAllWebflowMessages();
           
           if (successMessage) {
             successMessage.style.display = 'block';
@@ -470,12 +494,9 @@ document.addEventListener('DOMContentLoaded', function() {
       } catch (error) {
         console.error('Form submission error:', error);
         
-        // Hide success message and Webflow defaults
+        // Hide success message and ensure Webflow messages stay hidden
         if (successMessage) successMessage.style.display = 'none';
-        const webflowSuccess = document.querySelector('.w-form-done');
-        const webflowError = document.querySelector('.w-form-fail');
-        if (webflowSuccess) webflowSuccess.style.display = 'none';
-        if (webflowError) webflowError.style.display = 'none';
+        hideAllWebflowMessages();
         
         if (errorMessage) {
           errorMessage.style.display = 'block';
@@ -800,7 +821,16 @@ const response = await fetch('/api/debug-form', {
 
 **❌ Double Messages (Success + Error showing together):**
 - **Cause:** Webflow default messages interfering with custom messages
-- **Solution:** Hide Webflow messages with `display: none !important;` and use custom containers
+- **Solution:** 
+  1. Add `data-wf-ignore="true"` to form tag to disable Webflow handling
+  2. Hide Webflow messages with `display: none !important;` and use custom containers
+  3. Use `hideAllWebflowMessages()` function with periodic cleanup (every 100ms)
+  4. Add `e.stopPropagation()` to prevent event bubbling
+
+**❌ Error message shows during loading ("Envoi en cours..." + error):**
+- **Cause:** Webflow tries to submit form to non-existent endpoint while custom JS submits to API
+- **Solution:** Add `data-wf-ignore="true"` to completely disable Webflow form handling
+- **Prevention:** Use the enhanced JavaScript with `hideAllWebflowMessages()` function
 
 **❌ "Testing only" reCAPTCHA:**
 - Replace test keys with production keys from Google reCAPTCHA admin
@@ -868,11 +898,14 @@ npm run test:email
 - [ ] Debug endpoint created for troubleshooting
 
 ### Form Implementation:
+- [ ] **CRITICAL:** `data-wf-ignore="true"` added to form tag to disable Webflow handling
 - [ ] Webflow default messages hidden with `display: none !important;`
 - [ ] Custom message containers added (`#custom-success-message`, `#custom-error-message`)
-- [ ] Form JavaScript updated with clean message design
+- [ ] Enhanced JavaScript with `hideAllWebflowMessages()` function implemented
+- [ ] Periodic cleanup (100ms interval) to suppress Webflow messages
 - [ ] Form method changed from GET to POST
 - [ ] Loading states implemented (button disable/enable)
+- [ ] `e.stopPropagation()` added to prevent event bubbling
 
 ### Email Templates:
 - [ ] Professional business email template with branding
