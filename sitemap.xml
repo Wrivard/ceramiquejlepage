@@ -5,7 +5,7 @@
   
   <!-- Homepage - Highest Priority -->
   <url>
-    <loc>https://ceramiquejlepage.ca/</loc>
+    <loc>https://ceramiquesjlepage.ca/</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -13,35 +13,35 @@
   
   <!-- Service Pages - High Priority -->
   <url>
-    <loc>https://ceramiquejlepage.ca/soumission</loc>
+    <loc>https://ceramiquesjlepage.ca/soumission</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <url>
-    <loc>https://ceramiquejlepage.ca/carrelage-commercial</loc>
+    <loc>https://ceramiquesjlepage.ca/carrelage-commercial</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <url>
-    <loc>https://ceramiquejlepage.ca/carreuleur-au-mont-saint-hilaire</loc>
+    <loc>https://ceramiquesjlepage.ca/carreuleur-au-mont-saint-hilaire</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <url>
-    <loc>https://ceramiquejlepage.ca/installation-de-plancher-chauffant</loc>
+    <loc>https://ceramiquesjlepage.ca/installation-de-plancher-chauffant</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <url>
-    <loc>https://ceramiquejlepage.ca/pose-de-carrelage-residentiel</loc>
+    <loc>https://ceramiquesjlepage.ca/pose-de-carrelage-residentiel</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
@@ -49,7 +49,7 @@
   
   <!-- About Page -->
   <url>
-    <loc>https://ceramiquejlepage.ca/a-propos</loc>
+    <loc>https://ceramiquesjlepage.ca/a-propos</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
@@ -57,7 +57,7 @@
   
   <!-- Portfolio/Realizations -->
   <url>
-    <loc>https://ceramiquejlepage.ca/realisations</loc>
+    <loc>https://ceramiquesjlepage.ca/realisations</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
@@ -65,7 +65,7 @@
   
   <!-- Legal Pages -->
   <url>
-    <loc>https://ceramiquejlepage.ca/politique-cookies</loc>
+    <loc>https://ceramiquesjlepage.ca/politique-cookies</loc>
     <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>

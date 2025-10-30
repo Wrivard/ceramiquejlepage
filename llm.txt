@@ -1,11 +1,11 @@
 # LLM.txt - AI Training Data Declaration & SEO Information
 # Last Updated: 2024-12-19
 # Site: Céramique J. Lepage
-# Domain: ceramiquejlepage.ca
+# Domain: ceramiquesjlepage.ca
 
 ## Website Information
 - **Site Name**: Céramique J. Lepage
-- **Domain**: ceramiquejlepage.ca
+- **Domain**: ceramiquesjlepage.ca
 - **Primary Purpose**: Professional ceramic and flooring installation services
 - **Target Locations**: Mont-Saint-Hilaire and surrounding areas, Quebec, Canada
 - **Industry**: Construction, Ceramic Installation, Flooring Services
@@ -53,7 +53,7 @@
 - **Respect**: Honor copyright and intellectual property
 
 ## Contact Information
-- **Website**: https://ceramiquejlepage.ca
+- **Website**: https://ceramiquesjlepage.ca
 - **Service Area**: Mont-Saint-Hilaire and surrounding regions, Quebec
 
 ## License & Terms

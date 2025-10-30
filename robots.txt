@@ -24,7 +24,7 @@ Allow: /images/*.webp
 Allow: /images/*.avif
 
 # Sitemap location
-Sitemap: https://ceramiquejlepage.ca/sitemap.xml
+Sitemap: https://ceramiquesjlepage.ca/sitemap.xml
 
 # Block AI training bots
 User-agent: GPTBot

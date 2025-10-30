@@ -20,7 +20,7 @@ This is the official website for Céramique J. Lepage, a professional ceramic an
 - **Email Service**: Resend API (to be configured)
 - **Image Optimization**: Sharp.js for responsive images
 - **Deployment**: Vercel
-- **Domain**: ceramiquejlepage.ca
+- **Domain**: ceramiquesjlepage.ca
 
 ## 🚀 Quick Start
 
@@ -69,7 +69,7 @@ ceramiquejlepage.webflow/
 
 1. **Configure Resend API**:
    - Add `RESEND_API_KEY` to Vercel environment variables
-   - Add `FROM_EMAIL` (noreply@ceramiquejlepage.ca) to Vercel environment variables
+   - Add `FROM_EMAIL` (noreply@ceramiquesjlepage.ca) to Vercel environment variables
    - Verify domain in Resend dashboard
 
 2. **Create API Function**:
@@ -83,13 +83,13 @@ ceramiquejlepage.webflow/
 
 ## 🌐 SEO Configuration
 
-- **Sitemap**: https://ceramiquejlepage.ca/sitemap.xml
-- **Robots**: https://ceramiquejlepage.ca/robots.txt
+- **Sitemap**: https://ceramiquesjlepage.ca/sitemap.xml
+- **Robots**: https://ceramiquesjlepage.ca/robots.txt
 - **Target Keywords**: céramique installation, carrelage commercial, carrelage résidentiel, Mont-Saint-Hilaire
 
 ## 📱 Contact
 
-- **Website**: https://ceramiquejlepage.ca
+- **Website**: https://ceramiquesjlepage.ca
 - **Service Area**: Mont-Saint-Hilaire and surrounding regions, Quebec
 - **Industry**: Professional ceramic and flooring installation services
 

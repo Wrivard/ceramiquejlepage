@@ -21,7 +21,7 @@
 **All pages now have proper canonical tags**
 
 ```html
-<link rel="canonical" href="https://ceramiquejlepage.ca/[page-url]">
+<link rel="canonical" href="https://ceramiquesjlepage.ca/[page-url]">
 ```
 
 - Prevents duplicate content issues
@@ -74,7 +74,7 @@
   },
   "telephone": "(514) 775-6608",
   "email": "ceramiquesjlepage@gmail.com",
-  "url": "https://ceramiquejlepage.ca",
+  "url": "https://ceramiquesjlepage.ca",
   "areaServed": [
     "Mont-Saint-Hilaire", "Longueuil", "Brossard", "Chambly",
     "Châteauguay", "La Prairie", "Saint-Jean-sur-Richelieu", "Beloeil"

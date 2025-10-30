@@ -1,6 +1,6 @@
 # 🔍 Audit SEO Complet - Céramique JLepage
 **Date:** 30 octobre 2025  
-**Site:** https://ceramiquejlepage.ca  
+**Site:** https://ceramiquesjlepage.ca  
 **Basé sur:** seo-checklist.md
 
 ---
@@ -36,7 +36,7 @@
 **Action Requise:**
 ```html
 <!-- À ajouter sur chaque page -->
-<link rel="canonical" href="https://ceramiquejlepage.ca/[page-url]">
+<link rel="canonical" href="https://ceramiquesjlepage.ca/[page-url]">
 ```
 
 ### ✅ Sitemap & Robots
@@ -258,7 +258,7 @@
   },
   "telephone": "(514) 775-6608",
   "email": "ceramiquesjlepage@gmail.com",
-  "url": "https://ceramiquejlepage.ca",
+  "url": "https://ceramiquesjlepage.ca",
   "areaServed": ["Mont-Saint-Hilaire", "Longueuil", "Brossard", "Chambly"]
 }
 ```
