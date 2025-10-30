@@ -25,7 +25,7 @@ export default async function handler(req, res) {
     }
 
     const enterpriseApiKey = process.env.RECAPTCHA_ENTERPRISE_API_KEY;
-    const projectId = process.env.RECAPTCHA_PROJECT_ID; // e.g. "my-gcp-project"
+    const projectId = process.env.RECAPTCHA_PROJECT_ID; // Prefer numeric project number
     const siteKey = process.env.RECAPTCHA_ENTERPRISE_SITE_KEY || '6LdxXPwrAAAAALsNDZDtLewYxVeQtCjF4e-EON-e';
     const expectedAction = 'LOGIN';
 
@@ -54,11 +54,13 @@ export default async function handler(req, res) {
       const valid = assess?.tokenProperties?.valid === true;
       const actionOk = assess?.tokenProperties?.action ? assess.tokenProperties.action === expectedAction : true;
       const score = typeof assess?.riskAnalysis?.score === 'number' ? assess.riskAnalysis.score : 1;
+      const invalidReason = assess?.tokenProperties?.invalidReason || 'UNKNOWN';
+      const hostname = assess?.tokenProperties?.hostname || 'UNKNOWN_HOST';
 
       // Temporary: relax threshold and log details for debugging
       if (!valid || score < 0.3) {
-        console.warn('reCAPTCHA Enterprise assessment failed', { assess });
-        return res.status(400).json({ success: false, message: 'Échec de vérification reCAPTCHA', details: { valid, actionOk, score } });
+        console.warn('reCAPTCHA Enterprise assessment failed', { tokenProperties: assess?.tokenProperties, risk: assess?.riskAnalysis });
+        return res.status(400).json({ success: false, message: 'Échec de vérification reCAPTCHA (Enterprise)', details: { valid, actionOk, score, invalidReason, hostname, usedSiteKey: siteKey } });
       }
     } catch (enterpriseErr) {
       console.error('reCAPTCHA Enterprise verify error:', enterpriseErr);
