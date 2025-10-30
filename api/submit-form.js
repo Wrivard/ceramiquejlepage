@@ -160,7 +160,7 @@ export default async function handler(req, res) {
             <td>
               <table width="100%" cellpadding="0" cellspacing="0" style="background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
                 <tr>
-                  <td style="background: #28a745; color: #fff; text-align: center; padding: 30px;">
+                  <td style="background: #d4a574; color: #fff; text-align: center; padding: 30px;">
                     <h1 style="margin: 0; font-size: 24px; font-weight: 600;">Merci pour votre demande!</h1>
                   </td>
                 </tr>
