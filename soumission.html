@@ -441,16 +441,23 @@ margin: 0rem !important;
                           <div class="w-checkbox-input w-checkbox-input--inputType-custom form_checkbox-icon"></div><input type="checkbox" name="Contact-6-Checkbox" id="Contact 6 Checkbox" data-name="Contact 6 Checkbox" required="" style="opacity:0;position:absolute;z-index:-1"><span for="Contact-6-Checkbox" class="form_checkbox-label w-form-label">J&#x27;accepte les conditions générales</span>
                         </label></div><input type="submit" data-wait="Please wait..." id="w-node-_5c9f96d6-0708-16d1-42d7-1b4dc46421d8-a4a790ed" class="button w-button" value="Soumettre">
                     </form>
-                    <div class="form_message-success-wrapper w-form-done">
+                    <!-- Hide default Webflow messages -->
+                    <div class="form_message-success-wrapper w-form-done" style="display: none !important;">
                       <div class="form_message-success">
                         <div class="success-text">Merci ! Votre demande a été reçue avec succès.</div>
                       </div>
                     </div>
-                    <div class="form_message-error-wrapper w-form-fail">
+                    <div class="form_message-error-wrapper w-form-fail" style="display: none !important;">
                       <div class="form_message-error">
                         <div class="error-text">Erreur lors de l&#x27;envoi. Veuillez réessayer.</div>
                       </div>
                     </div>
+                    
+                    <!-- Custom success message -->
+                    <div id="custom-success-message" style="display: none;"></div>
+                    
+                    <!-- Custom error message -->
+                    <div id="custom-error-message" style="display: none;"></div>
                   </div>
                 </div>
               </div>
@@ -1082,8 +1089,8 @@ document.addEventListener('DOMContentLoaded', function() {
   <script>
   document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('wf-form-Contact-6-Form');
-    const successMessage = document.querySelector('.w-form-done');
-    const errorMessage = document.querySelector('.w-form-fail');
+    const successMessage = document.getElementById('custom-success-message');
+    const errorMessage = document.getElementById('custom-error-message');
     const submitButton = form ? form.querySelector('input[type="submit"]') : null;
 
     if (form) {
@@ -1108,8 +1115,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         try {
-          // Submit to DEBUG API endpoint (change back to /api/submit-form after debugging)
-          const response = await fetch('/api/debug-form', {
+          // Submit to API endpoint
+          const response = await fetch('/api/submit-form', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -1120,20 +1127,56 @@ document.addEventListener('DOMContentLoaded', function() {
           const result = await response.json();
 
           if (result.success) {
-            // Show success message
+            // Hide form and show clean success message
             form.style.display = 'none';
+            if (errorMessage) errorMessage.style.display = 'none'; // Ensure error is hidden
             if (successMessage) {
               successMessage.style.display = 'block';
-              successMessage.innerHTML = '<div>Merci! Votre demande a été envoyée avec succès. Nous vous contacterons dans les 24-48 heures.</div>';
+              successMessage.innerHTML = `
+                <div style="text-align: center; padding: 40px 30px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); margin: 30px 0;">
+                  <div style="font-size: 64px; margin-bottom: 20px; animation: bounce 1s ease-in-out;">✅</div>
+                  <h2 style="color: #28a745; margin: 0 0 20px 0; font-size: 28px; font-weight: 600;">Demande envoyée avec succès!</h2>
+                  <p style="color: #495057; margin: 0 0 25px 0; font-size: 18px; line-height: 1.6; max-width: 500px; margin-left: auto; margin-right: auto;">
+                    Merci pour votre confiance. Notre équipe analysera votre projet et vous contactera dans les <strong style="color: #28a745;">24-48 heures</strong>.
+                  </p>
+                  <div style="background: rgba(40, 167, 69, 0.1); padding: 20px; border-radius: 8px; margin-top: 25px; border: 1px solid rgba(40, 167, 69, 0.2);">
+                    <p style="margin: 0; font-size: 16px; color: #155724; line-height: 1.5;">
+                      📧 <strong>Email de confirmation envoyé</strong><br>
+                      📞 Urgence: <a href="tel:+15147756608" style="color: #28a745; text-decoration: none; font-weight: 600;">(514) 775-6608</a>
+                    </p>
+                  </div>
+                </div>
+                <style>
+                  @keyframes bounce {
+                    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+                    40% { transform: translateY(-10px); }
+                    60% { transform: translateY(-5px); }
+                  }
+                </style>
+              `;
             }
           } else {
             throw new Error(result.message || 'Erreur lors de l\'envoi');
           }
         } catch (error) {
           console.error('Form submission error:', error);
+          if (successMessage) successMessage.style.display = 'none'; // Ensure success is hidden
           if (errorMessage) {
             errorMessage.style.display = 'block';
-            errorMessage.innerHTML = '<div>Une erreur est survenue. Veuillez réessayer ou nous contacter directement.</div>';
+            errorMessage.innerHTML = `
+              <div style="text-align: center; padding: 30px; background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%); border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); margin: 30px 0; border: 1px solid #ffc107;">
+                <div style="font-size: 48px; margin-bottom: 15px;">⚠️</div>
+                <h3 style="color: #856404; margin: 0 0 15px 0; font-size: 22px; font-weight: 600;">Une erreur est survenue</h3>
+                <p style="color: #856404; margin: 0 0 20px 0; font-size: 16px; line-height: 1.5;">
+                  Veuillez réessayer ou nous contacter directement
+                </p>
+                <div style="background: rgba(133, 100, 4, 0.1); padding: 15px; border-radius: 8px; border: 1px solid rgba(133, 100, 4, 0.2);">
+                  <p style="margin: 0; font-size: 16px; color: #856404;">
+                    📞 <a href="tel:+15147756608" style="color: #856404; text-decoration: none; font-weight: 600;">(514) 775-6608</a>
+                  </p>
+                </div>
+              </div>
+            `;
           }
         } finally {
           // Re-enable submit button
