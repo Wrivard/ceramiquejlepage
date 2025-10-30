@@ -18,6 +18,33 @@ export default async function handler(req, res) {
   }
 
   try {
+    // Verify reCAPTCHA v3 token
+    const recaptchaToken = req.body?.recaptchaToken;
+    const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+
+    if (!secretKey) {
+      console.warn('RECAPTCHA_SECRET_KEY is not set');
+    }
+
+    if (!recaptchaToken) {
+      return res.status(400).json({ success: false, message: 'reCAPTCHA token manquant' });
+    }
+
+    try {
+      const verifyResponse = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `secret=${encodeURIComponent(secretKey || '')}&response=${encodeURIComponent(recaptchaToken)}`
+      });
+      const verifyResult = await verifyResponse.json();
+      if (!verifyResult.success || (typeof verifyResult.score === 'number' && verifyResult.score < 0.5)) {
+        return res.status(400).json({ success: false, message: 'Échec de vérification reCAPTCHA' });
+      }
+    } catch (recaptchaError) {
+      console.error('reCAPTCHA verify error:', recaptchaError);
+      return res.status(400).json({ success: false, message: 'Vérification reCAPTCHA indisponible' });
+    }
+
     // Extract form data (matching Céramique JLepage form field names)
     const {
       'Contact-6-First-Name': firstName,
