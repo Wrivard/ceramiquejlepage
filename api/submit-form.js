@@ -29,14 +29,28 @@ export default async function handler(req, res) {
   
   try {
     // Parse form data with formidable
+    // Note: Vercel has a ~4.5MB total payload limit, so we use 4MB per file
     const form = formidable({
-      maxFileSize: 5 * 1024 * 1024, // 5MB per file
+      maxFileSize: 4 * 1024 * 1024, // 4MB per file (to account for multipart overhead)
       maxFiles: 5, // Maximum 5 files
       keepExtensions: true,
       uploadDir: '/tmp' // Temporary directory
     });
 
-    const [fields, files] = await form.parse(req);
+    let fields, files;
+    try {
+      [fields, files] = await form.parse(req);
+    } catch (parseError) {
+      // Handle file size errors from formidable
+      if (parseError.message && parseError.message.includes('maxFileSize') || parseError.code === 'LIMIT_FILE_SIZE') {
+        return res.status(413).json({
+          success: false,
+          message: 'Les images sont trop volumineuses. Veuillez réduire la taille des images ou en sélectionner moins. Maximum ~4.5MB au total.'
+        });
+      }
+      // Re-throw other errors
+      throw parseError;
+    }
     
     // Extract form fields - handle both single values and arrays
     const firstName = Array.isArray(fields['Contact-6-First-Name']) ? fields['Contact-6-First-Name'][0] : fields['Contact-6-First-Name'];
@@ -50,7 +64,7 @@ export default async function handler(req, res) {
     const recaptchaToken = Array.isArray(fields['recaptchaToken']) ? fields['recaptchaToken'][0] : fields['recaptchaToken'];
     
     // Extract uploaded files - handle both single file and multiple files
-    let uploadedFiles = files['Contact-6-Image[]'] || files['Contact-6-Image'] || [];
+    uploadedFiles = files['Contact-6-Image[]'] || files['Contact-6-Image'] || [];
     
     // Ensure uploadedFiles is always an array
     if (!Array.isArray(uploadedFiles)) {

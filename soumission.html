@@ -466,7 +466,7 @@ margin: 0rem !important;
                             <h4 style="margin: 0 0 10px 0; font-size: 14px; color: #333; font-weight: bold;">Images sélectionnées:</h4>
                             <div id="image-list"></div>
                           </div>
-                          <div class="text-size-small" style="margin-top: 10px; color: #666;">Format accepté: JPG, PNG, GIF - Max 5MB par image - Maximum 5 images</div>
+                          <div class="text-size-small" style="margin-top: 10px; color: #666;">Format accepté: JPG, PNG, GIF - Max 4MB par image - Maximum 5 images - Total max ~4.5MB</div>
                         </div>
                       </div>
                       <div class="form_field-wrapper"><label for="Contact-6-Message" class="form_field-label">Message</label><textarea id="Contact-6-Message" name="Contact-6-Message" maxlength="5000" data-name="Contact 6 Message" placeholder="Détaillez votre vision" required="" class="form_input is-text-area w-input"></textarea></div>
@@ -1147,9 +1147,18 @@ document.addEventListener('DOMContentLoaded', function() {
       if (file) {
         console.log('📄 File selected:', file.name, file.size);
         
-        // Check file size (5MB max)
-        if (file.size > 5 * 1024 * 1024) {
-          alert('Le fichier est trop volumineux. Maximum 5MB par image.');
+        // Check file size (4MB max per file)
+        const maxFileSize = 4 * 1024 * 1024; // 4MB per file
+        if (file.size > maxFileSize) {
+          alert('Le fichier est trop volumineux. Maximum 4MB par image.');
+          return;
+        }
+        
+        // Check total size (4.5MB max total to account for multipart overhead)
+        const totalSize = window.selectedFiles.reduce((sum, f) => sum + f.size, 0);
+        const maxTotalSize = 4.5 * 1024 * 1024; // 4.5MB total
+        if (totalSize + file.size > maxTotalSize) {
+          alert('La taille totale des images est trop importante. Maximum ~4.5MB au total (incluant toutes les images).');
           return;
         }
         
@@ -1281,12 +1290,29 @@ document.addEventListener('DOMContentLoaded', function() {
             body: formData
           });
           
-          // Check for 413 error (file too large)
+          // Check for 413 error (payload too large) - handle before trying to parse JSON
           if (response.status === 413) {
-            throw new Error('Les images sont trop volumineuses. Veuillez réduire la taille des images ou en sélectionner moins.');
+            const errorMsg = 'Les images sont trop volumineuses. Veuillez réduire la taille des images ou en sélectionner moins. Maximum ~4.5MB au total.';
+            throw new Error(errorMsg);
           }
 
-          const result = await response.json();
+          // Try to parse JSON response
+          let result;
+          try {
+            const responseText = await response.text();
+            if (responseText) {
+              result = JSON.parse(responseText);
+            } else {
+              throw new Error('Réponse vide du serveur');
+            }
+          } catch (parseError) {
+            // If JSON parsing fails, check status code
+            if (!response.ok) {
+              throw new Error(`Erreur serveur (${response.status}): ${response.statusText || 'Erreur inconnue'}`);
+            }
+            throw parseError;
+          }
+          
           try { console.info('[reCAPTCHA] server verification', result?.recaptcha || result); } catch (_) {}
 
           if (result.success) {
@@ -1338,6 +1364,9 @@ document.addEventListener('DOMContentLoaded', function() {
           if (successMessage) successMessage.style.display = 'none';
           hideAllWebflowMessages();
           
+          // Get error message
+          const errorMsg = error && error.message ? error.message.replace(/</g, '&lt;').replace(/>/g, '&gt;') : 'Veuillez réessayer ou nous contacter directement';
+          
           if (errorMessage) {
             errorMessage.style.display = 'block';
             errorMessage.innerHTML = `
@@ -1355,7 +1384,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </h3>
                 
                 <p style="color: #6c757d; margin: 0 0 24px 0; font-size: 16px; line-height: 1.5;">
-                  Veuillez réessayer ou nous contacter directement
+                  ${errorMsg}
                 </p>
                 
                 <div style="background: #f8f9fa; padding: 16px; border-radius: 8px; font-size: 14px; color: #6c757d;">
