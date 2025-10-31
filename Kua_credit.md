@@ -74,16 +74,14 @@ opacity: 0.8;             /* Subtle transparency */
 ### Main Pages
 - ✅ `index.html` (Homepage)
 - ✅ `a-propos.html` (About)
-- ✅ `soumission.html` (Contact Form)
-- ✅ `renovation-a-chambly.html` (Chambly Page)
-- ✅ `politique-de-cookie.html` (Cookie Policy)
+- ✅ `soumission.html` (Contact Form / Submission Page)
+- ✅ `realisations.html` (Portfolio / Achievements)
+- ✅ `carrelage-commercial.html` (Commercial Tiling)
+- ✅ `pose-de-carrelage-residentiel.html` (Residential Tiling)
+- ✅ `installation-de-plancher-chauffant.html` (Heated Floor Installation)
+- ✅ `carreuleur-au-mont-saint-hilaire.html` (Tiler in Mont-Saint-Hilaire)
+- ✅ `politique-cookies.html` (Cookie Policy)
 - ✅ `404.html` (Error Page)
-
-### Services Pages
-- ✅ `services/realisations.html` (Portfolio)
-- ✅ `services/renovation-interieur.html` (Interior Renovation)
-- ✅ `services/renovation-exterieur.html` (Exterior Renovation)
-- ✅ `services/projet-de-renovation-sur-mesure.html` (Custom Projects)
 
 ## Logo Specifications
 
@@ -173,6 +171,12 @@ To modify the credit appearance:
 - Increased logo size to 24px
 - Better visibility and impact
 - Maintained professional appearance
+
+### v5.0 (Footer Link Cleanup - December 2024)
+- Removed "Politique de confidentialité" (Privacy Policy) link from footer
+- Removed "Conditions de service" (Terms of Service) link from footer
+- Kept only "Politique de cookies" (Cookie Policy) link in footer
+- Applied to all 10 pages: index, soumission, a-propos, carrelage-commercial, pose-de-carrelage-residentiel, installation-de-plancher-chauffant, carreuleur-au-mont-saint-hilaire, realisations, 404, politique-cookies
 - Current implementation
 
 ## Troubleshooting
@@ -190,6 +194,19 @@ To modify the credit appearance:
 - [ ] Responsive behavior on mobile/tablet
 - [ ] Accessibility features working
 - [ ] Brand colors consistent
+
+## Footer Legal Links
+
+### Current Footer Structure
+The footer legal links section now contains only:
+- "Politique de cookies" link (links to `politique-cookies.html`)
+
+### Removed Links (v5.0)
+The following links were removed from all pages:
+- "Politique de confidentialité" (Privacy Policy) - removed
+- "Conditions de service" (Terms of Service) - removed
+
+These links were removed because they were placeholder links (`href="#"`) and not linking to actual pages.
 
 ## Contact Information
 - **Agency**: KUA (https://kua.quebec)
