@@ -655,7 +655,7 @@ console.log('Email data:', emailData);
    - Don't set `Content-Type` header manually
 
 2. **Files not appearing in email:**
-   - Check file size limits (5MB default)
+   - Check file size limits (4MB per file, 4.5MB total for Vercel)
    - Verify file types (images only)
    - Check server logs for errors
    - Ensure Resend API key is valid
@@ -663,6 +663,18 @@ console.log('Email data:', emailData);
 3. **Form data truncated:**
    - Use proper field extraction for formidable/multer
    - Handle both single values and arrays
+
+4. **413 Payload Too Large errors:**
+   - Vercel limits total request size to ~4.5MB (includes multipart overhead)
+   - Reduce per-file limit to 4MB and validate total size client-side
+   - Example: 3.79MB + 0.73MB = 4.52MB exceeds limit with overhead
+   - Solution: Validate total size before upload and show specific error messages
+
+5. **Error messages not displaying properly:**
+   - Generic error messages instead of specific ones
+   - Handle 413 errors before trying to parse JSON response
+   - Extract and display error.message in catch block
+   - Sanitize error messages for HTML display
 
 ### Debug Checklist
 
@@ -778,15 +790,89 @@ const cleanFilename = file.originalFilename ?
 
 #### 4. File Size Validation & User Feedback
 
-**Problem**: Large files caused 413 errors without clear user feedback.
+**Problem**: Large files caused 413 errors without clear user feedback. Files under the per-file limit were still rejected.
 
-**Solution**:
+**Root Cause**: 
+- Vercel has a **total request payload limit of ~4.5MB** (not per file)
+- This includes multipart encoding overhead, form data, and all files combined
+- Example: 3.79MB + 0.73MB = 4.52MB total, which exceeds the limit when combined with multipart overhead
+
+**Solution - Client-Side Validation**:
 ```javascript
-// Check for 413 error specifically
-if (response.status === 413) {
-  throw new Error('Les images sont trop volumineuses. Veuillez réduire la taille des images ou en sélectionner moins.');
+// Check file size (4MB max per file)
+const maxFileSize = 4 * 1024 * 1024; // 4MB per file
+if (file.size > maxFileSize) {
+  alert('Le fichier est trop volumineux. Maximum 4MB par image.');
+  return;
+}
+
+// Check total size (4.5MB max total to account for multipart overhead)
+const totalSize = window.selectedFiles.reduce((sum, f) => sum + f.size, 0);
+const maxTotalSize = 4.5 * 1024 * 1024; // 4.5MB total
+if (totalSize + file.size > maxTotalSize) {
+  alert('La taille totale des images est trop importante. Maximum ~4.5MB au total (incluant toutes les images).');
+  return;
 }
 ```
+
+**Solution - Server-Side Configuration**:
+```javascript
+// Vercel has a ~4.5MB total payload limit, so we use 4MB per file
+const form = formidable({
+  maxFileSize: 4 * 1024 * 1024, // 4MB per file (to account for multipart overhead)
+  maxFiles: 5,
+  keepExtensions: true,
+  uploadDir: '/tmp'
+});
+
+// Handle formidable parsing errors (file size, etc.)
+let fields, files;
+try {
+  [fields, files] = await form.parse(req);
+} catch (parseError) {
+  // Handle file size errors from formidable
+  if (parseError.message && parseError.message.includes('maxFileSize') || parseError.code === 'LIMIT_FILE_SIZE') {
+    return res.status(413).json({
+      success: false,
+      message: 'Les images sont trop volumineuses. Veuillez réduire la taille des images ou en sélectionner moins. Maximum ~4.5MB au total.'
+    });
+  }
+  // Re-throw other errors
+  throw parseError;
+}
+```
+
+**Solution - 413 Error Handling**:
+```javascript
+// Check for 413 error (payload too large) - handle before trying to parse JSON
+if (response.status === 413) {
+  const errorMsg = 'Les images sont trop volumineuses. Veuillez réduire la taille des images ou en sélectionner moins. Maximum ~4.5MB au total.';
+  throw new Error(errorMsg);
+}
+
+// Try to parse JSON response
+let result;
+try {
+  const responseText = await response.text();
+  if (responseText) {
+    result = JSON.parse(responseText);
+  } else {
+    throw new Error('Réponse vide du serveur');
+  }
+} catch (parseError) {
+  // If JSON parsing fails, check status code
+  if (!response.ok) {
+    throw new Error(`Erreur serveur (${response.status}): ${response.statusText || 'Erreur inconnue'}`);
+  }
+  throw parseError;
+}
+```
+
+**Important Limits for Vercel**:
+- **Per file limit**: 4MB (to leave room for overhead)
+- **Total payload limit**: ~4.5MB (Vercel's hard limit)
+- **Maximum files**: 5 files
+- **UI text**: "Max 4MB par image - Maximum 5 images - Total max ~4.5MB"
 
 ### Debugging Techniques That Worked
 
@@ -824,10 +910,38 @@ console.log('✅ File compressed and added. Original:', file.size, 'Compressed:'
 - Prevents unnecessary server requests
 - Better error messages
 
-#### 3. Proper Error Handling
-- Specific error messages for different failure types
-- Graceful degradation
-- User-friendly feedback
+#### 3. Proper Error Handling & Message Display
+
+**Problem**: Error messages were showing in console but displaying generic message on webpage.
+
+**Solution - Display Specific Error Messages**:
+```javascript
+} catch (error) {
+  console.error('Form submission error:', error);
+  
+  // Get error message and sanitize for HTML
+  const errorMsg = error && error.message ? 
+    error.message.replace(/</g, '&lt;').replace(/>/g, '&gt;') : 
+    'Veuillez réessayer ou nous contacter directement';
+  
+  if (errorMessage) {
+    errorMessage.style.display = 'block';
+    errorMessage.innerHTML = `
+      <div style="...">
+        <h3>Une erreur est survenue</h3>
+        <p>${errorMsg}</p>
+      </div>
+    `;
+  }
+}
+```
+
+**Key Points**:
+- Always handle 413 errors before attempting to parse JSON
+- Extract error.message from caught errors
+- Sanitize error messages for HTML display
+- Show specific error messages instead of generic ones
+- Handle both network errors and server errors gracefully
 
 ### Common Pitfalls to Avoid
 
@@ -906,7 +1020,9 @@ TO_EMAIL=your-email@domain.com
 #### Vercel Configuration:
 - No special configuration needed for file uploads
 - `/tmp` directory is available for temporary files
-- 50MB total payload limit (5MB per file × 10 files max)
+- **~4.5MB total payload limit** (Vercel's hard limit for request body)
+- Recommended: **4MB per file**, max **5 files** (to account for multipart overhead)
+- Note: Total request size includes multipart encoding overhead (~10-15% additional)
 
 #### Monitoring:
 - Set up error logging for file processing
