@@ -1,4 +1,12 @@
 import { Resend } from 'resend';
+import formidable from 'formidable';
+import fs from 'fs';
+
+export const config = {
+  api: {
+    bodyParser: false, // Important for file uploads
+  },
+};
 
 export default async function handler(req, res) {
   // CORS headers
@@ -17,9 +25,42 @@ export default async function handler(req, res) {
     });
   }
 
+  let uploadedFiles = []; // Declare outside try block for cleanup in catch
+  
   try {
+    // Parse form data with formidable
+    const form = formidable({
+      maxFileSize: 5 * 1024 * 1024, // 5MB per file
+      maxFiles: 5, // Maximum 5 files
+      keepExtensions: true,
+      uploadDir: '/tmp' // Temporary directory
+    });
+
+    const [fields, files] = await form.parse(req);
+    
+    // Extract form fields - handle both single values and arrays
+    const firstName = Array.isArray(fields['Contact-6-First-Name']) ? fields['Contact-6-First-Name'][0] : fields['Contact-6-First-Name'];
+    const lastName = Array.isArray(fields['Contact-6-Last-Name']) ? fields['Contact-6-Last-Name'][0] : fields['Contact-6-Last-Name'];
+    const email = Array.isArray(fields['Contact-6-Email']) ? fields['Contact-6-Email'][0] : fields['Contact-6-Email'];
+    const phone = Array.isArray(fields['Contact-6-Phone']) ? fields['Contact-6-Phone'][0] : fields['Contact-6-Phone'];
+    const projectType = Array.isArray(fields['Contact-6-Select']) ? fields['Contact-6-Select'][0] : fields['Contact-6-Select'];
+    const tileType = Array.isArray(fields['Contact-6-Radio']) ? fields['Contact-6-Radio'][0] : fields['Contact-6-Radio'];
+    const superficie = Array.isArray(fields['Contact-6-Superficie']) ? fields['Contact-6-Superficie'][0] : fields['Contact-6-Superficie'];
+    const message = Array.isArray(fields['Contact-6-Message']) ? fields['Contact-6-Message'][0] : fields['Contact-6-Message'];
+    const recaptchaToken = Array.isArray(fields['recaptchaToken']) ? fields['recaptchaToken'][0] : fields['recaptchaToken'];
+    
+    // Extract uploaded files - handle both single file and multiple files
+    let uploadedFiles = files['Contact-6-Image[]'] || files['Contact-6-Image'] || [];
+    
+    // Ensure uploadedFiles is always an array
+    if (!Array.isArray(uploadedFiles)) {
+      uploadedFiles = [uploadedFiles];
+    }
+    
+    // Filter out any undefined/null files
+    uploadedFiles = uploadedFiles.filter(file => file && file.filepath);
+    
     // Verify reCAPTCHA Enterprise token
-    const recaptchaToken = req.body?.recaptchaToken;
     if (!recaptchaToken) {
       return res.status(400).json({ success: false, message: 'reCAPTCHA token manquant' });
     }
@@ -76,20 +117,20 @@ export default async function handler(req, res) {
       return res.status(400).json({ success: false, message: 'Vérification reCAPTCHA Enterprise indisponible' });
     }
 
-    // Extract form data (matching Céramique JLepage form field names)
-    const {
-      'Contact-6-First-Name': firstName,
-      'Contact-6-Last-Name': lastName,
-      'Contact-6-Email': email,
-      'Contact-6-Phone': phone,
-      'Contact-6-Select': projectType,
-      'Contact-6-Radio': tileType,
-      'Contact-6-Superficie': superficie,
-      'Contact-6-Message': message
-    } = req.body;
-
     // Validate required fields
     if (!firstName || !lastName || !email || !message) {
+      // Clean up temporary files before returning
+      if (uploadedFiles && uploadedFiles.length > 0) {
+        for (const file of uploadedFiles) {
+          if (file && file.filepath) {
+            try {
+              fs.unlinkSync(file.filepath);
+            } catch (cleanupError) {
+              console.error('Error cleaning up file:', cleanupError);
+            }
+          }
+        }
+      }
       return res.status(400).json({
         success: false,
         message: 'Champs requis manquants'
@@ -168,6 +209,16 @@ export default async function handler(req, res) {
                       <p style="margin: 0; line-height: 1.6; color: #333;">${message}</p>
                     </div>
                     
+                    ${uploadedFiles && uploadedFiles.length > 0 ? `
+                    <h3 style="color: #333; margin-top: 25px;">📷 Photos du projet</h3>
+                    <div style="background: #f0f7ff; padding: 20px; border-radius: 8px; border-left: 4px solid #007bff;">
+                      <p style="margin: 0; line-height: 1.6; color: #333;">
+                        Le client a joint <strong>${uploadedFiles.length} image${uploadedFiles.length > 1 ? 's' : ''}</strong> à sa soumission. 
+                        ${uploadedFiles.length === 1 ? 'Voir la pièce jointe ci-dessous.' : 'Voir les pièces jointes ci-dessous.'}
+                      </p>
+                    </div>
+                    ` : ''}
+                    
                     <div style="margin-top: 30px; padding: 20px; background: #fff3e0; border-radius: 8px; border: 1px solid #d4a574;">
                       <p style="margin: 0; font-size: 14px; color: #666;">
                         <strong>⚡ Action requise:</strong> Répondre au client dans les 24h pour maintenir notre standard de service.
@@ -193,14 +244,69 @@ export default async function handler(req, res) {
       </html>
     `;
 
+    // Prepare attachments
+    const attachments = [];
+    if (uploadedFiles && uploadedFiles.length > 0) {
+      for (const file of uploadedFiles) {
+        if (file && file.filepath) {
+          try {
+            const fileBuffer = fs.readFileSync(file.filepath);
+            const timestamp = Date.now();
+            const fileExtension = file.originalFilename ? file.originalFilename.split('.').pop() : 'jpg';
+            
+            // Generate clean filename for email attachment
+            const cleanFilename = file.originalFilename ? 
+              file.originalFilename.replace(/[^a-zA-Z0-9.-]/g, '_') : 
+              `image_${timestamp}.${fileExtension}`;
+            
+            console.log('📎 Creating attachment:', {
+              originalFilename: file.originalFilename,
+              cleanFilename: cleanFilename,
+              mimetype: file.mimetype,
+              size: fileBuffer.length
+            });
+            
+            attachments.push({
+              filename: cleanFilename,
+              content: fileBuffer,
+              contentType: file.mimetype || 'image/jpeg'
+            });
+          } catch (fileError) {
+            console.error('Error reading file:', fileError);
+          }
+        }
+      }
+    }
+
     // Send business email
-    const { data, error } = await resend.emails.send({
+    const emailData = {
       from: fromEmail,
       to: businessEmail,
       subject: `Nouvelle soumission - ${fullName} (${tileType || projectType || 'Non spécifié'})`,
       html: emailContent,
       replyTo: email
-    });
+    };
+
+    // Add attachments if any
+    if (attachments.length > 0) {
+      emailData.attachments = attachments;
+    }
+
+    const { data, error } = await resend.emails.send(emailData);
+    
+    // Clean up temporary files after sending email
+    if (uploadedFiles && uploadedFiles.length > 0) {
+      for (const file of uploadedFiles) {
+        if (file && file.filepath) {
+          try {
+            fs.unlinkSync(file.filepath);
+            console.log('🗑️ Cleaned up temporary file:', file.filepath);
+          } catch (cleanupError) {
+            console.error('Error cleaning up file:', cleanupError);
+          }
+        }
+      }
+    }
 
     if (error) {
       console.error('Email send error:', error);
@@ -300,6 +406,23 @@ export default async function handler(req, res) {
 
   } catch (error) {
     console.error('Server error:', error);
+    
+    // Try to clean up files if they exist (in case of error during processing)
+    if (uploadedFiles && uploadedFiles.length > 0) {
+      for (const file of uploadedFiles) {
+        if (file && file.filepath) {
+          try {
+            if (fs.existsSync(file.filepath)) {
+              fs.unlinkSync(file.filepath);
+              console.log('🗑️ Cleaned up temporary file after error:', file.filepath);
+            }
+          } catch (cleanupError) {
+            console.error('Error cleaning up file after error:', cleanupError);
+          }
+        }
+      }
+    }
+    
     res.status(500).json({
       success: false,
       message: 'Erreur interne du serveur'

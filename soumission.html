@@ -403,7 +403,7 @@ margin: 0rem !important;
                     </div>
                   </div>
                   <div class="contact6_form-block w-form">
-                    <form id="wf-form-Contact-6-Form" name="wf-form-Contact-6-Form" data-name="Contact 6 Form" method="post" class="contact6_form" data-wf-page-id="6900d079eac65bf3a4a790ed" data-wf-element-id="5c9f96d6-0708-16d1-42d7-1b4dc464219a" data-wf-ignore="true">
+                    <form id="wf-form-Contact-6-Form" name="wf-form-Contact-6-Form" data-name="Contact 6 Form" method="post" enctype="multipart/form-data" class="contact6_form" data-wf-page-id="6900d079eac65bf3a4a790ed" data-wf-element-id="5c9f96d6-0708-16d1-42d7-1b4dc464219a" data-wf-ignore="true">
                       <div class="form_field-2col">
                         <div class="form_field-wrapper"><label for="Contact-6-First-Name" class="form_field-label">Prénom</label><input class="form_input w-input" maxlength="256" name="Contact-6-First-Name" data-name="Contact 6 First Name" placeholder="" type="text" id="Contact-6-First-Name" required=""></div>
                         <div class="form_field-wrapper"><label for="Contact-6-Last-Name" class="form_field-label">Nom de famille</label><input class="form_input w-input" maxlength="256" name="Contact-6-Last-Name" data-name="Contact 6 Last Name" placeholder="" type="text" id="Contact-6-Last-Name" required=""></div>
@@ -453,6 +453,20 @@ margin: 0rem !important;
                             <option value="Plus de 200 m²">Plus de 200 m²</option>
                             <option value="Je ne sais pas">Je ne sais pas</option>
                           </select>
+                        </div>
+                      </div>
+                      <!-- Image upload section -->
+                      <div class="form_field-wrapper" style="margin-bottom: 20px;">
+                        <label class="form_field-label">Photos du projet (optionnel)</label>
+                        <div id="image-upload-container" style="border: 2px dashed #ddd; padding: 20px; border-radius: 8px; background: #f9f9f9; margin-top: 8px;">
+                          <div id="add-image-buttons" style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
+                            <button type="button" onclick="addImage()" style="background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 14px; font-weight: 500;">+ Ajouter une image</button>
+                          </div>
+                          <div id="selected-images" style="display: none;">
+                            <h4 style="margin: 0 0 10px 0; font-size: 14px; color: #333; font-weight: bold;">Images sélectionnées:</h4>
+                            <div id="image-list"></div>
+                          </div>
+                          <div class="text-size-small" style="margin-top: 10px; color: #666;">Format accepté: JPG, PNG, GIF - Max 5MB par image - Maximum 5 images</div>
                         </div>
                       </div>
                       <div class="form_field-wrapper"><label for="Contact-6-Message" class="form_field-label">Message</label><textarea id="Contact-6-Message" name="Contact-6-Message" maxlength="5000" data-name="Contact 6 Message" placeholder="Détaillez votre vision" required="" class="form_input is-text-area w-input"></textarea></div>
@@ -1106,6 +1120,92 @@ document.addEventListener('DOMContentLoaded', function() {
   <!-- Google reCAPTCHA Enterprise (provided implementation) -->
   <script src="https://www.google.com/recaptcha/enterprise.js?render=6LdxXPwrAAAAALsNDZDtLewYxVeQtCjF4e-EON-e" data-cookieconsent="ignore" type="text/javascript"></script>
   
+  <!-- Image Upload Handler -->
+  <script>
+  // Global variables for image upload
+  window.selectedFiles = [];
+  const maxImages = 5;
+
+  // Function to add image
+  function addImage() {
+    console.log('🖱️ Add image button clicked!');
+    
+    // Check if we already have max images
+    if (window.selectedFiles.length >= maxImages) {
+      alert(`Maximum ${maxImages} images autorisées.`);
+      return;
+    }
+    
+    // Create file input
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.style.display = 'none';
+    
+    input.onchange = function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        console.log('📄 File selected:', file.name, file.size);
+        
+        // Check file size (5MB max)
+        if (file.size > 5 * 1024 * 1024) {
+          alert('Le fichier est trop volumineux. Maximum 5MB par image.');
+          return;
+        }
+        
+        // Add file to our list
+        window.selectedFiles.push(file);
+        console.log('✅ File added. Total files:', window.selectedFiles.length);
+        updateDisplay();
+      }
+    };
+    
+    // Trigger file selection
+    document.body.appendChild(input);
+    input.click();
+    document.body.removeChild(input);
+  }
+
+  // Update display
+  function updateDisplay() {
+    const selectedImagesDiv = document.getElementById('selected-images');
+    const imageList = document.getElementById('image-list');
+    const addButtonsContainer = document.getElementById('add-image-buttons');
+    
+    if (window.selectedFiles.length === 0) {
+      selectedImagesDiv.style.display = 'none';
+    } else {
+      selectedImagesDiv.style.display = 'block';
+      imageList.innerHTML = window.selectedFiles.map((file, index) => `
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px; background: white; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 5px;">
+          <span style="flex: 1; color: #333; font-size: 14px;">${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)</span>
+          <button type="button" onclick="removeImage(${index})" style="background: #ff4444; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer; font-size: 14px; margin-left: 10px;">×</button>
+        </div>
+      `).join('');
+    }
+    
+    // Update button
+    const remaining = maxImages - window.selectedFiles.length;
+    if (remaining > 0) {
+      addButtonsContainer.innerHTML = `<button type="button" onclick="addImage()" style="background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 14px; font-weight: 500;">+ Ajouter une image</button>`;
+    } else {
+      addButtonsContainer.innerHTML = '<span style="color: #666; font-style: italic;">Maximum de 5 images atteint</span>';
+    }
+  }
+
+  // Remove image function
+  function removeImage(index) {
+    window.selectedFiles.splice(index, 1);
+    updateDisplay();
+  }
+
+  // Initialize when page loads
+  window.addEventListener('load', function() {
+    console.log('🚀 Image upload script loaded');
+    updateDisplay();
+  });
+  </script>
+  
   <!-- Custom Form Submission Handler -->
   <script>
   document.addEventListener('DOMContentLoaded', function() {
@@ -1149,36 +1249,42 @@ document.addEventListener('DOMContentLoaded', function() {
         if (successMessage) successMessage.style.display = 'none';
         if (errorMessage) errorMessage.style.display = 'none';
         
-        // Get form data
+        // Get form data using FormData for file uploads
         const formData = new FormData(form);
-        const data = {};
-        formData.forEach((value, key) => {
-          data[key] = value;
+        
+        // Add selected image files to form data
+        const selectedFiles = window.selectedFiles || [];
+        selectedFiles.forEach((file, index) => {
+          formData.append('Contact-6-Image[]', file);
         });
 
         // Get reCAPTCHA Enterprise token
+        let recaptchaToken;
         try {
           if (typeof grecaptcha === 'undefined' || !grecaptcha.enterprise) {
             throw new Error('reCAPTCHA Enterprise non chargé');
           }
           await new Promise((resolve) => grecaptcha.enterprise.ready(resolve));
-          const token = await grecaptcha.enterprise.execute('6LdxXPwrAAAAALsNDZDtLewYxVeQtCjF4e-EON-e', { action: 'LOGIN' });
-          data.recaptchaToken = token;
-          try { console.info('[reCAPTCHA] token generated', token ? (token.substring(0, 12) + '…') : 'none'); } catch (_) {}
+          recaptchaToken = await grecaptcha.enterprise.execute('6LdxXPwrAAAAALsNDZDtLewYxVeQtCjF4e-EON-e', { action: 'LOGIN' });
+          formData.append('recaptchaToken', recaptchaToken);
+          try { console.info('[reCAPTCHA] token generated', recaptchaToken ? (recaptchaToken.substring(0, 12) + '…') : 'none'); } catch (_) {}
         } catch (rcErr) {
           console.error('reCAPTCHA error:', rcErr);
           throw new Error('Vérification reCAPTCHA échouée');
         }
 
         try {
-          // Submit to API endpoint
+          // Submit to API endpoint - send FormData directly (don't set Content-Type header)
           const response = await fetch('/api/submit-form', {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
+            // Don't set Content-Type header - let browser set multipart boundary
+            body: formData
           });
+          
+          // Check for 413 error (file too large)
+          if (response.status === 413) {
+            throw new Error('Les images sont trop volumineuses. Veuillez réduire la taille des images ou en sélectionner moins.');
+          }
 
           const result = await response.json();
           try { console.info('[reCAPTCHA] server verification', result?.recaptcha || result); } catch (_) {}
@@ -1187,6 +1293,10 @@ document.addEventListener('DOMContentLoaded', function() {
             // Hide form and all error messages
             form.style.display = 'none';
             if (errorMessage) errorMessage.style.display = 'none';
+            
+            // Clear selected files
+            window.selectedFiles = [];
+            updateDisplay();
             
             // Ensure all Webflow messages stay hidden
             hideAllWebflowMessages();
