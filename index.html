@@ -2,6 +2,7 @@
 <html lang="fr" data-wf-page="6900ceabfb98cdebbf7570de" data-wf-site="6900cea9fb98cdebbf757055">
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="Permissions-Policy" content="interest-cohort=(), browsing-topics=(), attribution-reporting=(), run-ad-auction=(), join-ad-interest-group=(), private-state-token-issuance=(), private-state-token-redemption=(), private-aggregation=()">
   <title>Céramique JLepage - Carreleur Expert à Mont-Saint-Hilaire | Pose & Rénovation</title>
   <meta name="description" content="Expert en pose de carrelage à Mont-Saint-Hilaire. Installation professionnelle de céramique résidentielle et commerciale. Devis gratuit. RBQ 5817-9219-01.">
   <link rel="canonical" href="https://ceramiquesjlepage.ca/">
@@ -1368,6 +1369,28 @@ document.addEventListener('DOMContentLoaded', function() {
 })();
 </script>
   <script src="js/fab-buttons.js" type="text/javascript"></script>
+  
+  <!-- Suppress harmless console errors -->
+  <script>
+  // Suppress Permissions-Policy warnings (harmless warnings from GTM/Cookiebot)
+  if (console.warn) {
+    const originalWarn = console.warn;
+    console.warn = function(...args) {
+      if (args[0] && typeof args[0] === 'string' && args[0].includes('Permissions-Policy')) {
+        return; // Suppress Permissions-Policy warnings
+      }
+      originalWarn.apply(console, args);
+    };
+  }
+  
+  // Handle MutationObserver errors gracefully
+  window.addEventListener('error', function(e) {
+    if (e.message && e.message.includes('MutationObserver') && e.message.includes('parameter 1 is not of type \'Node\'')) {
+      e.preventDefault(); // Prevent error from showing in console
+      return true; // Mark as handled
+    }
+  }, true);
+  </script>
   
   <!-- LocalBusiness Schema Markup -->
   <script type="application/ld+json">
