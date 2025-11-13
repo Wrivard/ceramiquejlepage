@@ -78,18 +78,18 @@ Google My Maps embeds include header and footer bars by default. To hide these b
 /* Hide Google My Maps header and footer bars */
 .contact16_map-wrapper .contact16_map {
   position: absolute;
-  top: -50px;
+  top: -70px;
   left: 0;
   width: 100%;
-  height: calc(100% + 80px);
+  height: calc(100% + 100px);
   border: 0;
 }
 ```
 
 This CSS:
 - Positions the iframe absolutely within the wrapper
-- Moves it up by 50px to hide the header bar
-- Increases the height by 80px to compensate for hidden header/footer
+- Moves it up by 70px to hide the header bar
+- Increases the height by 100px to compensate for hidden header/footer
 - The wrapper's `overflow: hidden` clips the excess, hiding the bars
 
 **Note:** The iframe should NOT have inline styles for width, height, or position, as these are handled by the CSS.

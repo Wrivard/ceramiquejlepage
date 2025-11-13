@@ -2512,10 +2512,10 @@ figcaption {
 /* Hide Google My Maps header and footer bars */
 .contact16_map-wrapper .contact16_map {
   position: absolute;
-  top: -50px;
+  top: -70px;
   left: 0;
   width: 100%;
-  height: calc(100% + 80px);
+  height: calc(100% + 100px);
   border: 0;
 }
 
