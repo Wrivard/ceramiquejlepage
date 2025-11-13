@@ -45,11 +45,11 @@ Replace `YOUR_MAP_ID` in the following files:
 
 ## Current Implementation
 
-The map is embedded using an iframe with the following structure:
+The Google My Maps embed has been integrated across all pages. The map is embedded using an iframe with the following structure:
 
 ```html
 <iframe 
-  src="https://www.google.com/maps/d/embed?mid=YOUR_MAP_ID&hl=en" 
+  src="https://www.google.com/maps/d/embed?mid=11PfIbTuW78V5xugrmB24jIOgqizdngs&ehbc=2E312F&noprof=1" 
   class="contact16_map" 
   style="width: 100%; height: 450px; border: 0; border-radius: 8px;" 
   loading="lazy" 
@@ -57,6 +57,10 @@ The map is embedded using an iframe with the following structure:
   title="Céramique JLepage - Mont-Saint-Hilaire">
 </iframe>
 ```
+
+**Map ID:** `11PfIbTuW78V5xugrmB24jIOgqizdngs`
+
+**Status:** ✅ Integrated on all pages
 
 ## Benefits of Google My Maps Integration
 
