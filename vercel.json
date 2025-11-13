@@ -1,6 +1,23 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/cuisine",
+      "destination": "/realisations",
+      "permanent": true
+    },
+    {
+      "source": "/cuisine/",
+      "destination": "/realisations",
+      "permanent": true
+    },
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/api/(.*)",
