@@ -70,6 +70,30 @@ The Google My Maps embed has been integrated across all pages. The map is embedd
 ✅ **Custom markers** - Add custom markers, routes, and areas
 ✅ **Free** - No usage limits or billing
 
+## Hiding Header and Footer Bars
+
+Google My Maps embeds include header and footer bars by default. To hide these bars, CSS has been added to the stylesheet:
+
+```css
+/* Hide Google My Maps header and footer bars */
+.contact16_map-wrapper .contact16_map {
+  position: absolute;
+  top: -50px;
+  left: 0;
+  width: 100%;
+  height: calc(100% + 80px);
+  border: 0;
+}
+```
+
+This CSS:
+- Positions the iframe absolutely within the wrapper
+- Moves it up by 50px to hide the header bar
+- Increases the height by 80px to compensate for hidden header/footer
+- The wrapper's `overflow: hidden` clips the excess, hiding the bars
+
+**Note:** The iframe should NOT have inline styles for width, height, or position, as these are handled by the CSS.
+
 ## Troubleshooting
 
 ### Map Not Showing
@@ -81,4 +105,9 @@ The Google My Maps embed has been integrated across all pages. The map is embedd
 - Make sure the map is set to "Anyone with the link can view" if needed
 - Check browser console for any iframe blocking errors
 - Verify the map ID is correct
+
+### Header/Footer Bars Visible
+- Ensure the CSS rule `.contact16_map-wrapper .contact16_map` is in the stylesheet
+- Verify the wrapper has `overflow: hidden` and `position: relative`
+- Remove any inline styles from the iframe that conflict with the CSS positioning
 

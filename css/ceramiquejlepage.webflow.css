@@ -2509,6 +2509,16 @@ figcaption {
   overflow: hidden;
 }
 
+/* Hide Google My Maps header and footer bars */
+.contact16_map-wrapper .contact16_map {
+  position: absolute;
+  top: -50px;
+  left: 0;
+  width: 100%;
+  height: calc(100% + 80px);
+  border: 0;
+}
+
 .layout626_divider {
   width: var(--_ui-styles---stroke--divider-width);
   background-color: var(--color-scheme-1--border);
