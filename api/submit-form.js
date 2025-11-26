@@ -158,7 +158,7 @@ export default async function handler(req, res) {
     
     const resend = new Resend(process.env.RESEND_API_KEY);
     const fromEmail = process.env.FROM_EMAIL || 'onboarding@resend.dev';
-    const businessEmail = 'wrivard@kua.quebec'; // Testing email (change back to ceramiquesjlepage@gmail.com later)
+    const businessEmail = 'ceramiquesjlepage@gmail.com';
 
     const fullName = `${firstName} ${lastName}`;
 

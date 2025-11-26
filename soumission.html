@@ -461,7 +461,7 @@ margin: 0rem !important;
                         <label class="form_field-label">Photos du projet (optionnel)</label>
                         <div id="image-upload-container" style="border: 2px dashed #ddd; padding: 20px; border-radius: 8px; background: #f9f9f9; margin-top: 8px;">
                           <div id="add-image-buttons" style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
-                            <button type="button" onclick="addImage()" style="background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 14px; font-weight: 500;">+ Ajouter une image</button>
+                            <button type="button" onclick="addImage()" style="background: #db9b2d; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 14px; font-weight: 500;">+ Ajouter une image</button>
                           </div>
                           <div id="selected-images" style="display: none;">
                             <h4 style="margin: 0 0 10px 0; font-size: 14px; color: #333; font-weight: bold;">Images sélectionnées:</h4>
@@ -1218,7 +1218,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Update button
     const remaining = maxImages - window.selectedFiles.length;
     if (remaining > 0) {
-      addButtonsContainer.innerHTML = `<button type="button" onclick="addImage()" style="background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 14px; font-weight: 500;">+ Ajouter une image</button>`;
+      addButtonsContainer.innerHTML = `<button type="button" onclick="addImage()" style="background: #db9b2d; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 14px; font-weight: 500;">+ Ajouter une image</button>`;
     } else {
       addButtonsContainer.innerHTML = '<span style="color: #666; font-style: italic;">Maximum de 5 images atteint</span>';
     }
