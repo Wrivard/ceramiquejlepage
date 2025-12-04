@@ -257,7 +257,7 @@
     "addressCountry": "CA"
   },
   "telephone": "(514) 775-6608",
-  "email": "ceramiquesjlepage@gmail.com",
+    "email": "info@ceramiquesjlepage.ca",
   "url": "https://ceramiquesjlepage.ca",
   "areaServed": ["Mont-Saint-Hilaire", "Longueuil", "Brossard", "Chambly"]
 }
