@@ -158,7 +158,7 @@ export default async function handler(req, res) {
     
     const resend = new Resend(process.env.RESEND_API_KEY);
     const fromEmail = process.env.FROM_EMAIL || 'onboarding@resend.dev';
-    const businessEmail = 'ceramiquesjlepage@gmail.com';
+    const businessEmail = 'info@ceramiquesjlepage.ca';
 
     const fullName = `${firstName} ${lastName}`;
 
@@ -379,7 +379,7 @@ export default async function handler(req, res) {
                       <p style="margin: 0; color: #333;">
                         <strong>Une question urgente?</strong><br>
                         📞 <a href="tel:+15147756608" style="color: #333; text-decoration: none; font-weight: 600;">(514) 775-6608</a><br>
-                        ✉️ <a href="mailto:ceramiquesjlepage@gmail.com" style="color: #333; text-decoration: none; font-weight: 600;">ceramiquesjlepage@gmail.com</a>
+                        ✉️ <a href="mailto:info@ceramiquesjlepage.ca" style="color: #333; text-decoration: none; font-weight: 600;">info@ceramiquesjlepage.ca</a>
                       </p>
                     </div>
                     
