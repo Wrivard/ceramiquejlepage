@@ -371,7 +371,7 @@ export default async function handler(req, res) {
                     </div>
                     
                     <p style="margin: 20px 0 0 0; line-height: 1.6; color: #333;">
-                      En attendant, n'hésitez pas à consulter nos <a href="https://ceramiquesjlepage.ca/realisations" style="color: #d4a574;">réalisations récentes</a> 
+                      En attendant, n'hésitez pas à consulter nos <a href="https://www.ceramiquesjlepage.ca/realisations" style="color: #d4a574;">réalisations récentes</a> 
                       pour vous inspirer.
                     </p>
                     

@@ -16,6 +16,16 @@
       "source": "/index.html",
       "destination": "/",
       "permanent": true
+    },
+    {
+      "source": "/plancher-chauffant",
+      "destination": "/installation-de-plancher-chauffant",
+      "permanent": true
+    },
+    {
+      "source": "/plancher-chauffant/",
+      "destination": "/installation-de-plancher-chauffant",
+      "permanent": true
     }
   ],
   "rewrites": [

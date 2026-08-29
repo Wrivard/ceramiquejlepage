@@ -1,13 +1,12 @@
 # SEO-Optimized Robots.txt
-# Last Updated: 2024-12-19
+# Last Updated: 2026-08-29
 
 # Allow all search engines
 User-agent: *
 Allow: /
 
 # Block technical and non-content files
-Disallow: /css/
-Disallow: /js/
+# NOTE: /css/ and /js/ must stay crawlable so Googlebot can render pages.
 Disallow: /api/
 Disallow: /style-guide-*.html
 Disallow: /401.html
@@ -24,7 +23,7 @@ Allow: /images/*.webp
 Allow: /images/*.avif
 
 # Sitemap location
-Sitemap: https://ceramiquesjlepage.ca/sitemap.xml
+Sitemap: https://www.ceramiquesjlepage.ca/sitemap.xml
 
 # Block AI training bots
 User-agent: GPTBot
